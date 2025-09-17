@@ -1,33 +1,865 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: "API Reference"
+description: "Complete API documentation generated from source code"
 ---
 
+# API Reference
+
+This documentation is automatically generated from the Redstring source code.
+
 <Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
+**Developer terminology**: This section uses code-level terms (nodes, graphs) as it documents the actual API. For user-facing concepts, see the [Things and Webs](/concepts/things-and-webs) guide.
 </Note>
 
-## Welcome
+## Core Classes
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+<CardGroup cols={2}>
+  <Card title="Edge" href="/api/edge">
+    Represents an edge connecting two nodes in the graph. Extends the base Entry class. Stores references to nodes via their string IDs. Equivalent to Edge.java.
+  </Card>
+  <Card title="EdgeDefinition" href="/api/edgedefinition">
+    Represents the definition of an edge type, often linked to a specific Node. Equivalent to EdgeDefinition.java.
+  </Card>
+  <Card title="Entry" href="/api/entry">
+    Base class for graph elements (Nodes, Edges). Equivalent to the abstract Entry class in Java.
+  </Card>
+  <Card title="Graph" href="/api/graph">
+    Represents the graph structure containing nodes and edges. Stores nodes and edges by their string IDs. Extends the base Entry class. Equivalent to Graph.java.
+  </Card>
+  <Card title="Node" href="/api/node">
+    Represents a node in the graph, extending the base Entry class. Equivalent to Node.java.
+  </Card>
+  <Card title="CommitterService" href="/api/committerservice">
+    CommitterService class documentation
+  </Card>
+  <Card title="EventLog" href="/api/eventlog">
+    EventLog class documentation
+  </Card>
+  <Card title="SaveCoordinator" href="/api/savecoordinator">
+    SaveCoordinator class documentation
+  </Card>
+  <Card title="APIKeyManager" href="/api/apikeymanager">
+    APIKeyManager class documentation
+  </Card>
+  <Card title="AutomaticEnrichment" href="/api/automaticenrichment">
+    AutomaticEnrichment class documentation
+  </Card>
+  <Card title="ClaudeDesktopAPI" href="/api/claudedesktopapi">
+    ClaudeDesktopAPI class documentation
+  </Card>
+  <Card title="CognitiveAgent" href="/api/cognitiveagent">
+    CognitiveAgent class documentation
+  </Card>
+  <Card title="DomainVerificationService" href="/api/domainverificationservice">
+    DomainVerificationService class documentation
+  </Card>
+  <Card title="SemanticProvider" href="/api/semanticprovider">
+    SemanticProvider class documentation
+  </Card>
+  <Card title="GitHubSemanticProvider" href="/api/githubsemanticprovider">
+    GitHubSemanticProvider class documentation
+  </Card>
+  <Card title="GiteaSemanticProvider" href="/api/giteasemanticprovider">
+    GiteaSemanticProvider class documentation
+  </Card>
+  <Card title="SemanticProviderFactory" href="/api/semanticproviderfactory">
+    SemanticProviderFactory class documentation
+  </Card>
+  <Card title="GitSyncEngine" href="/api/gitsyncengine">
+    GitSyncEngine class documentation
+  </Card>
+  <Card title="GitHubAppAuth" href="/api/githubappauth">
+    GitHubAppAuth class documentation
+  </Card>
+  <Card title="GitHubRateLimiter" href="/api/githubratelimiter">
+    GitHubRateLimiter class documentation
+  </Card>
+  <Card title="KnowledgeFederation" href="/api/knowledgefederation">
+    KnowledgeFederation class documentation
+  </Card>
+  <Card title="LocalSemanticQuery" href="/api/localsemanticquery">
+    LocalSemanticQuery class documentation
+  </Card>
+  <Card title="MCPClient" href="/api/mcpclient">
+    MCPClient class documentation
+  </Card>
+  <Card title="RedstringMCPServer" href="/api/redstringmcpserver">
+    RedstringMCPServer class documentation
+  </Card>
+  <Card title="OrchestratorScheduler" href="/api/orchestratorscheduler">
+    OrchestratorScheduler class documentation
+  </Card>
+  <Card title="PersistentAuth" href="/api/persistentauth">
+    PersistentAuth class documentation
+  </Card>
+  <Card title="PodDiscoveryService" href="/api/poddiscoveryservice">
+    PodDiscoveryService class documentation
+  </Card>
+  <Card title="QueueManager" href="/api/queuemanager">
+    QueueManager class documentation
+  </Card>
+  <Card title="RDFResolver" href="/api/rdfresolver">
+    RDFResolver class documentation
+  </Card>
+  <Card title="RDFValidation" href="/api/rdfvalidation">
+    RDFValidation class documentation
+  </Card>
+  <Card title="SemanticEnrichment" href="/api/semanticenrichment">
+    SemanticEnrichment class documentation
+  </Card>
+  <Card title="SemanticFederation" href="/api/semanticfederation">
+    SemanticFederation class documentation
+  </Card>
+  <Card title="SemanticSyncEngine" href="/api/semanticsyncengine">
+    SemanticSyncEngine class documentation
+  </Card>
+  <Card title="SolidAuthService" href="/api/solidauthservice">
+    SolidAuthService class documentation
+  </Card>
+  <Card title="SolidDataService" href="/api/soliddataservice">
+    SolidDataService class documentation
+  </Card>
+  <Card title="SPARQLClient" href="/api/sparqlclient">
+    SPARQLClient class documentation
+  </Card>
+  <Card title="StartupCoordinator" href="/api/startupcoordinator">
+    StartupCoordinator class documentation
+  </Card>
+  <Card title="ToolRegistry" href="/api/toolregistry">
+    ToolRegistry class documentation
+  </Card>
+  <Card title="ToolValidator" href="/api/toolvalidator">
+    ToolValidator class documentation
+  </Card>
+  <Card title="UniverseManager" href="/api/universemanager">
+    UniverseManager class documentation
+  </Card>
+  <Card title="URIGeneratorService" href="/api/urigeneratorservice">
+    URIGeneratorService class documentation
+  </Card>
+  <Card title="Edge" href="/api/edge">
+    Represents an edge connecting two nodes in the graph. Extends the base Entry class. Stores references to nodes via their string IDs. Equivalent to Edge.java.
+  </Card>
+  <Card title="EdgeDefinition" href="/api/edgedefinition">
+    Represents the definition of an edge type, often linked to a specific Node. Equivalent to EdgeDefinition.java.
+  </Card>
+  <Card title="Entry" href="/api/entry">
+    Base class for graph elements (Nodes, Edges). Equivalent to the abstract Entry class in Java.
+  </Card>
+  <Card title="Graph" href="/api/graph">
+    Represents the graph structure containing nodes and edges. Stores nodes and edges by their string IDs. Extends the base Entry class. Equivalent to Graph.java.
+  </Card>
+  <Card title="Node" href="/api/node">
+    Represents a node in the graph, extending the base Entry class. Equivalent to Node.java.
+  </Card>
+  <Card title="CommitterService" href="/api/committerservice">
+    CommitterService class documentation
+  </Card>
+  <Card title="EventLog" href="/api/eventlog">
+    EventLog class documentation
+  </Card>
+  <Card title="SaveCoordinator" href="/api/savecoordinator">
+    SaveCoordinator class documentation
+  </Card>
+  <Card title="APIKeyManager" href="/api/apikeymanager">
+    APIKeyManager class documentation
+  </Card>
+  <Card title="AutomaticEnrichment" href="/api/automaticenrichment">
+    AutomaticEnrichment class documentation
+  </Card>
+  <Card title="ClaudeDesktopAPI" href="/api/claudedesktopapi">
+    ClaudeDesktopAPI class documentation
+  </Card>
+  <Card title="CognitiveAgent" href="/api/cognitiveagent">
+    CognitiveAgent class documentation
+  </Card>
+  <Card title="DomainVerificationService" href="/api/domainverificationservice">
+    DomainVerificationService class documentation
+  </Card>
+  <Card title="SemanticProvider" href="/api/semanticprovider">
+    SemanticProvider class documentation
+  </Card>
+  <Card title="GitHubSemanticProvider" href="/api/githubsemanticprovider">
+    GitHubSemanticProvider class documentation
+  </Card>
+  <Card title="GiteaSemanticProvider" href="/api/giteasemanticprovider">
+    GiteaSemanticProvider class documentation
+  </Card>
+  <Card title="SemanticProviderFactory" href="/api/semanticproviderfactory">
+    SemanticProviderFactory class documentation
+  </Card>
+  <Card title="GitSyncEngine" href="/api/gitsyncengine">
+    GitSyncEngine class documentation
+  </Card>
+  <Card title="GitHubAppAuth" href="/api/githubappauth">
+    GitHubAppAuth class documentation
+  </Card>
+  <Card title="GitHubRateLimiter" href="/api/githubratelimiter">
+    GitHubRateLimiter class documentation
+  </Card>
+  <Card title="KnowledgeFederation" href="/api/knowledgefederation">
+    KnowledgeFederation class documentation
+  </Card>
+  <Card title="LocalSemanticQuery" href="/api/localsemanticquery">
+    LocalSemanticQuery class documentation
+  </Card>
+  <Card title="MCPClient" href="/api/mcpclient">
+    MCPClient class documentation
+  </Card>
+  <Card title="RedstringMCPServer" href="/api/redstringmcpserver">
+    RedstringMCPServer class documentation
+  </Card>
+  <Card title="OrchestratorScheduler" href="/api/orchestratorscheduler">
+    OrchestratorScheduler class documentation
+  </Card>
+  <Card title="PersistentAuth" href="/api/persistentauth">
+    PersistentAuth class documentation
+  </Card>
+  <Card title="PodDiscoveryService" href="/api/poddiscoveryservice">
+    PodDiscoveryService class documentation
+  </Card>
+  <Card title="QueueManager" href="/api/queuemanager">
+    QueueManager class documentation
+  </Card>
+  <Card title="RDFResolver" href="/api/rdfresolver">
+    RDFResolver class documentation
+  </Card>
+  <Card title="RDFValidation" href="/api/rdfvalidation">
+    RDFValidation class documentation
+  </Card>
+  <Card title="SemanticEnrichment" href="/api/semanticenrichment">
+    SemanticEnrichment class documentation
+  </Card>
+  <Card title="SemanticFederation" href="/api/semanticfederation">
+    SemanticFederation class documentation
+  </Card>
+  <Card title="SemanticSyncEngine" href="/api/semanticsyncengine">
+    SemanticSyncEngine class documentation
+  </Card>
+  <Card title="SolidAuthService" href="/api/solidauthservice">
+    SolidAuthService class documentation
+  </Card>
+  <Card title="SolidDataService" href="/api/soliddataservice">
+    SolidDataService class documentation
+  </Card>
+  <Card title="SPARQLClient" href="/api/sparqlclient">
+    SPARQLClient class documentation
+  </Card>
+  <Card title="StartupCoordinator" href="/api/startupcoordinator">
+    StartupCoordinator class documentation
+  </Card>
+  <Card title="ToolRegistry" href="/api/toolregistry">
+    ToolRegistry class documentation
+  </Card>
+  <Card title="ToolValidator" href="/api/toolvalidator">
+    ToolValidator class documentation
+  </Card>
+  <Card title="UniverseManager" href="/api/universemanager">
+    UniverseManager class documentation
+  </Card>
+  <Card title="URIGeneratorService" href="/api/urigeneratorservice">
+    URIGeneratorService class documentation
+  </Card>
+  <Card title="DebugConfig" href="/api/debugconfig">
+    DebugConfig class documentation
+  </Card>
+  <Card title="StorageWrapper" href="/api/storagewrapper">
+    StorageWrapper class documentation
+  </Card>
+</CardGroup>
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+## Services
 
-## Authentication
+<CardGroup cols={2}>
+  <Card title="Committer" href="/api/committer">
+    Committer service documentation
+  </Card>
+  <Card title="EventLog" href="/api/eventlog">
+    EventLog service documentation
+  </Card>
+  <Card title="SaveCoordinator" href="/api/savecoordinator">
+    Save Coordinator - Centralized, intelligent save management system Coordinates between: - Local file saves (FileStorage) - Git repository commits (GitSyncEngine) - Browser storage fallbacks Features: - Tiered save strategies based on change types - GitHub free tier optimized rate limiting - Smart debouncing for different operations - Consistent state synchronization
+  </Card>
+  <Card title="apiKeyManager" href="/api/apikeymanager">
+    API Key Manager for Redstring AI Chat Securely stores and manages API keys in browser localStorage Keys are stored locally on the user's machine only
+  </Card>
+  <Card title="automaticEnrichment" href="/api/automaticenrichment">
+    Automatic Semantic Enrichment Service Automatically enriches nodes with semantic web data based on their titles. Pulls in rich information from external sources without manual intervention.
+  </Card>
+  <Card title="bridgeConfig" href="/api/bridgeconfig">
+    bridgeConfig service documentation
+  </Card>
+  <Card title="candidates" href="/api/candidates">
+    candidates service documentation
+  </Card>
+  <Card title="claudeDesktopAPI" href="/api/claudedesktopapi">
+    Claude Desktop API Integration Handles communication with Claude Desktop's local API
+  </Card>
+  <Card title="cognitiveAgent" href="/api/cognitiveagent">
+    Cognitive Agent for Redstring Provides intelligent, goal-oriented AI behavior that understands the prototype/instance architecture
+  </Card>
+  <Card title="domainVerification" href="/api/domainverification">
+    Domain Verification Service Handles domain ownership verification without email requirements Supports DNS, file-based, and meta tag verification methods
+  </Card>
+  <Card title="gitNativeProvider" href="/api/gitnativeprovider">
+    Git-Native Semantic Web Provider Core abstraction for hot-swappable Git providers Enables real-time responsiveness, true decentralization, and distributed resilience
+  </Card>
+  <Card title="gitSyncEngine" href="/api/gitsyncengine">
+    Git Sync Engine - Implements the Git-Native Protocol's rapid synchronization pattern Real-time local state + background persistence with 5-second auto-commits
+  </Card>
+  <Card title="githubApp" href="/api/githubapp">
+    GitHub App Authentication Service Provides reliable, long-lived authentication using GitHub Apps instead of traditional OAuth tokens that expire.
+  </Card>
+  <Card title="githubRateLimiter" href="/api/githubratelimiter">
+    GitHub API Rate Limiter Tracks API usage across all GitSyncEngines to prevent exceeding limits GitHub Free Plan: 5,000 requests/hour per authentication method
+  </Card>
+  <Card title="knowledgeFederation" href="/api/knowledgefederation">
+    Knowledge Federation Service Connects to multiple knowledge bases simultaneously, imports related entities, and creates federated search across domains
+  </Card>
+  <Card title="localSemanticQuery" href="/api/localsemanticquery">
+    Local Semantic Query Service Provides semantic querying capabilities within the local Redstring knowledge graph, finding related concepts, entities, and patterns without external CORS issues.
+  </Card>
+  <Card title="mcpClient" href="/api/mcpclient">
+    Real MCP Client for Redstring This client connects to the actual Redstring MCP server and provides a proper MCP client implementation for the AI chat panel.
+  </Card>
+  <Card title="mcpProvider" href="/api/mcpprovider">
+    MCP (Model Context Protocol) Provider for Redstring Enables AI models to interact with cognitive knowledge graphs through standardized tools and resources
+  </Card>
+  <Card title="orbitResolver" href="/api/orbitresolver">
+    orbitResolver service documentation
+  </Card>
+  <Card title="Scheduler" href="/api/scheduler">
+    Scheduler service documentation
+  </Card>
+  <Card title="roleRunners" href="/api/rolerunners">
+    roleRunners service documentation
+  </Card>
+  <Card title="persistentAuth" href="/api/persistentauth">
+    Persistent Authentication Service Handles GitHub OAuth token management with automatic refresh, secure storage, and connection health monitoring.
+  </Card>
+  <Card title="podDiscovery" href="/api/poddiscovery">
+    Pod Discovery Service Handles dynamic discovery of Redstring Pods across domains No hardcoded values - discovers Pods through RDF links and well-known files
+  </Card>
+  <Card title="Queue" href="/api/queue">
+    Queue service documentation
+  </Card>
+  <Card title="rdfResolver" href="/api/rdfresolver">
+    RDF Resolver Service Handles URI dereferencing, content negotiation, and parsing of RDF formats to resolve external URIs to actual RDF data.
+  </Card>
+  <Card title="rdfValidation" href="/api/rdfvalidation">
+    RDF Validation Service Checks RDF consistency across local and external data, validates ontology compliance, and reports semantic inconsistencies.
+  </Card>
+  <Card title="roles" href="/api/roles">
+    roles service documentation
+  </Card>
+  <Card title="semanticEnrichment" href="/api/semanticenrichment">
+    Semantic Enrichment Service Handles background resolution of external links and smart suggestions for semantic web data integration.
+  </Card>
+  <Card title="semanticFederation" href="/api/semanticfederation">
+    Semantic Federation Engine Handles cross-domain discovery, subscriptions, and real-time federation Enables informal knowledge pools through TTL-based linking
+  </Card>
+  <Card title="semanticSyncEngine" href="/api/semanticsyncengine">
+    Rapid Synchronization Engine Real-time local state with background Git persistence Achieves sub-5-second persistence with instant UI updates
+  </Card>
+  <Card title="semanticWebQuery" href="/api/semanticwebquery">
+    Semantic Web Query Service Direct SPARQL queries and Wikipedia API integration for immediate semantic web data access
+  </Card>
+  <Card title="solidAuth" href="/api/solidauth">
+    Solid Pod Authentication Service Handles WebID authentication and session management for Solid Pods
+  </Card>
+  <Card title="solidData" href="/api/soliddata">
+    Solid Pod Data Service Handles reading and writing Redstring data to/from Solid Pods
+  </Card>
+  <Card title="sparqlClient" href="/api/sparqlclient">
+    SPARQL Client Service Handles queries to external SPARQL endpoints for semantic web data integration.
+  </Card>
+  <Card title="startupCoordinator" href="/api/startupcoordinator">
+    Startup Coordinator - Prevents multiple initialization conflicts This singleton coordinates app initialization to prevent: - Multiple GitSyncEngine creation - Race conditions between bootstrap components - API spam during startup
+  </Card>
+  <Card title="toolRegistry" href="/api/toolregistry">
+    Unified Tool Registry for Redstring AI Central hub for all AI tool management, validation, and execution
+  </Card>
+  <Card title="toolValidator" href="/api/toolvalidator">
+    Tool Validation System for Redstring MCP Provides robust schema validation and type checking for all tool operations
+  </Card>
+  <Card title="universeDiscovery" href="/api/universediscovery">
+    Universe Discovery Service Scans repositories to find existing universes and enables easy linking
+  </Card>
+  <Card title="universeManager" href="/api/universemanager">
+    Universe Manager - Unified system for managing multiple universes Bridges FileStorage, GitNativeFederation, and GitSyncEngine Each universe has dual storage slots: local file + git repository Supports Git-Only mode for mobile/tablet devices
+  </Card>
+  <Card title="uriGenerator" href="/api/urigenerator">
+    URI Generator Service Generates URIs dynamically based on user domains Replaces hardcoded redstring.io URIs with user-controlled namespaces
+  </Card>
+  <Card title="Committer" href="/api/committer">
+    Committer service documentation
+  </Card>
+  <Card title="EventLog" href="/api/eventlog">
+    EventLog service documentation
+  </Card>
+  <Card title="SaveCoordinator" href="/api/savecoordinator">
+    Save Coordinator - Centralized, intelligent save management system Coordinates between: - Local file saves (FileStorage) - Git repository commits (GitSyncEngine) - Browser storage fallbacks Features: - Tiered save strategies based on change types - GitHub free tier optimized rate limiting - Smart debouncing for different operations - Consistent state synchronization
+  </Card>
+  <Card title="apiKeyManager" href="/api/apikeymanager">
+    API Key Manager for Redstring AI Chat Securely stores and manages API keys in browser localStorage Keys are stored locally on the user's machine only
+  </Card>
+  <Card title="automaticEnrichment" href="/api/automaticenrichment">
+    Automatic Semantic Enrichment Service Automatically enriches nodes with semantic web data based on their titles. Pulls in rich information from external sources without manual intervention.
+  </Card>
+  <Card title="bridgeConfig" href="/api/bridgeconfig">
+    bridgeConfig service documentation
+  </Card>
+  <Card title="candidates" href="/api/candidates">
+    candidates service documentation
+  </Card>
+  <Card title="claudeDesktopAPI" href="/api/claudedesktopapi">
+    Claude Desktop API Integration Handles communication with Claude Desktop's local API
+  </Card>
+  <Card title="cognitiveAgent" href="/api/cognitiveagent">
+    Cognitive Agent for Redstring Provides intelligent, goal-oriented AI behavior that understands the prototype/instance architecture
+  </Card>
+  <Card title="domainVerification" href="/api/domainverification">
+    Domain Verification Service Handles domain ownership verification without email requirements Supports DNS, file-based, and meta tag verification methods
+  </Card>
+  <Card title="gitNativeProvider" href="/api/gitnativeprovider">
+    Git-Native Semantic Web Provider Core abstraction for hot-swappable Git providers Enables real-time responsiveness, true decentralization, and distributed resilience
+  </Card>
+  <Card title="gitSyncEngine" href="/api/gitsyncengine">
+    Git Sync Engine - Implements the Git-Native Protocol's rapid synchronization pattern Real-time local state + background persistence with 5-second auto-commits
+  </Card>
+  <Card title="githubApp" href="/api/githubapp">
+    GitHub App Authentication Service Provides reliable, long-lived authentication using GitHub Apps instead of traditional OAuth tokens that expire.
+  </Card>
+  <Card title="githubRateLimiter" href="/api/githubratelimiter">
+    GitHub API Rate Limiter Tracks API usage across all GitSyncEngines to prevent exceeding limits GitHub Free Plan: 5,000 requests/hour per authentication method
+  </Card>
+  <Card title="knowledgeFederation" href="/api/knowledgefederation">
+    Knowledge Federation Service Connects to multiple knowledge bases simultaneously, imports related entities, and creates federated search across domains
+  </Card>
+  <Card title="localSemanticQuery" href="/api/localsemanticquery">
+    Local Semantic Query Service Provides semantic querying capabilities within the local Redstring knowledge graph, finding related concepts, entities, and patterns without external CORS issues.
+  </Card>
+  <Card title="mcpClient" href="/api/mcpclient">
+    Real MCP Client for Redstring This client connects to the actual Redstring MCP server and provides a proper MCP client implementation for the AI chat panel.
+  </Card>
+  <Card title="mcpProvider" href="/api/mcpprovider">
+    MCP (Model Context Protocol) Provider for Redstring Enables AI models to interact with cognitive knowledge graphs through standardized tools and resources
+  </Card>
+  <Card title="orbitResolver" href="/api/orbitresolver">
+    orbitResolver service documentation
+  </Card>
+  <Card title="Scheduler" href="/api/scheduler">
+    Scheduler service documentation
+  </Card>
+  <Card title="roleRunners" href="/api/rolerunners">
+    roleRunners service documentation
+  </Card>
+  <Card title="persistentAuth" href="/api/persistentauth">
+    Persistent Authentication Service Handles GitHub OAuth token management with automatic refresh, secure storage, and connection health monitoring.
+  </Card>
+  <Card title="podDiscovery" href="/api/poddiscovery">
+    Pod Discovery Service Handles dynamic discovery of Redstring Pods across domains No hardcoded values - discovers Pods through RDF links and well-known files
+  </Card>
+  <Card title="Queue" href="/api/queue">
+    Queue service documentation
+  </Card>
+  <Card title="rdfResolver" href="/api/rdfresolver">
+    RDF Resolver Service Handles URI dereferencing, content negotiation, and parsing of RDF formats to resolve external URIs to actual RDF data.
+  </Card>
+  <Card title="rdfValidation" href="/api/rdfvalidation">
+    RDF Validation Service Checks RDF consistency across local and external data, validates ontology compliance, and reports semantic inconsistencies.
+  </Card>
+  <Card title="roles" href="/api/roles">
+    roles service documentation
+  </Card>
+  <Card title="semanticEnrichment" href="/api/semanticenrichment">
+    Semantic Enrichment Service Handles background resolution of external links and smart suggestions for semantic web data integration.
+  </Card>
+  <Card title="semanticFederation" href="/api/semanticfederation">
+    Semantic Federation Engine Handles cross-domain discovery, subscriptions, and real-time federation Enables informal knowledge pools through TTL-based linking
+  </Card>
+  <Card title="semanticSyncEngine" href="/api/semanticsyncengine">
+    Rapid Synchronization Engine Real-time local state with background Git persistence Achieves sub-5-second persistence with instant UI updates
+  </Card>
+  <Card title="semanticWebQuery" href="/api/semanticwebquery">
+    Semantic Web Query Service Direct SPARQL queries and Wikipedia API integration for immediate semantic web data access
+  </Card>
+  <Card title="solidAuth" href="/api/solidauth">
+    Solid Pod Authentication Service Handles WebID authentication and session management for Solid Pods
+  </Card>
+  <Card title="solidData" href="/api/soliddata">
+    Solid Pod Data Service Handles reading and writing Redstring data to/from Solid Pods
+  </Card>
+  <Card title="sparqlClient" href="/api/sparqlclient">
+    SPARQL Client Service Handles queries to external SPARQL endpoints for semantic web data integration.
+  </Card>
+  <Card title="startupCoordinator" href="/api/startupcoordinator">
+    Startup Coordinator - Prevents multiple initialization conflicts This singleton coordinates app initialization to prevent: - Multiple GitSyncEngine creation - Race conditions between bootstrap components - API spam during startup
+  </Card>
+  <Card title="toolRegistry" href="/api/toolregistry">
+    Unified Tool Registry for Redstring AI Central hub for all AI tool management, validation, and execution
+  </Card>
+  <Card title="toolValidator" href="/api/toolvalidator">
+    Tool Validation System for Redstring MCP Provides robust schema validation and type checking for all tool operations
+  </Card>
+  <Card title="universeDiscovery" href="/api/universediscovery">
+    Universe Discovery Service Scans repositories to find existing universes and enables easy linking
+  </Card>
+  <Card title="universeManager" href="/api/universemanager">
+    Universe Manager - Unified system for managing multiple universes Bridges FileStorage, GitNativeFederation, and GitSyncEngine Each universe has dual storage slots: local file + git repository Supports Git-Only mode for mobile/tablet devices
+  </Card>
+  <Card title="uriGenerator" href="/api/urigenerator">
+    URI Generator Service Generates URIs dynamically based on user domains Replaces hardcoded redstring.io URIs with user-controlled namespaces
+  </Card>
+</CardGroup>
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+## Components
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
-```
+<CardGroup cols={2}>
+  <Card title="calculateStringSimilarity" href="/components/calculatestringsimilarity">
+    Helper function to normalize edge directionality to ensure arrowsToward is always a Set
+  </Card>
+  <Card title="ensureDir" href="/components/ensuredir">
+    ensureDir component documentation
+  </Card>
+  <Card title="getBridgeBaseUrl" href="/components/getbridgebaseurl">
+    getBridgeBaseUrl component documentation
+  </Card>
+  <Card title="findRelatedEntities" href="/components/findrelatedentities">
+    Local Semantic Query Service Provides semantic querying capabilities within the local Redstring knowledge graph, finding related concepts, entities, and patterns without external CORS issues.
+  </Card>
+  <Card title="getGraphStore" href="/components/getgraphstore">
+    getGraphStore component documentation
+  </Card>
+  <Card title="checkUniverseHasContent" href="/components/checkuniversehascontent">
+    Universe Discovery Service Scans repositories to find existing universes and enables easy linking
+  </Card>
+  <Card title="AlphaOnboardingModal" href="/components/alphaonboardingmodal">
+    Alpha Onboarding Modal A specialized CanvasModal that welcomes users to Redstring's open alpha Inherits all CanvasModal functionality while providing alpha-specific content
+  </Card>
+  <Card title="CanvasModal" href="/components/canvasmodal">
+    Canvas Modal Component Positions content within the canvas viewport with canvas-colored styling and drop shadow. Includes margins and proper backdrop handling.
+  </Card>
+  <Card title="CollapsibleSection" href="/components/collapsiblesection">
+    CollapsibleSection component documentation
+  </Card>
+  <Card title="RDFTriplet" href="/components/rdftriplet">
+    Improved RDF Triplet Visual Component Displays subject -> predicate -> object relationships as connected nodes Styled to match NodeCanvas connections exactly with proper arrows and directionality Supports ultra-slim panels with responsive design
+  </Card>
+  <Card title="ContextMenu" href="/components/contextmenu">
+    ContextMenu component documentation
+  </Card>
+  <Card title="Dropdown" href="/components/dropdown">
+    Reusable Dropdown Component Matches the Redstring app's visual style with proper focus management
+  </Card>
+  <Card title="DuplicateManager" href="/components/duplicatemanager">
+    DuplicateManager component documentation
+  </Card>
+  <Card title="EdgeGlowIndicator" href="/components/edgeglowindicator">
+    EdgeGlowIndicator component documentation
+  </Card>
+  <Card title="FederationBootstrap" href="/components/federationbootstrap">
+    Federation Bootstrap - Ensures federation services are initialized regardless of whether the GitNativeFederation tab is selected This component runs at app startup and: 1. Initializes authentication services 2. Establishes background Git connections 3. Sets up SaveCoordinator 4. Manages universe synchronization
+  </Card>
+  <Card title="GitFederationBootstrap" href="/components/gitfederationbootstrap">
+    GitFederationBootstrap component documentation
+  </Card>
+  <Card title="showContextMenu" href="/components/showcontextmenu">
+    showContextMenu component documentation
+  </Card>
+  <Card title="MaroonSlider" href="/components/maroonslider">
+    MaroonSlider component documentation
+  </Card>
+  <Card title="ModalDemo" href="/components/modaldemo">
+    Demo component showing how to use CanvasModal and PanelModal This demonstrates the different positioning options and usage patterns
+  </Card>
+  <Card title="clamp01" href="/components/clamp01">
+    clamp01 component documentation
+  </Card>
+  <Card title="PanelColorPickerPortal" href="/components/panelcolorpickerportal">
+    PanelColorPickerPortal component documentation
+  </Card>
+  <Card title="PanelModal" href="/components/panelmodal">
+    Panel Modal Component Positions content within a panel area with canvas-colored styling and drop shadow. Includes margins and proper backdrop handling.
+  </Card>
+  <Card title="PanelResizerHandle" href="/components/panelresizerhandle">
+    Vertical, mobile-friendly resizer handle styled like a pill/home bar. - Renders slightly outside the panel edge - Low-opacity by default; increases on hover; full on active - Touch and mouse friendly
+  </Card>
+  <Card title="RDFResolutionPanel" href="/components/rdfresolutionpanel">
+    RDF Resolution Panel Component Provides UI for resolving external links and displaying resolved RDF data with expandable sections and error handling.
+  </Card>
+  <Card title="SemanticDiscovery" href="/components/semanticdiscovery">
+    Consolidated Semantic Discovery Section Progressive disclosure: Simple → Guided → Advanced Preserves all existing functionality while providing clean organization
+  </Card>
+  <Card title="isValidURL" href="/components/isvalidurl">
+    isValidURL component documentation
+  </Card>
+  <Card title="SemanticIdentity" href="/components/semanticidentity">
+    Semantic Web Identity Component Determines and displays how this node relates to the semantic web: - Neutral: No semantic web integration - Provider: Self-hosted semantic data (publishes RDF) - Receiver: Consumes external semantic data (imports from Wikidata/DBpedia)
+  </Card>
+  <Card title="StandardDivider" href="/components/standarddivider">
+    StandardDivider component documentation
+  </Card>
+  <Card title="ToggleSlider" href="/components/toggleslider">
+    Reusable Toggle Slider Component Creates a slider toggle similar to the ConnectionBrowser's "In Graph" ↔ "All Connections" toggle
+  </Card>
+  <Card title="UniverseBrowser" href="/components/universebrowser">
+    Universe Browser Component Discovers and displays available universes in connected repositories Enables easy linking and switching between universes
+  </Card>
+  <Card title="UniverseOperationsDialog" href="/components/universeoperationsdialog">
+    Universe Operations Dialog - Centralized file operations interface Bridges RedstringMenu and GitNativeFederation universe management Styled like the existing panel modals Mobile/tablet aware with Git-Only mode support
+  </Card>
+  <Card title="PanelContentWrapper" href="/components/panelcontentwrapper">
+    Wrapper component that handles data fetching and action binding for both home and node tabs
+  </Card>
+  <Card title="getArticleFor" href="/components/getarticlefor">
+    Shared content component used by both home and node tabs Provides consistent layout and functionality across panel types
+  </Card>
+  <Card title="RepositoryDropdown" href="/components/repositorydropdown">
+    Repository Dropdown Component A dropdown selector for choosing repositories with an "Add New" option
+  </Card>
+  <Card title="RepositoryList" href="/components/repositorylist">
+    Repository List Component Manages a sortable list of repositories for users/organizations Each repository represents one ontology with read/write access
+  </Card>
+  <Card title="RepositoryManager" href="/components/repositorymanager">
+    Repository Manager Component Manages repository collections for users and organizations Handles OAuth integration and repository CRUD operations
+  </Card>
+  <Card title="cssColorToHex" href="/components/csscolortohex">
+    cssColorToHex component documentation
+  </Card>
+  <Card title="AbstractionControlPanel" href="/components/abstractioncontrolpanel">
+    AbstractionControlPanel component documentation
+  </Card>
+  <Card title="App" href="/components/app">
+    App component documentation
+  </Card>
+  <Card title="resetStore" href="/components/resetstore">
+    resetStore component documentation
+  </Card>
+  <Card title="BackToCivilization" href="/components/backtocivilization">
+    BackToCivilization component documentation
+  </Card>
+  <Card title="ColorPicker" href="/components/colorpicker">
+    ColorPicker component documentation
+  </Card>
+  <Card title="ConnectionControlPanel" href="/components/connectioncontrolpanel">
+    ConnectionControlPanel component documentation
+  </Card>
+  <Card title="DebugOverlay" href="/components/debugoverlay">
+    DebugOverlay component documentation
+  </Card>
+  <Card title="DynamicFederation" href="/components/dynamicfederation">
+    Dynamic Federation Component User-configurable Pod management with domain ownership verification No hardcoded values - each user controls their own domain and URIs
+  </Card>
+  <Card title="EdgeType" href="/components/edgetype">
+    EdgeType component documentation
+  </Card>
+  <Card title="Federation" href="/components/federation">
+    Federation Component Manages Solid Pod connections, authentication, and cognitive space browsing
+  </Card>
+  <Card title="GitNativeFederation" href="/components/gitnativefederation">
+    Git-Native Federation Component Protocol implementation with hot-swappable Git providers Provides real-time responsiveness, true decentralization, and distributed resilience
+  </Card>
+  <Card title="GraphPreview" href="/components/graphpreview">
+    GraphPreview component documentation
+  </Card>
+  <Card title="Header" href="/components/header">
+    Header component documentation
+  </Card>
+  <Card title="colorToRgba" href="/components/colortorgba">
+    colorToRgba component documentation
+  </Card>
+  <Card title="InnerNetwork" href="/components/innernetwork">
+    InnerNetwork component documentation
+  </Card>
+  <Card title="Node" href="/components/node">
+    Node component documentation
+  </Card>
+  <Card title="NodeCanvas" href="/components/nodecanvas">
+    NodeCanvas component documentation
+  </Card>
+  <Card title="createTestGraph" href="/components/createtestgraph">
+    createTestGraph component documentation
+  </Card>
+  <Card title="NodeControlPanel" href="/components/nodecontrolpanel">
+    NodeControlPanel component documentation
+  </Card>
+  <Card title="NodeGridItem" href="/components/nodegriditem">
+    NodeGridItem component documentation
+  </Card>
+  <Card title="NodeSelectionGrid" href="/components/nodeselectiongrid">
+    NodeSelectionGrid component documentation
+  </Card>
+  <Card title="NodeType" href="/components/nodetype">
+    NodeType component documentation
+  </Card>
+  <Card title="handleColorPickerToggle" href="/components/handlecolorpickertoggle">
+    handleColorPickerToggle component documentation
+  </Card>
+  <Card title="generateConceptColor" href="/components/generateconceptcolor">
+    Panel - Home tab at index 0 (locked). - Node tabs afterwards. - Double-click logic is handled in NodeCanvas, which calls openNodeTab(nodeId, nodeName). - "onSaveNodeData" merges bio/image (and now name) into the NodeCanvas state. - Image is scaled horizontally with "objectFit: contain." - The circle around X has a fade‑in transition on hover.
+  </Card>
+  <Card title="PieMenu" href="/components/piemenu">
+    PieMenu component documentation
+  </Card>
+  <Card title="PlusSign" href="/components/plussign">
+    PlusSign component documentation
+  </Card>
+  <Card title="RedstringMenu" href="/components/redstringmenu">
+    RedstringMenu component documentation
+  </Card>
+  <Card title="getItemStyles" href="/components/getitemstyles">
+    getItemStyles component documentation
+  </Card>
+  <Card title="ToggleButton" href="/components/togglebutton">
+    ToggleButton component documentation
+  </Card>
+  <Card title="handleNodeTypeClick" href="/components/handlenodetypeclick">
+    handleNodeTypeClick component documentation
+  </Card>
+  <Card title="TriangleCap" href="/components/trianglecap">
+    TriangleCap component documentation
+  </Card>
+  <Card title="handleColorPickerToggle" href="/components/handlecolorpickertoggle">
+    handleColorPickerToggle component documentation
+  </Card>
+  <Card title="ConnectionText" href="/components/connectiontext">
+    Connection Text Component A dedicated component for rendering connection names with proper styling, colors, and stroke effects that match NodeCanvas appearance.
+  </Card>
+  <Card title="BridgeClient" href="/components/bridgeclient">
+    Bridge Client Component (formerly MCPBridge) Establishes a bridge between the Redstring store and the orchestration daemon. Sends minimal store state via HTTP and registers store actions for applyMutations.
+  </Card>
+  <Card title="APIKeySetup" href="/components/apikeysetup">
+    APIKeySetup component documentation
+  </Card>
+  <Card title="AlphaOnboardingModal" href="/components/alphaonboardingmodal">
+    Alpha Onboarding Modal A specialized CanvasModal that welcomes users to Redstring's open alpha Inherits all CanvasModal functionality while providing alpha-specific content
+  </Card>
+  <Card title="CanvasModal" href="/components/canvasmodal">
+    Canvas Modal Component Positions content within the canvas viewport with canvas-colored styling and drop shadow. Includes margins and proper backdrop handling.
+  </Card>
+  <Card title="CollapsibleSection" href="/components/collapsiblesection">
+    CollapsibleSection component documentation
+  </Card>
+  <Card title="RDFTriplet" href="/components/rdftriplet">
+    Improved RDF Triplet Visual Component Displays subject -> predicate -> object relationships as connected nodes Styled to match NodeCanvas connections exactly with proper arrows and directionality Supports ultra-slim panels with responsive design
+  </Card>
+  <Card title="ContextMenu" href="/components/contextmenu">
+    ContextMenu component documentation
+  </Card>
+  <Card title="Dropdown" href="/components/dropdown">
+    Reusable Dropdown Component Matches the Redstring app's visual style with proper focus management
+  </Card>
+  <Card title="DuplicateManager" href="/components/duplicatemanager">
+    DuplicateManager component documentation
+  </Card>
+  <Card title="EdgeGlowIndicator" href="/components/edgeglowindicator">
+    EdgeGlowIndicator component documentation
+  </Card>
+  <Card title="FederationBootstrap" href="/components/federationbootstrap">
+    Federation Bootstrap - Ensures federation services are initialized regardless of whether the GitNativeFederation tab is selected This component runs at app startup and: 1. Initializes authentication services 2. Establishes background Git connections 3. Sets up SaveCoordinator 4. Manages universe synchronization
+  </Card>
+  <Card title="GitFederationBootstrap" href="/components/gitfederationbootstrap">
+    GitFederationBootstrap component documentation
+  </Card>
+  <Card title="showContextMenu" href="/components/showcontextmenu">
+    showContextMenu component documentation
+  </Card>
+  <Card title="MaroonSlider" href="/components/maroonslider">
+    MaroonSlider component documentation
+  </Card>
+  <Card title="ModalDemo" href="/components/modaldemo">
+    Demo component showing how to use CanvasModal and PanelModal This demonstrates the different positioning options and usage patterns
+  </Card>
+  <Card title="clamp01" href="/components/clamp01">
+    clamp01 component documentation
+  </Card>
+  <Card title="PanelColorPickerPortal" href="/components/panelcolorpickerportal">
+    PanelColorPickerPortal component documentation
+  </Card>
+  <Card title="PanelModal" href="/components/panelmodal">
+    Panel Modal Component Positions content within a panel area with canvas-colored styling and drop shadow. Includes margins and proper backdrop handling.
+  </Card>
+  <Card title="PanelResizerHandle" href="/components/panelresizerhandle">
+    Vertical, mobile-friendly resizer handle styled like a pill/home bar. - Renders slightly outside the panel edge - Low-opacity by default; increases on hover; full on active - Touch and mouse friendly
+  </Card>
+  <Card title="RDFResolutionPanel" href="/components/rdfresolutionpanel">
+    RDF Resolution Panel Component Provides UI for resolving external links and displaying resolved RDF data with expandable sections and error handling.
+  </Card>
+  <Card title="SemanticDiscovery" href="/components/semanticdiscovery">
+    Consolidated Semantic Discovery Section Progressive disclosure: Simple → Guided → Advanced Preserves all existing functionality while providing clean organization
+  </Card>
+  <Card title="isValidURL" href="/components/isvalidurl">
+    isValidURL component documentation
+  </Card>
+  <Card title="SemanticIdentity" href="/components/semanticidentity">
+    Semantic Web Identity Component Determines and displays how this node relates to the semantic web: - Neutral: No semantic web integration - Provider: Self-hosted semantic data (publishes RDF) - Receiver: Consumes external semantic data (imports from Wikidata/DBpedia)
+  </Card>
+  <Card title="StandardDivider" href="/components/standarddivider">
+    StandardDivider component documentation
+  </Card>
+  <Card title="ToggleSlider" href="/components/toggleslider">
+    Reusable Toggle Slider Component Creates a slider toggle similar to the ConnectionBrowser's "In Graph" ↔ "All Connections" toggle
+  </Card>
+  <Card title="UniverseBrowser" href="/components/universebrowser">
+    Universe Browser Component Discovers and displays available universes in connected repositories Enables easy linking and switching between universes
+  </Card>
+  <Card title="UniverseOperationsDialog" href="/components/universeoperationsdialog">
+    Universe Operations Dialog - Centralized file operations interface Bridges RedstringMenu and GitNativeFederation universe management Styled like the existing panel modals Mobile/tablet aware with Git-Only mode support
+  </Card>
+  <Card title="PanelContentWrapper" href="/components/panelcontentwrapper">
+    Wrapper component that handles data fetching and action binding for both home and node tabs
+  </Card>
+  <Card title="getArticleFor" href="/components/getarticlefor">
+    Shared content component used by both home and node tabs Provides consistent layout and functionality across panel types
+  </Card>
+  <Card title="RepositoryDropdown" href="/components/repositorydropdown">
+    Repository Dropdown Component A dropdown selector for choosing repositories with an "Add New" option
+  </Card>
+  <Card title="RepositoryList" href="/components/repositorylist">
+    Repository List Component Manages a sortable list of repositories for users/organizations Each repository represents one ontology with read/write access
+  </Card>
+  <Card title="RepositoryManager" href="/components/repositorymanager">
+    Repository Manager Component Manages repository collections for users and organizations Handles OAuth integration and repository CRUD operations
+  </Card>
+  <Card title="useKeyboardShortcuts" href="/components/usekeyboardshortcuts">
+    Custom hook to track currently pressed keys.
+  </Card>
+  <Card title="useLongPress" href="/components/uselongpress">
+    Custom hook to manage long press detection logic.
+  </Card>
+  <Card title="useProjectionStore" href="/components/useprojectionstore">
+    useProjectionStore component documentation
+  </Card>
+  <Card title="useViewportBounds" href="/components/useviewportbounds">
+    Computes the central usable viewport bounds by subtracting left/right panel widths and the bottom TypeList bar from window dimensions. Accounts for collapsed panels by using 0 width when panels are not expanded. Includes space for resizer handles when panels are expanded. Listens to window resize and custom panel events: - panelWidthChanging, panelWidthChanged Also reads persisted widths from localStorage on mount for initial render.
+  </Card>
+  <Card title="ensureDir" href="/components/ensuredir">
+    ensureDir component documentation
+  </Card>
+  <Card title="getBridgeBaseUrl" href="/components/getbridgebaseurl">
+    getBridgeBaseUrl component documentation
+  </Card>
+  <Card title="findRelatedEntities" href="/components/findrelatedentities">
+    Local Semantic Query Service Provides semantic querying capabilities within the local Redstring knowledge graph, finding related concepts, entities, and patterns without external CORS issues.
+  </Card>
+  <Card title="getGraphStore" href="/components/getgraphstore">
+    getGraphStore component documentation
+  </Card>
+  <Card title="checkUniverseHasContent" href="/components/checkuniversehascontent">
+    Universe Discovery Service Scans repositories to find existing universes and enables easy linking
+  </Card>
+  <Card title="calculateStringSimilarity" href="/components/calculatestringsimilarity">
+    Helper function to normalize edge directionality to ensure arrowsToward is always a Set
+  </Card>
+  <Card title="useCanvasWorker" href="/components/usecanvasworker">
+    useCanvasWorker component documentation
+  </Card>
+  <Card title="isLocalStorageDisabled" href="/components/islocalstoragedisabled">
+    Debug Configuration for RedString Provides debugging options to disable features for testing purposes
+  </Card>
+</CardGroup>
+
+---
+
+*This documentation is automatically generated from source code. Last updated: 2025-09-17T02:47:00.667Z*

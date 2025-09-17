@@ -1,0 +1,376 @@
+---
+title: "Semantic Web Integration"
+description: "Leveraging the global knowledge graph through SPARQL and federated queries"
+---
+
+# Semantic Web Integration
+
+Redstring seamlessly integrates with the **Semantic Web** - the global interconnected network of structured data. This integration enables you to import vast amounts of knowledge from sources like Wikidata, DBpedia, and other RDF endpoints directly into your knowledge graphs.
+
+## What is the Semantic Web?
+
+The Semantic Web is a web of data that machines can understand and process. It uses standardized formats like RDF (Resource Description Framework) and query languages like SPARQL to enable automated reasoning and knowledge discovery.
+
+### Key Semantic Web Concepts
+
+- **RDF Triples**: Subject-Predicate-Object statements (e.g., "Einstein - born_in - Germany")
+- **SPARQL**: Query language for RDF data (like SQL for relational databases)
+- **Endpoints**: Services that accept SPARQL queries and return structured data
+- **Ontologies**: Formal specifications of concepts and relationships in a domain
+
+## SPARQL Client Architecture
+
+Redstring includes a direct-fetch SPARQL client that connects to semantic web endpoints:
+
+```javascript
+// src/services/sparqlClient.js
+class SPARQLClient {
+  constructor() {
+    this.endpoints = {
+      wikidata: 'https://query.wikidata.org/sparql',
+      dbpedia: 'https://dbpedia.org/sparql',
+      // Add more endpoints as needed
+    };
+  }
+
+  async query(endpoint, sparql, options = {}) {
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/sparql-results+json',
+          'Content-Type': 'application/sparql-query'
+        },
+        body: sparql
+      });
+
+      if (!response.ok) {
+        throw new Error(`SPARQL query failed: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      return this.parseResults(data);
+    } catch (error) {
+      console.error('SPARQL query error:', error);
+      throw error;
+    }
+  }
+
+  parseResults(data) {
+    return data.results.bindings.map(binding => {
+      const result = {};
+      for (const [key, value] of Object.entries(binding)) {
+        result[key] = value.value;
+      }
+      return result;
+    });
+  }
+}
+```
+
+## Knowledge Federation Service
+
+The **Knowledge Federation** service enables mass import of related concepts:
+
+```javascript
+// src/services/knowledgeFederation.js
+class KnowledgeFederation {
+  async importKnowledgeCluster(conceptUri, depth = 2) {
+    const sparql = this.buildClusterQuery(conceptUri, depth);
+    const results = await this.sparqlClient.query('wikidata', sparql);
+
+    return this.convertToRedstringGraph(results);
+  }
+
+  buildClusterQuery(conceptUri, depth) {
+    return `
+      SELECT DISTINCT ?subject ?predicate ?object ?subjectLabel ?objectLabel WHERE {
+        {
+          <${conceptUri}> ?predicate ?object .
+          ?object rdfs:label ?objectLabel .
+          FILTER(LANG(?objectLabel) = "en")
+        }
+        UNION
+        {
+          ?subject ?predicate <${conceptUri}> .
+          ?subject rdfs:label ?subjectLabel .
+          FILTER(LANG(?subjectLabel) = "en")
+        }
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+      }
+      LIMIT 1000
+    `;
+  }
+
+  convertToRedstringGraph(sparqlResults) {
+    const nodes = new Map();
+    const edges = [];
+
+    for (const result of sparqlResults) {
+      // Create nodes for subjects and objects
+      if (result.subject && result.subjectLabel) {
+        nodes.set(result.subject, {
+          id: this.uriToId(result.subject),
+          name: result.subjectLabel,
+          color: this.getColorForType(result.subjectType),
+          source: 'semantic-web',
+          uri: result.subject
+        });
+      }
+
+      if (result.object && result.objectLabel) {
+        nodes.set(result.object, {
+          id: this.uriToId(result.object),
+          name: result.objectLabel,
+          color: this.getColorForType(result.objectType),
+          source: 'semantic-web',
+          uri: result.object
+        });
+      }
+
+      // Create edge for the relationship
+      if (result.subject && result.object && result.predicate) {
+        edges.push({
+          sourceId: this.uriToId(result.subject),
+          targetId: this.uriToId(result.object),
+          label: this.predicateToLabel(result.predicate),
+          uri: result.predicate
+        });
+      }
+    }
+
+    return {
+      nodes: Array.from(nodes.values()),
+      edges: edges
+    };
+  }
+}
+```
+
+## Semantic Editor Component
+
+The `SemanticEditor` provides a user interface for browsing and importing semantic web data:
+
+```jsx
+// src/components/SemanticEditor.jsx
+const SemanticEditor = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [selectedConcept, setSelectedConcept] = useState(null);
+
+  const searchConcepts = async (term) => {
+    const sparql = `
+      SELECT DISTINCT ?item ?itemLabel ?itemDescription WHERE {
+        ?item rdfs:label ?itemLabel .
+        ?item schema:description ?itemDescription .
+        FILTER(CONTAINS(LCASE(?itemLabel), LCASE("${term}"))) .
+        FILTER(LANG(?itemLabel) = "en") .
+        FILTER(LANG(?itemDescription) = "en") .
+      }
+      LIMIT 20
+    `;
+
+    const results = await sparqlClient.query('wikidata', sparql);
+    setSearchResults(results);
+  };
+
+  const importConcept = async (conceptUri) => {
+    const cluster = await knowledgeFederation.importKnowledgeCluster(conceptUri);
+
+    // Convert to Redstring nodes and add to current graph
+    const { addNodesFromCluster } = useGraphStore.getState();
+    addNodesFromCluster(cluster);
+  };
+
+  return (
+    <div className="semantic-editor">
+      <div className="search-section">
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          onKeyPress={(e) => e.key === 'Enter' && searchConcepts(searchTerm)}
+          placeholder="Search semantic web concepts..."
+        />
+        <button onClick={() => searchConcepts(searchTerm)}>
+          Search
+        </button>
+      </div>
+
+      <div className="results-section">
+        {searchResults.map(result => (
+          <div key={result.item} className="concept-card">
+            <h3>{result.itemLabel}</h3>
+            <p>{result.itemDescription}</p>
+            <button onClick={() => importConcept(result.item)}>
+              Import Cluster
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+```
+
+## Major Semantic Web Endpoints
+
+Redstring can connect to various semantic web endpoints:
+
+### Wikidata
+- **URL**: https://query.wikidata.org/sparql
+- **Content**: Structured knowledge from Wikipedia and beyond
+- **Strengths**: Broad coverage, high quality, multilingual
+
+### DBpedia
+- **URL**: https://dbpedia.org/sparql
+- **Content**: Structured information extracted from Wikipedia
+- **Strengths**: Good for general knowledge, well-linked
+
+### Schema.org
+- **Content**: Vocabulary for structured data markup
+- **Strengths**: Web standards, widely adopted
+
+### Domain-Specific Endpoints
+- **Bio2RDF**: Life sciences data
+- **GeoNames**: Geographic data
+- **MusicBrainz**: Music metadata
+
+## SPARQL Query Examples
+
+### Basic Entity Information
+```sparql
+SELECT ?item ?itemLabel ?itemDescription WHERE {
+  ?item wdt:P31 wd:Q5 .  # Instance of human
+  ?item rdfs:label "Albert Einstein"@en .
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+}
+```
+
+### Relationship Discovery
+```sparql
+SELECT ?property ?propertyLabel ?value ?valueLabel WHERE {
+  wd:Q937 ?property ?value .  # Einstein's properties
+  ?prop wikibase:directClaim ?property .
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+}
+LIMIT 50
+```
+
+### Knowledge Cluster
+```sparql
+SELECT ?related ?relatedLabel ?connection ?connectionLabel WHERE {
+  {
+    wd:Q937 ?connection ?related .
+  } UNION {
+    ?related ?connection wd:Q937 .
+  }
+  ?related wdt:P31 wd:Q5 .  # Only humans
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+}
+LIMIT 100
+```
+
+## Cognitive Augmentation Benefits
+
+Semantic web integration provides several cognitive benefits:
+
+### Reduced Free Recall Burden
+Instead of trying to remember all related concepts, you can:
+- Search for concepts by partial names or descriptions
+- Discover relationships you might not have known existed
+- Import comprehensive knowledge clusters automatically
+
+### Enhanced Discovery
+- **Serendipitous Connections**: Find unexpected relationships between concepts
+- **Completeness**: Ensure you haven't missed important related concepts
+- **Verification**: Cross-reference your knowledge with authoritative sources
+
+### Structured Learning
+- **Progressive Expansion**: Start with core concepts, expand outward
+- **Multiple Perspectives**: See how different sources structure the same knowledge
+- **Historical Context**: Access temporal relationships and changes over time
+
+## Implementation Patterns
+
+### Lazy Loading
+```javascript
+const loadSemanticDetails = async (nodeId) => {
+  const node = nodePrototypes.get(nodeId);
+  if (!node.semanticData && node.uri) {
+    const details = await sparqlClient.getEntityDetails(node.uri);
+    updateNodePrototype(nodeId, { semanticData: details });
+  }
+};
+```
+
+### Caching Strategy
+```javascript
+class SemanticCache {
+  constructor() {
+    this.cache = new Map();
+    this.ttl = 24 * 60 * 60 * 1000; // 24 hours
+  }
+
+  async query(sparql) {
+    const key = this.hashSparql(sparql);
+    const cached = this.cache.get(key);
+
+    if (cached && Date.now() - cached.timestamp < this.ttl) {
+      return cached.data;
+    }
+
+    const data = await this.sparqlClient.query(sparql);
+    this.cache.set(key, { data, timestamp: Date.now() });
+    return data;
+  }
+}
+```
+
+### Error Handling
+```javascript
+const robustSparqlQuery = async (endpoint, sparql, retries = 3) => {
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await sparqlClient.query(endpoint, sparql);
+    } catch (error) {
+      if (i === retries - 1) throw error;
+
+      // Exponential backoff
+      await new Promise(resolve =>
+        setTimeout(resolve, Math.pow(2, i) * 1000)
+      );
+    }
+  }
+};
+```
+
+## Privacy and Performance Considerations
+
+### Data Privacy
+- Queries to external endpoints may reveal your research interests
+- Consider using proxy servers for sensitive research
+- Be aware of rate limiting and terms of service
+
+### Performance Optimization
+- **Batch Queries**: Combine multiple entity lookups
+- **Parallel Requests**: Query multiple endpoints simultaneously
+- **Progressive Loading**: Load core data first, details on demand
+- **Local Caching**: Store frequently accessed data locally
+
+### Offline Capabilities
+```javascript
+const hybridQuery = async (sparql) => {
+  try {
+    // Try online first
+    return await sparqlClient.query('wikidata', sparql);
+  } catch (error) {
+    // Fall back to local cache
+    return localCache.query(sparql);
+  }
+};
+```
+
+---
+
+Semantic web integration transforms Redstring from a personal knowledge tool into a gateway to humanity's collective knowledge. By connecting your conceptual graphs to the global knowledge graph, you can build richer, more comprehensive representations of complex domains while reducing the cognitive burden of knowledge construction.

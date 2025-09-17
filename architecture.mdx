@@ -1,0 +1,317 @@
+---
+title: "Architecture Overview"
+description: "Deep dive into Redstring's architecture and design patterns"
+---
+
+# Architecture Overview
+
+Redstring implements a sophisticated graph-based cognitive interface using modern React patterns and advanced state management techniques. This page provides a comprehensive overview of the system's architecture and key design decisions.
+
+## System Architecture
+
+<img src="/images/architecture-diagram.svg" alt="Redstring Architecture Diagram" />
+
+### Core Technologies
+
+Redstring is built on a modern React stack optimized for performance and developer experience:
+
+- **React 18** - Latest React with concurrent features and hooks
+- **Zustand** - Lightweight state management with excellent TypeScript support
+- **React DnD** - Drag-and-drop functionality for node manipulation
+- **Framer Motion** - Smooth animations and transitions
+- **Vite** - Fast development server and optimized builds
+- **Vitest** - Fast unit testing framework
+- **Web Workers** - Background processing for canvas operations
+
+### Architecture Patterns
+
+## Prototype/Instance Model
+
+The heart of Redstring's architecture is a dual-layer data model that separates concerns between node definitions and their instances:
+
+```javascript
+// Node Prototypes (define what a node IS)
+nodePrototypes: Map<string, {
+  id: string,
+  name: string,
+  color: string,
+  description: string,
+  definitions: Map<string, Graph>
+}>
+
+// Node Instances (define WHERE a node appears)
+graph.instances: Map<string, {
+  id: string,
+  nodeId: string,     // Reference to prototype
+  position: { x, y },
+  scale: number
+}>
+```
+
+**Benefits:**
+- **Memory Efficiency**: Multiple instances share the same prototype data
+- **Consistency**: Changes to a prototype automatically affect all instances
+- **Flexibility**: Each instance can have unique positioning and scaling
+- **Context Awareness**: Different definition graphs can be active in different contexts
+
+## Context-Aware Definitions
+
+Nodes can have multiple definition graphs, with the active definition determined by context:
+
+```javascript
+// Context-specific active definitions
+nodeDefinitionIndices: Map<string, number>
+// Key format: "nodeId-graphId"
+// Value: index of active definition for that node in that graph context
+```
+
+This enables sophisticated knowledge representation where the same concept can have different meanings or representations depending on the context in which it appears.
+
+## Data Flow Architecture
+
+### State Management with Zustand
+
+Redstring uses Zustand for state management, leveraging Maps for performance at scale:
+
+```javascript
+const useGraphStore = create((set, get) => ({
+  // Core data structures
+  nodePrototypes: new Map(),
+  graphs: new Map(),
+  universeEntries: new Map(),
+
+  // UI state
+  activeGraphId: null,
+  expandedNodeIds: new Set(),
+  selectedNodeIdForPieMenu: null,
+
+  // Actions
+  addNode: (node) => set(state => {
+    state.nodePrototypes.set(node.id, node);
+  }),
+  // ... more actions
+}));
+```
+
+### Auto-Save Middleware
+
+The store includes automatic persistence with debounced saves:
+
+```javascript
+const autoSaveMiddleware = (config) => (set, get, api) =>
+  config(
+    (...args) => {
+      set(...args);
+      debouncedSave(get());
+    },
+    get,
+    api
+  );
+```
+
+## Component Architecture
+
+### NodeCanvas - The Orchestrator
+
+`NodeCanvas.jsx` serves as the main orchestration component, handling:
+
+- **SVG Rendering**: All graph elements rendered as scalable vector graphics
+- **Input Processing**: Mouse, touch, and keyboard event handling
+- **Device Detection**: Sophisticated trackpad vs. mouse wheel detection
+- **State Coordination**: Bridges user interactions with store updates
+- **Animation Management**: Coordinates Framer Motion animations
+
+### Hierarchical Component Structure
+
+```
+NodeCanvas
+├── GraphRenderer
+│   ├── NodeComponent
+│   │   ├── NodeBody
+│   │   ├── NodeLabel
+│   │   └── ConnectionPoints
+│   └── EdgeComponent
+│       ├── EdgePath
+│       └── EdgeArrow
+├── PieMenu
+│   ├── PieButton
+│   └── PieMenuOverlay
+└── Panel
+    ├── NodeDetails
+    ├── SemanticEditor
+    └── TabManager
+```
+
+## Input Device Detection
+
+One of Redstring's sophisticated features is cross-platform input device detection:
+
+```javascript
+const handleWheel = (event) => {
+  const { deltaX, deltaY, deltaMode, ctrlKey } = event;
+
+  // Analyze delta patterns to detect device type
+  const absY = Math.abs(deltaY);
+  const isInteger = absY % 1 === 0;
+  const isLarge = absY > 10;
+
+  if (ctrlKey || (isInteger && isLarge)) {
+    // Mouse wheel - trigger zoom
+    handleZoom(deltaY);
+  } else {
+    // Trackpad - trigger pan
+    handlePan(deltaX, deltaY);
+  }
+};
+```
+
+This enables natural interactions across different devices and operating systems.
+
+## Performance Optimizations
+
+### Map-Based Data Structures
+
+Redstring uses Map objects instead of plain objects for performance:
+
+```javascript
+// Fast lookups and iteration
+const node = nodePrototypes.get(nodeId);
+const instances = Array.from(graph.instances.values());
+```
+
+### Selective Re-rendering
+
+Components use React.memo and careful dependency management:
+
+```javascript
+const NodeComponent = React.memo(({ nodeId, graphId }) => {
+  const node = useGraphStore(state =>
+    getHydratedNode(state, nodeId, graphId)
+  );
+  // Only re-renders when this specific node changes
+});
+```
+
+### Web Worker Canvas Operations
+
+Heavy canvas operations run in Web Workers to maintain UI responsiveness:
+
+```javascript
+// canvasWorker.js
+self.onmessage = (event) => {
+  const { operation, data } = event.data;
+
+  switch (operation) {
+    case 'renderGraph':
+      const result = performExpensiveRendering(data);
+      self.postMessage({ result });
+      break;
+  }
+};
+```
+
+## File Format & Persistence
+
+### .redstring Universe Files
+
+Redstring workspaces are saved as `.redstring` files containing:
+
+```json
+{
+  "metadata": {
+    "version": "1.0",
+    "created": "2024-01-01T00:00:00Z",
+    "modified": "2024-01-01T12:00:00Z"
+  },
+  "nodePrototypes": {
+    "node-1": { /* node data */ }
+  },
+  "graphs": {
+    "graph-1": { /* graph data */ }
+  },
+  "ui": {
+    "activeGraphId": "graph-1",
+    "viewport": { "x": 0, "y": 0, "scale": 1 }
+  }
+}
+```
+
+### Serialization Strategy
+
+Since Maps aren't natively JSON-serializable, Redstring implements custom serialization:
+
+```javascript
+const serializeStore = (state) => ({
+  nodePrototypes: Object.fromEntries(state.nodePrototypes),
+  graphs: Object.fromEntries(state.graphs),
+  // ... other state
+});
+
+const deserializeStore = (data) => ({
+  nodePrototypes: new Map(Object.entries(data.nodePrototypes)),
+  graphs: new Map(Object.entries(data.graphs)),
+  // ... other state
+});
+```
+
+## Semantic Web Integration
+
+### SPARQL Client Architecture
+
+```javascript
+// Direct-fetch SPARQL client
+class SPARQLClient {
+  async query(endpoint, sparql) {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/sparql-query' },
+      body: sparql
+    });
+    return this.parseResults(await response.json());
+  }
+}
+```
+
+### Knowledge Federation
+
+The system can import large knowledge clusters:
+
+```javascript
+const importKnowledgeCluster = async (concept) => {
+  const relatedConcepts = await sparqlClient.query(
+    'https://query.wikidata.org/sparql',
+    buildClusterQuery(concept)
+  );
+
+  return createGraphFromConcepts(relatedConcepts);
+};
+```
+
+## Error Handling & Resilience
+
+### Graceful Degradation
+
+Redstring implements multiple layers of error handling:
+
+1. **Component Error Boundaries**: Prevent crashes from propagating
+2. **Store Action Validation**: Validate all state changes
+3. **Network Resilience**: Retry logic for SPARQL queries
+4. **Auto-Recovery**: Automatic cleanup of orphaned data
+
+### Development vs. Production
+
+```javascript
+const isDevelopment = import.meta.env.DEV;
+
+if (isDevelopment) {
+  // Enhanced logging and debugging
+  console.log('State change:', action, state);
+} else {
+  // Production error reporting
+  errorReporter.capture(error);
+}
+```
+
+---
+
+This architecture enables Redstring to handle complex knowledge graphs while maintaining excellent performance and user experience. The combination of React's component model, Zustand's efficient state management, and careful performance optimizations creates a robust foundation for cognitive computing applications.

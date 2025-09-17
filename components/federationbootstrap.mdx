@@ -1,0 +1,31 @@
+---
+title: "FederationBootstrap"
+description: "React component: Federation Bootstrap - Ensures federation services are initialized regardless of whether the GitNativeFederation tab is selected This component runs at app startup and: 1. Initializes authentication services 2. Establishes background Git connections 3. Sets up SaveCoordinator 4. Manages universe synchronization"
+---
+
+# FederationBootstrap
+
+Federation Bootstrap - Ensures federation services are initialized regardless of whether the GitNativeFederation tab is selected This component runs at app startup and: 1. Initializes authentication services 2. Establishes background Git connections 3. Sets up SaveCoordinator 4. Manages universe synchronization
+
+## Location
+`src/components/FederationBootstrap.jsx`
+
+## Props
+
+This component does not accept props.
+
+## Hooks Used
+
+- `useEffect`
+- `useState`
+- `useBootstrapStatus`
+
+## Dependencies
+
+- `react`
+- `../services/persistentAuth.js`
+- `../services/universeManager.js`
+
+---
+
+*Auto-generated from source code*

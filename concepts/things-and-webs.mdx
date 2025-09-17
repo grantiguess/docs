@@ -1,0 +1,218 @@
+---
+title: "Things and Webs"
+description: "Understanding the fundamental building blocks of Redstring's knowledge representation"
+---
+
+# Things and Webs
+
+At the core of Redstring lies a powerful web-based knowledge representation system built around two fundamental concepts: **Things** and **Webs**. Understanding these building blocks is essential for working effectively with Redstring.
+
+<Note>
+**Developer Note**: In the codebase, Things are implemented as "nodes" and Webs as "graphs". This documentation uses the user-facing terminology throughout.
+</Note>
+
+## What are Things?
+
+**Things** represent discrete units of knowledge or concepts in your system. They can represent anything from abstract ideas to concrete entities, relationships, or processes.
+
+### Thing Properties
+
+Every Thing in Redstring has several key properties:
+
+```javascript
+// Developer note: stored as "node" objects in code
+{
+  id: "unique-thing-id",
+  name: "Human-readable name",
+  color: "#FF6B6B",
+  description: "Detailed description of the concept",
+  definitions: Map<string, Web>  // Can contain multiple definition Webs
+}
+```
+
+- **ID**: Unique identifier for the Thing
+- **Name**: Human-readable label displayed in the interface
+- **Color**: Visual color coding for categorization and quick recognition
+- **Description**: Rich text description with context-aware content
+- **Definitions**: Collection of Webs that define what this Thing means
+
+### Visual Representation
+
+Nodes appear as colored circles in the canvas with:
+- **Color-coded backgrounds** for instant categorization
+- **Readable labels** that scale with zoom level
+- **Connection points** for linking to other nodes
+- **Expansion indicators** when they contain definition graphs
+
+## What are Graphs?
+
+**Graphs** are collections of nodes and the connections (edges) between them. They represent the structural relationships and conceptual networks in your knowledge system.
+
+### Graph Structure
+
+```javascript
+{
+  id: "unique-graph-id",
+  instances: Map<string, NodeInstance>,
+  edges: Map<string, Edge>,
+  metadata: {
+    name: "Graph Name",
+    created: timestamp,
+    modified: timestamp
+  }
+}
+```
+
+### Node Instances vs. Prototypes
+
+This is where Redstring's architecture becomes powerful. A single **node prototype** can have multiple **instances** across different graphs:
+
+```javascript
+// One node prototype
+const conceptNode = {
+  id: "democracy",
+  name: "Democracy",
+  color: "#3B82F6",
+  description: "A system of government..."
+};
+
+// Multiple instances in different graphs
+const instance1 = {
+  id: "instance-1",
+  nodeId: "democracy",
+  position: { x: 100, y: 200 },
+  scale: 1.0
+};
+
+const instance2 = {
+  id: "instance-2",
+  nodeId: "democracy",
+  position: { x: 300, y: 150 },
+  scale: 0.8
+};
+```
+
+**Benefits of this model:**
+- **Consistency**: Update the concept once, all instances reflect the change
+- **Flexibility**: Each instance can be positioned and scaled independently
+- **Memory efficiency**: No duplication of concept data
+- **Context awareness**: Same concept can appear in multiple knowledge contexts
+
+## Recursive Graph Structure
+
+One of Redstring's most powerful features is that **nodes can contain graphs**, and **graphs can contain instances of nodes that themselves contain graphs**. This creates infinite recursive nesting possibilities.
+
+### Example: Academic Subject Hierarchy
+
+```
+Philosophy [Node]
+├── Definition Graph
+    ├── Ethics [Node Instance]
+    │   ├── Definition Graph
+    │       ├── Applied Ethics [Node Instance]
+    │       └── Meta-Ethics [Node Instance]
+    ├── Epistemology [Node Instance]
+    └── Metaphysics [Node Instance]
+```
+
+### Practical Applications
+
+This recursive structure enables:
+
+1. **Hierarchical Knowledge Organization**
+   - Subject → Subfield → Specific Topics → Concepts
+   - Company → Department → Team → Individual → Skills
+
+2. **Process Decomposition**
+   - Project → Phase → Task → Subtask → Action Items
+
+3. **System Modeling**
+   - System → Subsystem → Component → Function → Implementation
+
+## Edges and Connections
+
+**Edges** represent relationships between nodes within a graph:
+
+```javascript
+{
+  id: "edge-id",
+  sourceInstanceId: "instance-1",
+  targetInstanceId: "instance-2",
+  directionality: {
+    arrowsToward: Set(["instance-2"])  // Directional relationship
+  },
+  metadata: {
+    label: "influences",
+    color: "#666666"
+  }
+}
+```
+
+### Types of Relationships
+
+Edges can represent various relationship types:
+- **Causal**: A causes B
+- **Hierarchical**: A contains B
+- **Sequential**: A comes before B
+- **Associative**: A relates to B
+- **Definitional**: A defines B
+
+## Context-Aware Definitions
+
+A powerful feature of Redstring is that nodes can have **multiple definition graphs**, with different definitions active in different contexts:
+
+```javascript
+// A node might have multiple ways it can be defined
+const democracyNode = {
+  id: "democracy",
+  definitions: new Map([
+    ["political-theory", politicalTheoryGraph],
+    ["historical-context", historicalGraph],
+    ["practical-implementation", implementationGraph]
+  ])
+};
+
+// Context determines which definition is active
+nodeDefinitionIndices.set("democracy-political-theory", 0);
+nodeDefinitionIndices.set("democracy-historical-context", 1);
+```
+
+This enables sophisticated knowledge representation where concepts can be understood differently depending on the analytical context.
+
+## Graph Navigation
+
+### Zooming In and Out
+
+- **Zoom into a node**: Double-click to explore its definition graph
+- **Zoom out**: Navigate back to the parent graph context
+- **Breadcrumb navigation**: Track your location in the knowledge hierarchy
+
+### Pan and Explore
+
+- **Pan around large graphs**: Use mouse/trackpad to explore different areas
+- **Search and jump**: Find specific nodes quickly
+- **Minimap overview**: See the overall structure of complex graphs
+
+## Best Practices
+
+### Node Design
+1. **Clear naming**: Use descriptive, unambiguous names
+2. **Consistent coloring**: Develop a color scheme for different concept types
+3. **Rich descriptions**: Provide context and detail in descriptions
+4. **Logical grouping**: Organize related concepts in the same graph areas
+
+### Graph Organization
+1. **Hierarchical structure**: Use recursive nesting to organize complexity
+2. **Meaningful connections**: Only create edges that represent real relationships
+3. **Balanced density**: Avoid overcrowding; break complex areas into subgraphs
+4. **Clear pathways**: Design navigation paths that make sense to users
+
+### Scaling Strategies
+1. **Start simple**: Begin with high-level concepts, drill down progressively
+2. **Modular design**: Create self-contained subgraphs that can be understood independently
+3. **Regular cleanup**: Remove orphaned nodes and unused connections
+4. **Version control**: Use the file system to maintain different versions of your knowledge graphs
+
+---
+
+By mastering nodes and graphs, you'll be able to create rich, navigable knowledge structures that grow and evolve with your understanding. The recursive nature of the system means you can start simple and add complexity gradually, always maintaining a clear overview of the whole system.

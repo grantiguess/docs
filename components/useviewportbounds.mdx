@@ -1,0 +1,31 @@
+---
+title: "useViewportBounds"
+description: "React component: Computes the central usable viewport bounds by subtracting left/right panel widths and the bottom TypeList bar from window dimensions. Accounts for collapsed panels by using 0 width when panels are not expanded. Includes space for resizer handles when panels are expanded. Listens to window resize and custom panel events: - panelWidthChanging, panelWidthChanged Also reads persisted widths from localStorage on mount for initial render."
+---
+
+# useViewportBounds
+
+Computes the central usable viewport bounds by subtracting left/right panel widths and the bottom TypeList bar from window dimensions. Accounts for collapsed panels by using 0 width when panels are not expanded. Includes space for resizer handles when panels are expanded. Listens to window resize and custom panel events: - panelWidthChanging, panelWidthChanged Also reads persisted widths from localStorage on mount for initial render.
+
+## Location
+`src/hooks/useViewportBounds.js`
+
+## Props
+
+This component does not accept props.
+
+## Hooks Used
+
+- `useEffect`
+- `useMemo`
+- `useState`
+- `useViewportBounds`
+
+## Dependencies
+
+- `react`
+- `../constants`
+
+---
+
+*Auto-generated from source code*

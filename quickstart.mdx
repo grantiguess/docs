@@ -1,80 +1,216 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: "Quick Start"
+description: "Get up and running with Redstring in minutes"
 ---
 
-## Get started in three steps
+# Quick Start
 
-Get your documentation site running locally and make your first customization.
+Get Redstring running locally and start building your first knowledge Web in just a few minutes.
 
-### Step 1: Set up your local environment
+## Prerequisites
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+- **Node.js** 18 or higher
+- **npm** or **yarn** package manager
+- **Git** for version control
 
-### Step 2: Deploy your changes
+## Installation
 
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd redstringuireact
+   ```
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
+3. **Start the development server**
+   ```bash
+   npm run dev
+   ```
 
-### Step 3: Go live
+4. **Open your browser**
+   Navigate to `http://localhost:5173` to see Redstring in action.
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+## Your First Knowledge Web
 
-## Next steps
+### Creating Things
 
-Now that you have your docs running, explore these key features:
+1. **Right-click** on the canvas to open the pie menu
+2. **Select "Add Thing"** to create your first concept
+3. **Name your Thing** and choose a color
+4. **Add a description** to provide context
+
+### Connecting Things
+
+1. **Click and drag** from one Thing to another to create connections
+2. **Right-click connections** to add labels or modify properties
+3. **Use directional arrows** to show relationships (A → B)
+
+### Building Webs
+
+1. **Double-click** a Thing to explore its definition Web
+2. **Add related concepts** within the definition space
+3. **Navigate back** using the breadcrumb navigation
+4. **Create hierarchical structures** by nesting Webs within Things
+
+## Key Concepts
 
 <CardGroup cols={2}>
-
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
+  <Card title="Things" icon="circle-dot">
+    Individual concepts, entities, or ideas in your knowledge system
+  </Card>
+  <Card title="Webs" icon="sitemap">
+    Collections of Things and their relationships
+  </Card>
+  <Card title="Definitions" icon="book-open">
+    Webs that define what a Thing means in specific contexts
+  </Card>
+  <Card title="Instances" icon="clone">
+    Appearances of the same Thing concept in different Webs
+  </Card>
 </CardGroup>
 
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>
+## Navigation
+
+### Canvas Controls
+
+- **Pan**: Click and drag empty space, or use trackpad gestures
+- **Zoom**: Mouse wheel, Ctrl+scroll, or pinch gestures
+- **Select**: Click on Things or connections
+- **Multi-select**: Ctrl+click or drag selection box
+
+### Keyboard Shortcuts
+
+| Action | Shortcut |
+|--------|----------|
+| New Thing | `N` |
+| Delete | `Delete` or `Backspace` |
+| Search | `Ctrl+F` |
+| Save | `Ctrl+S` |
+| Undo | `Ctrl+Z` |
+| Redo | `Ctrl+Y` |
+
+## Advanced Features
+
+### Semantic Web Integration
+
+Redstring can import knowledge from external sources:
+
+1. **Open the Semantic Panel** (right sidebar)
+2. **Search for concepts** from Wikidata, DBpedia, etc.
+3. **Import knowledge clusters** to quickly build comprehensive Webs
+4. **Browse relationships** and selectively add relevant connections
+
+### File Management
+
+- **Auto-save**: Your work is automatically saved as you go
+- **Universe files**: Save complete workspaces as `.redstring` files
+- **Recent files**: Quick access to recently opened projects
+- **Export options**: Share your knowledge Webs in various formats
+
+### Collaboration
+
+- **GitHub Integration**: Sync your knowledge Webs with GitHub repositories
+- **Version control**: Track changes and collaborate with others
+- **OAuth authentication**: Secure access to external services
+
+## Development Commands
+
+If you're working on Redstring itself:
+
+```bash
+# Run development server
+npm run dev
+
+# Run tests
+npm test
+
+# Build for production
+npm run build
+
+# Generate documentation
+npm run docs:generate
+
+# Serve documentation locally
+npm run docs:dev
+
+# Run with all services
+npm run dev:full
+```
+
+## Configuration
+
+### Environment Variables
+
+Create a `.env` file in the project root:
+
+```env
+# GitHub App credentials (optional)
+GITHUB_APP_ID=your_app_id
+GITHUB_PRIVATE_KEY=your_private_key
+
+# OAuth configuration (optional)
+OAUTH_CLIENT_ID=your_oauth_client_id
+OAUTH_CLIENT_SECRET=your_oauth_client_secret
+
+# API endpoints (optional)
+SPARQL_ENDPOINT=https://query.wikidata.org/sparql
+```
+
+### Customization
+
+Redstring is highly customizable:
+
+- **Colors**: Modify the theme in `src/styles/`
+- **Keybindings**: Edit keyboard shortcuts in `src/hooks/useKeyboardShortcuts.js`
+- **Canvas behavior**: Adjust pan/zoom sensitivity in `src/NodeCanvas.jsx`
+- **Data sources**: Add new semantic web endpoints in `src/services/`
+
+## Troubleshooting
+
+### Common Issues
+
+**Canvas not responding to input**
+- Check that JavaScript is enabled
+- Try refreshing the page
+- Ensure you're not in a nested iframe
+
+**Slow performance with large Webs**
+- Use the abstraction controls to hide complexity
+- Break large Webs into smaller, focused subgraphs
+- Clear browser cache if issues persist
+
+**Semantic web queries failing**
+- Check your internet connection
+- Verify SPARQL endpoints are accessible
+- Some endpoints have rate limiting
+
+### Getting Help
+
+- **Documentation**: Browse this documentation for detailed guides
+- **Issues**: Report bugs on the GitHub repository
+- **Community**: Join discussions in the project community
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Core Concepts" href="/concepts/things-and-webs">
+    Deep dive into Things, Webs, and the prototype/instance model
+  </Card>
+  <Card title="Architecture" href="/architecture">
+    Understand how Redstring works under the hood
+  </Card>
+  <Card title="Semantic Integration" href="/concepts/semantic-web-integration">
+    Learn to leverage external knowledge sources
+  </Card>
+  <Card title="Components" href="/components/nodecanvas">
+    Explore the technical components and APIs
+  </Card>
+</CardGroup>
+
+---
+
+You're now ready to start building rich, interconnected knowledge Webs with Redstring! The system is designed to grow with your understanding, so start simple and add complexity as you explore.

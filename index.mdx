@@ -1,97 +1,124 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: "Redstring Documentation"
+description: "A React-based cognitive interface for constructing and navigating networks of conceptual nodes"
 ---
 
-## Setting up
+# Welcome to Redstring
 
-Get your documentation site up and running in minutes.
+**Redstring** is a sophisticated React-based cognitive interface for constructing and navigating networks of interconnected **Things**. It implements a web-based system where Things can contain other Webs, enabling hierarchical recursion and composition for knowledge representation and exploration.
+
+<img
+  className="block dark:hidden"
+  src="/images/hero-light.svg"
+  alt="Hero Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/hero-dark.svg"
+  alt="Hero Dark"
+/>
+
+## Core Features
+
+<CardGroup cols={2}>
+  <Card
+    title="Recursive Web Structure"
+    icon="sitemap"
+    href="/concepts/things-and-webs"
+  >
+    Things can define Webs, and Webs can contain instances of Things, enabling infinite recursive nesting for complex knowledge structures.
+  </Card>
+  <Card
+    title="Prototype/Instance Model"
+    icon="clone"
+    href="/concepts/prototype-instance-model"
+  >
+    Dual-layer architecture separating Thing types (prototypes) from their positioned instances within specific Webs.
+  </Card>
+  <Card
+    title="Semantic Web Integration"
+    icon="globe"
+    href="/concepts/semantic-web-integration"
+  >
+    Live SPARQL queries and federated knowledge import from Wikidata, DBpedia, and other semantic web endpoints.
+  </Card>
+  <Card
+    title="Interactive Canvas"
+    icon="hand-pointer"
+    href="/components/node-canvas"
+  >
+    SVG-based graph rendering with sophisticated pan/zoom, drag-and-drop, and contextual pie menus.
+  </Card>
+</CardGroup>
+
+## Quick Start
+
+Get up and running with Redstring in minutes.
 
 <Card
-  title="Start here"
+  title="Installation & Setup"
   icon="rocket"
   href="/quickstart"
   horizontal
 >
-  Follow our three step quickstart guide.
+  Follow our quickstart guide to set up your development environment and start building knowledge graphs.
 </Card>
 
-## Make it yours
+## Architecture Overview
 
-Design a docs site that looks great and empowers your users.
+Redstring uses modern web technologies to deliver a powerful cognitive interface:
 
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
-  </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
-  </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
-  </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
-</Columns>
+- **React 18** with functional components and hooks
+- **Zustand** for performant state management with Maps
+- **React DnD** for drag-and-drop interactions
+- **Framer Motion** for smooth animations
+- **Vite** for fast development and building
+- **Web Workers** for canvas operations
 
-## Create beautiful pages
+## Key Concepts
 
-Everything you need to create world-class documentation.
+<CardGroup cols={2}>
+  <Card
+    title="Node Canvas"
+    icon="draw-polygon"
+    href="/components/node-canvas"
+  >
+    The main orchestration component handling SVG rendering, interactions, and state coordination.
+  </Card>
+  <Card
+    title="Graph Store"
+    icon="database"
+    href="/data/graph-store"
+  >
+    Zustand store managing graph data, node prototypes, and UI state with auto-save functionality.
+  </Card>
+  <Card
+    title="Semantic Editor"
+    icon="brain"
+    href="/components/semantic-editor"
+  >
+    Interface for browsing and importing knowledge from semantic web sources.
+  </Card>
+  <Card
+    title="Universe Manager"
+    icon="globe-americas"
+    href="/data/universe-manager"
+  >
+    File management system for .redstring workspace files with auto-save and recent files.
+  </Card>
+</CardGroup>
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
-
-## Need inspiration?
+## Development
 
 <Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
+  title="Development Guide"
+  icon="code"
+  href="/development"
+  horizontal
 >
-  Browse our showcase of exceptional documentation sites.
+  Learn about the development workflow, testing strategy, and contribution guidelines.
 </Card>
+
+---
+
+*Redstring transforms how you interact with interconnected information by providing a visual, navigable interface for complex knowledge structures.*

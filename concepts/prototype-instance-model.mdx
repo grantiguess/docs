@@ -1,0 +1,368 @@
+---
+title: "Prototype/Instance Model"
+description: "Understanding Redstring's dual-layer architecture for efficient knowledge representation"
+---
+
+# Prototype/Instance Model
+
+Redstring's **Prototype/Instance Model** is a fundamental architectural pattern that separates the conceptual definition of nodes from their spatial representation within graphs. This design enables powerful features like memory efficiency, consistency, and flexible reuse of concepts across multiple contexts.
+
+## Core Concept
+
+The model divides node data into two distinct layers:
+
+1. **Node Prototypes** - Define *what* a node is (the concept itself)
+2. **Node Instances** - Define *where* and *how* a node appears in specific graphs
+
+<img src="/images/prototype-instance-diagram.svg" alt="Prototype Instance Model Diagram" />
+
+## Node Prototypes
+
+**Prototypes** contain all the conceptual information about a node - its identity, meaning, and relationships.
+
+### Prototype Structure
+
+```javascript
+// Stored in: graphStore.nodePrototypes Map
+const nodePrototype = {
+  id: "quantum-mechanics",
+  name: "Quantum Mechanics",
+  color: "#8B5CF6",
+  description: "The branch of physics that describes the behavior of matter and energy at the atomic and subatomic scale...",
+  definitions: new Map([
+    ["physics-context", physicsDefinitionGraph],
+    ["philosophy-context", philosophyDefinitionGraph],
+    ["engineering-context", engineeringDefinitionGraph]
+  ])
+};
+```
+
+### Prototype Properties
+
+- **ID**: Unique identifier across the entire system
+- **Name**: Human-readable label
+- **Color**: Visual representation color
+- **Description**: Rich content that can be context-aware
+- **Definitions**: Multiple graphs defining the concept in different contexts
+
+### Why Prototypes Matter
+
+Prototypes enable:
+- **Consistency**: Change a concept once, see it updated everywhere
+- **Reusability**: Use the same concept in multiple knowledge domains
+- **Context Switching**: Different definitions for different analytical contexts
+- **Memory Efficiency**: No duplication of conceptual data
+
+## Node Instances
+
+**Instances** contain the spatial and presentation information for how a prototype appears within a specific graph context.
+
+### Instance Structure
+
+```javascript
+// Stored in: graph.instances Map
+const nodeInstance = {
+  id: "instance-uuid-123",
+  nodeId: "quantum-mechanics",  // Reference to prototype
+  position: { x: 250, y: 180 },
+  scale: 1.2,
+  metadata: {
+    created: "2024-01-15T10:30:00Z",
+    graphId: "physics-fundamentals"
+  }
+};
+```
+
+### Instance Properties
+
+- **ID**: Unique identifier for this specific instance
+- **Node ID**: Reference to the prototype this instance represents
+- **Position**: X, Y coordinates within the graph canvas
+- **Scale**: Size multiplier for this instance
+- **Metadata**: Context-specific information
+
+## The Relationship
+
+Here's how prototypes and instances work together:
+
+```javascript
+// One prototype can have many instances
+const quantumMechanicsPrototype = {
+  id: "quantum-mechanics",
+  name: "Quantum Mechanics",
+  // ... other prototype data
+};
+
+// Multiple instances in different graphs
+const instances = [
+  {
+    id: "instance-1",
+    nodeId: "quantum-mechanics",
+    position: { x: 100, y: 200 },  // In "Physics Overview" graph
+    scale: 1.0
+  },
+  {
+    id: "instance-2",
+    nodeId: "quantum-mechanics",
+    position: { x: 300, y: 150 },  // In "Modern Science" graph
+    scale: 0.8
+  },
+  {
+    id: "instance-3",
+    nodeId: "quantum-mechanics",
+    position: { x: 50, y: 300 },   // In "20th Century Discoveries" graph
+    scale: 1.5
+  }
+];
+```
+
+## Hydrated Nodes
+
+When rendering the interface, Redstring combines prototype and instance data to create **hydrated nodes**:
+
+```javascript
+// Utility function in the store
+const getHydratedNode = (state, instanceId, graphId) => {
+  const instance = state.graphs.get(graphId).instances.get(instanceId);
+  const prototype = state.nodePrototypes.get(instance.nodeId);
+
+  return {
+    // Instance data
+    id: instance.id,
+    position: instance.position,
+    scale: instance.scale,
+
+    // Prototype data
+    nodeId: prototype.id,
+    name: prototype.name,
+    color: prototype.color,
+    description: prototype.description,
+    definitions: prototype.definitions
+  };
+};
+```
+
+This hydration process happens efficiently using Zustand selectors to prevent unnecessary re-renders.
+
+## Context-Aware Definitions
+
+The prototype/instance model enables sophisticated context awareness. A single prototype can have multiple definition graphs, with different definitions active in different contexts:
+
+```javascript
+// Context-specific definition tracking
+nodeDefinitionIndices: Map<string, number>
+
+// Keys use composite format: "nodeId-graphId"
+nodeDefinitionIndices.set("quantum-mechanics-physics-overview", 0);    // Physics definition
+nodeDefinitionIndices.set("quantum-mechanics-philosophy-mind", 1);     // Philosophy definition
+nodeDefinitionIndices.set("quantum-mechanics-technology-apps", 2);     // Engineering definition
+```
+
+### Benefits of Context Awareness
+
+1. **Multi-perspective Analysis**: Same concept viewed through different lenses
+2. **Domain Expertise**: Definitions tailored to specific fields of study
+3. **Progressive Disclosure**: Basic to advanced definitions based on context
+4. **Audience Adaptation**: Different explanations for different audiences
+
+## Memory and Performance Benefits
+
+The prototype/instance separation provides significant performance advantages:
+
+### Memory Efficiency
+
+```javascript
+// Without prototype/instance model (inefficient)
+const inefficientNodes = [
+  {
+    id: "node-1",
+    name: "Democracy",           // Duplicated
+    color: "#3B82F6",           // Duplicated
+    description: "Long text...", // Duplicated
+    position: { x: 100, y: 200 }
+  },
+  {
+    id: "node-2",
+    name: "Democracy",           // Duplicated again!
+    color: "#3B82F6",           // Duplicated again!
+    description: "Long text...", // Duplicated again!
+    position: { x: 300, y: 150 }
+  }
+];
+
+// With prototype/instance model (efficient)
+const prototype = {
+  id: "democracy",
+  name: "Democracy",             // Stored once
+  color: "#3B82F6",             // Stored once
+  description: "Long text..."    // Stored once
+};
+
+const instances = [
+  { id: "i1", nodeId: "democracy", position: { x: 100, y: 200 } },
+  { id: "i2", nodeId: "democracy", position: { x: 300, y: 150 } }
+];
+```
+
+### Update Efficiency
+
+When you modify a concept:
+- **Single Update**: Change the prototype once
+- **Automatic Propagation**: All instances reflect the change immediately
+- **Consistency Guarantee**: No risk of partial updates or inconsistencies
+
+## Working with Prototypes and Instances
+
+### Creating Nodes
+
+When you create a new node in Redstring:
+
+1. **Prototype Creation**: A new prototype is added to `nodePrototypes` Map
+2. **Instance Creation**: An instance is created in the current graph
+3. **Connection**: The instance references the prototype via `nodeId`
+
+```javascript
+// Store action for creating a node
+const addNode = (graphId, position, nodeData) => {
+  const nodeId = generateUUID();
+  const instanceId = generateUUID();
+
+  // Create prototype
+  set(state => {
+    state.nodePrototypes.set(nodeId, {
+      id: nodeId,
+      ...nodeData
+    });
+  });
+
+  // Create instance in current graph
+  set(state => {
+    const graph = state.graphs.get(graphId);
+    graph.instances.set(instanceId, {
+      id: instanceId,
+      nodeId: nodeId,
+      position: position,
+      scale: 1.0
+    });
+  });
+};
+```
+
+### Moving and Scaling
+
+Instance operations (moving, scaling) only affect the instance data:
+
+```javascript
+const moveNodeInstance = (graphId, instanceId, newPosition) => {
+  set(state => {
+    const graph = state.graphs.get(graphId);
+    const instance = graph.instances.get(instanceId);
+    instance.position = newPosition;
+  });
+};
+```
+
+### Editing Concepts
+
+Prototype operations affect all instances:
+
+```javascript
+const updateNodePrototype = (nodeId, updates) => {
+  set(state => {
+    const prototype = state.nodePrototypes.get(nodeId);
+    Object.assign(prototype, updates);
+    // All instances automatically reflect this change
+  });
+};
+```
+
+## Advanced Patterns
+
+### Node Reuse Across Graphs
+
+You can easily reuse existing concepts in new contexts:
+
+```javascript
+const addExistingNodeToGraph = (graphId, nodeId, position) => {
+  const instanceId = generateUUID();
+
+  set(state => {
+    const graph = state.graphs.get(graphId);
+    graph.instances.set(instanceId, {
+      id: instanceId,
+      nodeId: nodeId,  // Reuse existing prototype
+      position: position,
+      scale: 1.0
+    });
+  });
+};
+```
+
+### Bulk Operations
+
+The model enables efficient bulk operations:
+
+```javascript
+// Recolor all instances of a concept type
+const recolorConceptType = (conceptType, newColor) => {
+  set(state => {
+    for (const [nodeId, prototype] of state.nodePrototypes) {
+      if (prototype.type === conceptType) {
+        prototype.color = newColor;
+        // All instances automatically update
+      }
+    }
+  });
+};
+```
+
+## Data Cleanup
+
+The prototype/instance model requires careful cleanup to prevent orphaned data:
+
+```javascript
+const cleanupOrphanedData = () => {
+  set(state => {
+    // Find all referenced node IDs
+    const referencedNodeIds = new Set();
+    for (const graph of state.graphs.values()) {
+      for (const instance of graph.instances.values()) {
+        referencedNodeIds.add(instance.nodeId);
+      }
+    }
+
+    // Remove unreferenced prototypes
+    for (const nodeId of state.nodePrototypes.keys()) {
+      if (!referencedNodeIds.has(nodeId)) {
+        state.nodePrototypes.delete(nodeId);
+      }
+    }
+  });
+};
+```
+
+## Best Practices
+
+### Design Principles
+
+1. **Think Conceptually First**: Design your prototypes before worrying about layout
+2. **Reuse Over Recreation**: Check if a concept already exists before creating new prototypes
+3. **Consistent Naming**: Use clear, unambiguous names for prototypes
+4. **Color Coding**: Develop a consistent color scheme for different concept types
+
+### Performance Optimization
+
+1. **Batch Updates**: Group related prototype changes together
+2. **Efficient Selectors**: Use specific selectors to minimize re-renders
+3. **Regular Cleanup**: Periodically remove orphaned prototypes
+4. **Memory Monitoring**: Watch for memory leaks from unreleased references
+
+### Data Integrity
+
+1. **Validation**: Ensure instance `nodeId` references exist in prototypes
+2. **Backup Strategies**: Save prototypes and instances separately if needed
+3. **Migration Paths**: Plan for schema changes in your data model
+
+---
+
+The Prototype/Instance Model is what makes Redstring scalable and efficient for complex knowledge representation. By understanding this pattern, you can build sophisticated knowledge graphs that remain performant and maintainable as they grow in size and complexity.
