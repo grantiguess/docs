@@ -1,0 +1,41 @@
+---
+title: "gfLog"
+description: "React component: Universe Backend Service This is the TRUE backend for universe management that should run independently of any UI components. All universe operations should go through this service. The UI (GitNativeFederation.jsx) should ONLY display data and call these methods."
+---
+
+# gfLog
+
+Universe Backend Service This is the TRUE backend for universe management that should run independently of any UI components. All universe operations should go through this service. The UI (GitNativeFederation.jsx) should ONLY display data and call these methods.
+
+## Location
+`src/services/universeBackend.js`
+
+## Props
+
+This component does not accept props.
+
+## Hooks Used
+
+- `user`
+- `userAgent`
+- `useGraphStore`
+- `uses`
+- `used`
+
+## Dependencies
+
+- `../backend/sync/index.js`
+- `../backend/auth/index.js`
+- `../backend/git/index.js`
+- `./startupCoordinator.js`
+- `../formats/redstringFormat.js`
+- `uuid`
+- `../utils/deviceDetection.js`
+- `./bridgeConfig.js`
+- `../utils/storageWrapper.js`
+- `./fileHandlePersistence.js`
+- `../utils/fileAccessAdapter.js`
+
+---
+
+*Auto-generated from source code*

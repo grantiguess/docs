@@ -1,0 +1,198 @@
+---
+title: "universeBackend"
+description: "Service: Universe Backend Service This is the TRUE backend for universe management that should run independently of any UI components. All universe operations should go through this service. The UI (GitNativeFederation.jsx) should ONLY display data and call these methods."
+---
+
+# universeBackend
+
+Universe Backend Service This is the TRUE backend for universe management that should run independently of any UI components. All universe operations should go through this service. The UI (GitNativeFederation.jsx) should ONLY display data and call these methods.
+
+## Location
+`src/services/universeBackend.js`
+
+## Functions
+
+
+### gfLog
+
+```javascript
+const gfLog = (...args) =>
+```
+
+No description available.
+
+
+### gfWarn
+
+```javascript
+const gfWarn = (...args) =>
+```
+
+No description available.
+
+
+### gfError
+
+```javascript
+const gfError = (...args) =>
+```
+
+No description available.
+
+
+### extractSchemaPath
+
+```javascript
+const extractSchemaPath = (filePath) =>
+```
+
+No description available.
+
+
+### createUniverseConfigFromDiscovered
+
+```javascript
+const createUniverseConfigFromDiscovered = (discoveredUniverse, repoConfig) =>
+```
+
+No description available.
+
+
+### discoverUniversesWithStats
+
+```javascript
+const discoverUniversesWithStats = async (provider) =>
+```
+
+No description available.
+
+
+### normalizePathValue
+
+```javascript
+const normalizePathValue = (value) =>
+```
+
+No description available.
+
+
+### joinPaths
+
+```javascript
+const joinPaths = (...parts) =>
+```
+
+No description available.
+
+
+### tryParseRedstring
+
+```javascript
+const tryParseRedstring = (text) =>
+```
+
+No description available.
+
+
+### collectFromDir
+
+```javascript
+const collectFromDir = async (dirPath) =>
+```
+
+No description available.
+
+
+### createLocalFileError
+
+```javascript
+function createLocalFileError(
+```
+
+No description available.
+
+
+### processAuthEvent
+
+```javascript
+const processAuthEvent = async (trigger = 'immediate') =>
+```
+
+No description available.
+
+
+### scheduleAuthEvent
+
+```javascript
+const scheduleAuthEvent = (delayMs) =>
+```
+
+No description available.
+
+
+### resolveDiscoveryAuth
+
+```javascript
+const resolveDiscoveryAuth = async (preferredMethod = null) =>
+```
+
+No description available.
+
+
+### refreshDiscoveryAuth
+
+```javascript
+const refreshDiscoveryAuth = async (currentContext) =>
+```
+
+No description available.
+
+
+### runDiscovery
+
+```javascript
+const runDiscovery = async (context, allowRetry = true) =>
+```
+
+No description available.
+
+
+### ensurePermission
+
+```javascript
+const ensurePermission = async () =>
+```
+
+No description available.
+
+
+### isPermissionError
+
+```javascript
+const isPermissionError = (error) =>
+```
+
+No description available.
+
+
+### shouldSync
+
+```javascript
+const shouldSync = (last) =>
+```
+
+No description available.
+
+
+### isPermissionError
+
+```javascript
+const isPermissionError = (error) =>
+```
+
+No description available.
+
+
+---
+
+*Auto-generated from source code*

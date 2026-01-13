@@ -1,0 +1,171 @@
+---
+title: "fileHandlePersistence"
+description: "Service: File Handle Persistence Service Handles persistent storage of File System Access API handles and metadata. Since FileSystemFileHandle objects cannot be serialized, we store metadata and attempt to restore access using the permission system. In Electron: file handles are string paths stored in a local JSON file. In Browser: file handles are FileSystemFileHandle objects stored in IndexedDB."
+---
+
+# fileHandlePersistence
+
+File Handle Persistence Service Handles persistent storage of File System Access API handles and metadata. Since FileSystemFileHandle objects cannot be serialized, we store metadata and attempt to restore access using the permission system. In Electron: file handles are string paths stored in a local JSON file. In Browser: file handles are FileSystemFileHandle objects stored in IndexedDB.
+
+## Location
+`src/services/fileHandlePersistence.js`
+
+## Functions
+
+
+### electronGetAll
+
+```javascript
+const electronGetAll = async () =>
+```
+
+No description available.
+
+
+### electronGet
+
+```javascript
+const electronGet = async (universeSlug) =>
+```
+
+No description available.
+
+
+### electronSet
+
+```javascript
+const electronSet = async (universeSlug, record) =>
+```
+
+No description available.
+
+
+### electronRemove
+
+```javascript
+const electronRemove = async (universeSlug) =>
+```
+
+No description available.
+
+
+### electronClear
+
+```javascript
+const electronClear = async () =>
+```
+
+No description available.
+
+
+### openDB
+
+```javascript
+const openDB = () =>
+```
+
+No description available.
+
+
+### storeFileHandleMetadata
+
+```javascript
+export const storeFileHandleMetadata = async (universeSlug, fileHandle = null, additionalMetadata = {}) =>
+```
+
+No description available.
+
+
+### getFileHandleMetadata
+
+```javascript
+export const getFileHandleMetadata = async (universeSlug) =>
+```
+
+No description available.
+
+
+### getAllFileHandleMetadata
+
+```javascript
+export const getAllFileHandleMetadata = async () =>
+```
+
+No description available.
+
+
+### removeFileHandleMetadata
+
+```javascript
+export const removeFileHandleMetadata = async (universeSlug) =>
+```
+
+No description available.
+
+
+### checkFileHandlePermission
+
+```javascript
+export const checkFileHandlePermission = async (fileHandle) =>
+```
+
+No description available.
+
+
+### requestFileHandlePermission
+
+```javascript
+export const requestFileHandlePermission = async (fileHandle) =>
+```
+
+No description available.
+
+
+### verifyFileHandleAccess
+
+```javascript
+export const verifyFileHandleAccess = async (fileHandle) =>
+```
+
+No description available.
+
+
+### attemptRestoreFileHandle
+
+```javascript
+export const attemptRestoreFileHandle = async (universeSlug, sessionHandle = null) =>
+```
+
+No description available.
+
+
+### touchFileHandle
+
+```javascript
+export const touchFileHandle = async (universeSlug, fileHandle = null) =>
+```
+
+No description available.
+
+
+### clearAllFileHandleMetadata
+
+```javascript
+export const clearAllFileHandleMetadata = async () =>
+```
+
+No description available.
+
+
+### debugFileHandles
+
+```javascript
+export const debugFileHandles = async () =>
+```
+
+No description available.
+
+
+---
+
+*Auto-generated from source code*

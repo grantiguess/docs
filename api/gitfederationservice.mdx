@@ -1,0 +1,135 @@
+---
+title: "gitFederationService"
+description: "Service: Attach Git repository to an existing universe IMPORTANT: This implements the 2-SLOT STORAGE SYSTEM - Universes can have BOTH local file AND Git storage simultaneously - sourceOfTruth determines which is PRIMARY (authoritative) - The other slot serves as BACKUP/SECONDARY storage This function preserves the existing sourceOfTruth to avoid data loss: - If universe has local file enabled → keeps 'local' as primary, Git becomes backup - If universe has no sourceOfTruth set → defaults to 'git' - User can explicitly change primary via setPrimaryStorage()"
+---
+
+# gitFederationService
+
+Attach Git repository to an existing universe IMPORTANT: This implements the 2-SLOT STORAGE SYSTEM - Universes can have BOTH local file AND Git storage simultaneously - sourceOfTruth determines which is PRIMARY (authoritative) - The other slot serves as BACKUP/SECONDARY storage This function preserves the existing sourceOfTruth to avoid data loss: - If universe has local file enabled → keeps 'local' as primary, Git becomes backup - If universe has no sourceOfTruth set → defaults to 'git' - User can explicitly change primary via setPrimaryStorage()
+
+## Location
+`src/services/gitFederationService.js`
+
+## Functions
+
+
+### gfLog
+
+```javascript
+const gfLog = (...args) =>
+```
+
+No description available.
+
+
+### gfWarn
+
+```javascript
+const gfWarn = (...args) =>
+```
+
+No description available.
+
+
+### slotId
+
+```javascript
+const slotId = (() =>
+```
+
+No description available.
+
+
+### toIsoTimestamp
+
+```javascript
+function toIsoTimestamp(
+```
+
+No description available.
+
+
+### resolveLocalStatus
+
+```javascript
+function resolveLocalStatus(
+```
+
+No description available.
+
+
+### normalizeRepository
+
+```javascript
+function normalizeRepository(
+```
+
+No description available.
+
+
+### buildSlotsFromUniverse
+
+```javascript
+function buildSlotsFromUniverse(
+```
+
+No description available.
+
+
+### buildSyncInfo
+
+```javascript
+function buildSyncInfo(
+```
+
+No description available.
+
+
+### mapUniverse
+
+```javascript
+function mapUniverse(
+```
+
+No description available.
+
+
+### buildSyncStatusMap
+
+```javascript
+function buildSyncStatusMap(
+```
+
+No description available.
+
+
+### loadBackendState
+
+```javascript
+function loadBackendState(
+```
+
+No description available.
+
+
+### fetchAuthState
+
+```javascript
+function fetchAuthState(
+```
+
+No description available.
+
+
+### ensureUniverseName
+
+```javascript
+function ensureUniverseName(
+```
+
+No description available.
+
+
+---
+
+*Auto-generated from source code*

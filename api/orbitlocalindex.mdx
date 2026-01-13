@@ -1,0 +1,72 @@
+---
+title: "orbitLocalIndex"
+description: "Service: Ingests catalog entries and optionally upserts protected prototypes into the store. Each entry shape: { uri: 'http://example.org/entity', label: 'Example', description?: '...', types?: ['Q5'], source?: 'orbit-local', related?: [{ uri, label, predicate?, source?, types? }] }"
+---
+
+# orbitLocalIndex
+
+Ingests catalog entries and optionally upserts protected prototypes into the store. Each entry shape: { uri: 'http://example.org/entity', label: 'Example', description?: '...', types?: ['Q5'], source?: 'orbit-local', related?: [{ uri, label, predicate?, source?, types? }] }
+
+## Location
+`src/services/orbitLocalIndex.js`
+
+## Functions
+
+
+### normalizeLabel
+
+```javascript
+const normalizeLabel = (label) =>
+```
+
+No description available.
+
+
+### clearOrbitIndex
+
+```javascript
+export function clearOrbitIndex(
+```
+
+No description available.
+
+
+### addLabelIndex
+
+```javascript
+function addLabelIndex(
+```
+
+No description available.
+
+
+### ingestOrbitIndexEntries
+
+```javascript
+export function ingestOrbitIndexEntries(
+```
+
+No description available.
+
+
+### getEntryForPrototype
+
+```javascript
+function getEntryForPrototype(
+```
+
+No description available.
+
+
+### findLocalOrbitCandidates
+
+```javascript
+function findLocalOrbitCandidates(
+```
+
+No description available.
+
+
+---
+
+*Auto-generated from source code*
