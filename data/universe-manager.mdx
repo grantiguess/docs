@@ -1,0 +1,51 @@
+---
+title: "Universe Manager"
+description: "Managing workspaces and data boundaries"
+---
+
+# Universe Manager
+
+In Redstring, a "Workspace" is referred to as a **Universe**. Each Universe is a self-contained silo of knowledge, typically mapped to a specific folder on your file system.
+
+## The Concept of a "Universe"
+
+A Universe acts as a boundary context through which:
+1.  **File System Access** is scoped (Sandbox).
+2.  **Semantic Context** is defined (e.g., "Personal Graph" vs "Work Graph").
+3.  **Settings** are persisted.
+
+## Universe Backend
+
+The `UniverseBackend` service orchestrates the loading and saving of these contexts. It bridges the gap between:
+*   **Electron Main Process**: Native file system access.
+*   **Web Environment**: Browser FS API (OPFS).
+
+### Storage Slots
+
+To support our "Git-Native" philosophy, a Universe has a **Dual-Slot Storage System**:
+
+| Slot | Purpose | Behavior |
+|------|---------|----------|
+| **Local Slot** | Speed & Privacy | Reads/Writes directly to local disk (or IndexedDB). |
+| **Git Slot** | Sync & History | Reads/Writes to a local Git repository. |
+
+> [!TIP]
+> **Source of Truth**: users can toggle which slot is authoritative. You might work locally for speed and push to Git for backup, or treat Git as primary to sync between machines.
+
+## universe-manager.json
+
+The application maintains a global `universe-manager.json` configuration file in the app data directory. This acts as the "Registry" of known universes.
+
+```json
+{
+  "activeUniverseId": "uni-123",
+  "universes": [
+    {
+      "id": "uni-123",
+      "name": "My Brain",
+      "path": "/Users/me/Brain",
+      "lastAccessed": 1715000000
+    }
+  ]
+}
+```

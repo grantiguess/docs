@@ -1,33 +1,39 @@
 ---
-title: "PanelModal"
-description: "React component: Panel Modal Component Positions content within a panel area with canvas-colored styling and drop shadow. Includes margins and proper backdrop handling."
+title: "Panel System"
+description: "The unified control interface for Redstring"
 ---
 
-# PanelModal
+# Unified Panel System
 
-Panel Modal Component Positions content within a panel area with canvas-colored styling and drop shadow. Includes margins and proper backdrop handling.
+Redstring avoids cluttering the canvas with floating toolbars. Instead, all heavy interactions happen in the **Unified Panel**.
 
-## Location
-`src/components/PanelModal.jsx`
+## Architecture
 
-## Props
+The Panel is a modal overlay that can exist in three states:
+1.  **Hidden**: Completely removed from DOM.
+2.  **Docked**: Pinned to the side of the screen.
+3.  **Floating**: Draggable window over the canvas.
 
-This component does not accept props.
+### Context Awareness
 
-## Hooks Used
+The Panel content changes dynamically based on **Selection Context**:
 
-- `useEffect`
-- `useRef`
-- `useViewportBounds`
-- `useGraphStore`
-- `useEnter`
-- `useLeave`
+*   **No Selection**: Shows Global Search & Settings.
+*   **Single Node**: Shows Node Inspector (Properties, Text Editor).
+*   **Multiple Nodes**: Shows Bulk Actions (Align, Color, Group).
 
-## Dependencies
+## Key Components
 
-- `../hooks/useViewportBounds`
-- `../store/graphStore.jsx`
+### `PanelModal`
+The container wrapper that handles the window chrome (header, resize handles, drag logic).
 
----
+### `InternalPanelRouter`
+A switch-case component that renders the correct "View" based on the store state.
 
-*Auto-generated from source code*
+*   `LeftHistoryView`: Undo/Redo stack visualization.
+*   `LeftLibraryView`: Asset browser.
+*   `NodeProperties`: The semantic editor for a node.
+
+## Design Philosophy
+
+We use a **"Command Center"** philosophy. The user works freely on the canvas, then "retreats" to the Panel for deep work (writing long notes, tweaking metadata), then returns to the canvas. This separates "Thinking" (Canvas) from "Defining" (Panel).

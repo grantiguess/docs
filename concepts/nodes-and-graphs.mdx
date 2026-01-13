@@ -1,0 +1,58 @@
+---
+title: "Nodes and Graphs"
+description: "The fundamental mental model of Redstring's universe"
+---
+
+# Nodes and Graphs
+
+Redstring is built on a **Visual Knowledge Graph** philosophy. Unlike traditional note-taking apps that are hierarchical (folders) or linear (documents), Redstring is spatial and relational.
+
+## The Graph Model
+
+At its core, a Redstring "Universe" is a collection of:
+
+1.  **Nodes**: The entities, ideas, or files.
+2.  **Edges**: The relationships connecting them.
+3.  **Space**: The 2D coordinates where they live.
+
+> [!NOTE]
+> **Rapid Prototyping Architecture**: The current implementation treats the graph as a single, large JSON structure loaded entirely into memory. This "monolithic state" approach allows for incredibly fast iteration and features like instant undo/redo, though it trades off some scalability for speed in this early alpha phase.
+
+## Nodes: The Atoms of Thought
+
+In Redstring, a Node isn't just a text box. It's a container that can hold various types of data.
+
+```javascript
+// Simplified Node Structure
+{
+  "id": "uuid-v4-string",
+  "data": {
+    "label": "My Idea",
+    "type": "note", // or 'image', 'video', 'pdf'
+    "content": "..."
+  },
+  "position": { "x": 100, "y": 200 },
+  "style": { "width": 300, "height": 200 }
+}
+```
+
+### Node Types
+*   **Note**: Text-based nodes (Markdown support).
+*   **Semantic Node**: A node with strict types and properties (RDF-backed).
+*   **Media**: Images, Videos.
+*   **File**: links to local files.
+
+## Edges: The Connections
+
+Edges in Redstring are more than just visual lines; they represent semantic relationships.
+
+*   **Directional**: A -> B (A "relates to" B)
+*   **Labeled**: Edges can have text labels explaining the relationship.
+*   **Semantic**: In Semantic Mode, edges map to RDF predicates (e.g., `foaf:knows`, `dc:creator`).
+
+## The Canvas
+
+The `NodeCanvas` is the infinite 2D plane where your graph lives. It supports:
+*   **Pan & Zoom**: Infinite navigation.
+*   **Spatial Organization**: Grouping items by proximity.
+*   **Multi-Selection**: Lasso-select to manipulate groups of thoughts.

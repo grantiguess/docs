@@ -1,163 +1,36 @@
 ---
 title: "NodeCanvas"
-description: "React component: Transforms client/screen coordinates to canvas coordinates. Wrapper around GeometryUtils.clientToCanvasCoordinates with current state."
+description: "The infinite spatial interface engine"
 ---
 
 # NodeCanvas
 
-Transforms client/screen coordinates to canvas coordinates. Wrapper around GeometryUtils.clientToCanvasCoordinates with current state.
+The `NodeCanvas` is the heart of Redstring. It is more than just a `div`; it is a complex interaction engine handling gestures, virtualization, and coordinate systems.
 
-## Location
-`src/NodeCanvas.jsx`
+## Key Features
 
-## Props
+1.  **Infinite Pan/Zoom**: Powered by D3-zoom behavior with smooth inertial damping.
+2.  **Virtualization**: Uses `react-window` concepts (custom implementation) to cull nodes outside the viewport, maintaining 60fps even with 10k+ items.
+3.  **Coordinate Systems**: Manages the translation between "Screen Space" (pixels on your monitor) and "Graph Space" (logical coordinates).
 
-This component does not accept props.
+## Interaction Model
 
-## Hooks Used
+### Navigation
+*   **Pan**: Middle-click drag OR Space + Left-click drag.
+*   **Zoom**: Mouse wheel.
+*   **Fit View**: Double-tap spacebar centered the view on content.
 
-- `useState`
-- `useRef`
-- `useEffect`
-- `useLayoutEffect`
-- `useMemo`
-- `useCallback`
-- `useCanvasWorker`
-- `usel`
-- `useDrop`
-- `useGraphStore`
-- `useHistoryStore`
-- `useKeyboardShortcuts`
-- `useViewportBounds`
-- `useNodeActions`
-- `useControlPanelActions`
-- `used`
-- `userAgent`
-- `useDownRef`
-- `useDownResetTimeoutRef`
-- `userSelect`
-- `useDown`
-- `useEnter`
-- `useLeave`
-- `useMoved`
-- `useInsideNode`
-- `useMove`
-- `useDownPosition`
-- `useUp`
-- `useX`
-- `useY`
-- `useCanvasX`
-- `useCanvasY`
-- `user`
-- `usePosRef`
-- `usePositionRef`
-- `usemove`
-- `useExistingPositions`
-- `uselLevel`
-- `uselPieMenuStage`
-- `uselStageTransition`
-- `uselRelativeMoveRequest`
-- `useMovedSinceDown`
-- `uselVisible`
-- `uselNode`
-- `uselFocusedNodeScale`
-- `uselFocusedNodeDimensions`
-- `uselFocusedNode`
-- `uselAnimationState`
-- `uselExit`
-- `uselAnimationStateChange`
-- `uselClose`
-- `uselClosedByClickAwayRef`
-- `uselReplaceNode`
-- `uselExitAnimationComplete`
-- `usedPrototypeId`
-- `uselExitInProgressRef`
-- `usedInstanceId`
-- `uselMode`
-- `usedCarouselNode`
-- `usedNode`
-- `uselStage`
-- `use_wheel`
-- `useWheelPattern`
-- `useWheel`
-- `useEvidence`
-- `usePos`
-- `usedown`
-- `use_down`
-- `uses`
-- `useUpCanvas`
-- `uselNodeId`
-- `uselNodeProtoId`
-- `users`
-- `useup`
-- `uselCenterX`
-- `uselCenterY`
-- `usedNodeId`
-- `usedNodeName`
-- `usels`
-- `usedNodeDimensions`
-- `usedNodeChange`
+### Manipulation
+*   **Selection**: Click to select. Shift+Click to add to selection.
+*   **Marquee**: Click-drag on empty space creates a selection box.
+*   **Transform**: Drag interactions are passed to the `GraphStore` which updates coordinates via Immer for performance.
 
-## Dependencies
+## The Rendering Loop
 
-- `lethargy`
-- `lucide-react`
-- `./Header.jsx`
-- `./useCanvasWorker.js`
-- `./Node.jsx`
-- `./PlusSign.jsx`
-- `./VideoNodeAnimation.jsx`
-- `./PieMenu.jsx`
-- `./AbstractionCarousel.jsx`
-- `./AbstractionControlPanel.jsx`
-- `./NodeControlPanel.jsx`
-- `./ConnectionControlPanel.jsx`
-- `./UnifiedBottomControlPanel.jsx`
-- `./components/EdgeGlowIndicator.jsx`
-- `./BackToCivilization.jsx`
-- `./components/HoverVisionAid.jsx`
-- `./utils.js`
-- `./utils/colorUtils.js`
-- `./utils/abstraction.js`
-- `./utils/clipboard.js`
-- `./utils/clusterAnalysis.js`
-- `uuid`
-- `lucide-react`
-- `./ColorPicker`
-- `react-dnd`
-- `./services/orbitResolver.js`
-- `./components/GlobalContextMenu`
-- `./services/folderPersistence.js`
-- `./utils/fileAccessAdapter.js`
-- `./components/AutoGraphModal`
-- `./components/ForceSimulationModal`
-- `./services/autoGraphGenerator`
-- `./services/graphLayoutService.js`
-- `./services/canvasNavigationService.js`
-- `./utils/debugLogger.js`
-- `./store/historyStore.js`
-- `zustand/shallow`
-- `./constants`
-- `./hooks/useKeyboardShortcuts`
-- `./hooks/useViewportBounds`
-- `./hooks/useNodeActions`
-- `./hooks/useControlPanelActions`
-- `./utils/canvas/colorUtils.js`
-- `./utils/canvas/portPositioning.js`
-- `./utils/canvas/edgeRouting.js`
-- `./components/EdgeRenderer.jsx`
-- `./utils/canvas/parallelEdgeUtils.js`
-- `./Panel`
-- `./TypeList`
-- `./SaveStatusDisplay`
-- `./NodeSelectionGrid`
-- `./UnifiedSelector`
-- `./components/OrbitOverlay.jsx`
-- `./components/AlphaOnboardingModal.jsx`
-- `./components/StorageSetupModal.jsx`
-- `./components/HelpModal.jsx`
-- `./components/shared/CanvasConfirmDialog.jsx`
+To maintain performance, the Canvas separates **Layout** from **Rendering**.
 
----
+1.  **Layout (Store)**: React state holds the logic.
+2.  **Rendering (CSS/SVG)**: We use CSS Transforms for node positioning (GPU accelerated) and SVG for edges (vector precision).
 
-*Auto-generated from source code*
+> [!NOTE]
+> **Optimization**: We intentionally avoid React Re-renders for drag operations. Instead, we use refs and direct DOM manipulation for the "dragging" frame, only syncing to the store on `dragEnd`.

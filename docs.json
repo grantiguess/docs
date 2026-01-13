@@ -33,10 +33,10 @@
           {
             "group": "Components",
             "pages": [
-              "components/node-canvas",
-              "components/pie-menu",
-              "components/panel",
-              "components/semantic-editor"
+              "components/nodecanvas",
+              "components/piemenu",
+              "components/panelmodal",
+              "components/node"
             ]
           },
           {
@@ -105,15 +105,15 @@
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
     "socials": {
