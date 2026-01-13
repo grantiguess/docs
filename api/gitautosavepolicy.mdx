@@ -5,7 +5,7 @@ description: "Service: Git Autosave Policy - Implementation of intelligent auto-
 
 # GitAutosavePolicy
 
-Git Autosave Policy - Implementation of intelligent auto-commit policy Features: - Debounce edits: commit after 10s idle OR 90s max - Batch changes: 1 commit per burst, never per keystroke - Cap: ≤60 commits/hr/repo/user - Serialize writes; ≥1s gap between mutating API calls - Backoff on 403/Retry-After; exponential retry - File size: <10MiB ideal, <50MiB soft cap, never ≥100MB - Repo size monitoring with LFS recommendations - Periodic squash: condense autosave commits daily/weekly - Shallow/partial clones recommended - CI: filter autosave commits to avoid workflow storms
+Git Autosave Policy - Implementation of intelligent auto-commit policy Features: - Debounce edits: commit after 10s idle OR 90s max - Batch changes: 1 commit per burst, never per keystroke - Cap: ≤60 commits/hr/repo/user - Serialize writes; ≥1s gap between mutating API calls - Backoff on 403/Retry-After; exponential retry - File size: \<10MiB ideal, \<50MiB soft cap, never ≥100MB - Repo size monitoring with LFS recommendations - Periodic squash: condense autosave commits daily/weekly - Shallow/partial clones recommended - CI: filter autosave commits to avoid workflow storms
 
 ## Location
 `src/services/GitAutosavePolicy.js`

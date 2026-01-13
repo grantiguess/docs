@@ -359,7 +359,7 @@ This documentation is automatically generated from the Redstring source code.
     ExecutionTracer - Centralized trace recording for Wizard pipeline Records execution traces across all pipeline stages: Planner → Executor → Auditor → Committer → Continuation Enables debugging by providing complete visibility into what happened during each conversation.
   </Card>
   <Card title="GitAutosavePolicy" href="/api/gitautosavepolicy">
-    Git Autosave Policy - Implementation of intelligent auto-commit policy Features: - Debounce edits: commit after 10s idle OR 90s max - Batch changes: 1 commit per burst, never per keystroke - Cap: ≤60 commits/hr/repo/user - Serialize writes; ≥1s gap between mutating API calls - Backoff on 403/Retry-After; exponential retry - File size: <10MiB ideal, <50MiB soft cap, never ≥100MB - Repo size monitoring with LFS recommendations - Periodic squash: condense autosave commits daily/weekly - Shallow/partial clones recommended - CI: filter autosave commits to avoid workflow storms
+    Git Autosave Policy - Implementation of intelligent auto-commit policy Features: - Debounce edits: commit after 10s idle OR 90s max - Batch changes: 1 commit per burst, never per keystroke - Cap: ≤60 commits/hr/repo/user - Serialize writes; ≥1s gap between mutating API calls - Backoff on 403/Retry-After; exponential retry - File size: \<10MiB ideal, \<50MiB soft cap, never ≥100MB - Repo size monitoring with LFS recommendations - Periodic squash: condense autosave commits daily/weekly - Shallow/partial clones recommended - CI: filter autosave commits to avoid workflow storms
   </Card>
   <Card title="GitHubAPIWrapper" href="/api/githubapiwrapper">
     GitHub API Wrapper with timeout and retry logic Fixes authentication and hanging request issues in cloud deployments
@@ -494,7 +494,7 @@ This documentation is automatically generated from the Redstring source code.
     OAuth Auto-Connect Service Provides robust OAuth auto-connection functionality that is independent of any UI component. Handles both OAuth tokens and GitHub App installations.
   </Card>
   <Card title="orbitLocalIndex" href="/api/orbitlocalindex">
-    Ingests catalog entries and optionally upserts protected prototypes into the store. Each entry shape: { uri: 'http://example.org/entity', label: 'Example', description?: '...', types?: ['Q5'], source?: 'orbit-local', related?: [{ uri, label, predicate?, source?, types? }] }
+    Ingests catalog entries and optionally upserts protected prototypes into the store. Each entry shape: \{ uri: 'http://example.org/entity', label: 'Example', description?: '...', types?: ['Q5'], source?: 'orbit-local', related?: [\{ uri, label, predicate?, source?, types? \}] \}
   </Card>
   <Card title="orbitResolver" href="/api/orbitresolver">
     orbitResolver service documentation
@@ -593,7 +593,7 @@ This documentation is automatically generated from the Redstring source code.
     ExecutionTracer - Centralized trace recording for Wizard pipeline Records execution traces across all pipeline stages: Planner → Executor → Auditor → Committer → Continuation Enables debugging by providing complete visibility into what happened during each conversation.
   </Card>
   <Card title="GitAutosavePolicy" href="/api/gitautosavepolicy">
-    Git Autosave Policy - Implementation of intelligent auto-commit policy Features: - Debounce edits: commit after 10s idle OR 90s max - Batch changes: 1 commit per burst, never per keystroke - Cap: ≤60 commits/hr/repo/user - Serialize writes; ≥1s gap between mutating API calls - Backoff on 403/Retry-After; exponential retry - File size: <10MiB ideal, <50MiB soft cap, never ≥100MB - Repo size monitoring with LFS recommendations - Periodic squash: condense autosave commits daily/weekly - Shallow/partial clones recommended - CI: filter autosave commits to avoid workflow storms
+    Git Autosave Policy - Implementation of intelligent auto-commit policy Features: - Debounce edits: commit after 10s idle OR 90s max - Batch changes: 1 commit per burst, never per keystroke - Cap: ≤60 commits/hr/repo/user - Serialize writes; ≥1s gap between mutating API calls - Backoff on 403/Retry-After; exponential retry - File size: \<10MiB ideal, \<50MiB soft cap, never ≥100MB - Repo size monitoring with LFS recommendations - Periodic squash: condense autosave commits daily/weekly - Shallow/partial clones recommended - CI: filter autosave commits to avoid workflow storms
   </Card>
   <Card title="GitHubAPIWrapper" href="/api/githubapiwrapper">
     GitHub API Wrapper with timeout and retry logic Fixes authentication and hanging request issues in cloud deployments
@@ -728,7 +728,7 @@ This documentation is automatically generated from the Redstring source code.
     OAuth Auto-Connect Service Provides robust OAuth auto-connection functionality that is independent of any UI component. Handles both OAuth tokens and GitHub App installations.
   </Card>
   <Card title="orbitLocalIndex" href="/api/orbitlocalindex">
-    Ingests catalog entries and optionally upserts protected prototypes into the store. Each entry shape: { uri: 'http://example.org/entity', label: 'Example', description?: '...', types?: ['Q5'], source?: 'orbit-local', related?: [{ uri, label, predicate?, source?, types? }] }
+    Ingests catalog entries and optionally upserts protected prototypes into the store. Each entry shape: \{ uri: 'http://example.org/entity', label: 'Example', description?: '...', types?: ['Q5'], source?: 'orbit-local', related?: [\{ uri, label, predicate?, source?, types? \}] \}
   </Card>
   <Card title="orbitResolver" href="/api/orbitresolver">
     orbitResolver service documentation
@@ -1462,4 +1462,4 @@ This documentation is automatically generated from the Redstring source code.
 
 ---
 
-*This documentation is automatically generated from source code. Last updated: 2026-01-13T17:24:20.876Z*
+*This documentation is automatically generated from source code. Last updated: 2026-01-13T17:32:29.455Z*
