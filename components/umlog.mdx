@@ -1,0 +1,34 @@
+---
+title: "umLog"
+description: "React component: Attach Git repository to an existing universe IMPORTANT: This implements the 2-SLOT STORAGE SYSTEM - Universes can have BOTH local file AND Git storage simultaneously - sourceOfTruth determines which is PRIMARY (authoritative) - The other slot serves as BACKUP/SECONDARY storage This function preserves the existing sourceOfTruth to avoid data loss: - If universe has local file enabled → keeps 'local' as primary, Git becomes backup - If universe has no sourceOfTruth set → defaults to 'git' - User can explicitly change primary via setPrimaryStorage()"
+---
+
+# umLog
+
+Attach Git repository to an existing universe IMPORTANT: This implements the 2-SLOT STORAGE SYSTEM - Universes can have BOTH local file AND Git storage simultaneously - sourceOfTruth determines which is PRIMARY (authoritative) - The other slot serves as BACKUP/SECONDARY storage This function preserves the existing sourceOfTruth to avoid data loss: - If universe has local file enabled → keeps 'local' as primary, Git becomes backup - If universe has no sourceOfTruth set → defaults to 'git' - User can explicitly change primary via setPrimaryStorage()
+
+## Location
+`src/services/universeManagerService.js`
+
+## Props
+
+This component does not accept props.
+
+## Hooks Used
+
+- `user`
+- `used`
+- `uses`
+- `users`
+- `useEffect`
+
+## Dependencies
+
+- `./universeBackendBridge.js`
+- `./persistentAuth.js`
+- `./bridgeConfig.js`
+- `../utils/universeNaming.js`
+
+---
+
+*Auto-generated from source code*

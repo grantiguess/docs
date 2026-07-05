@@ -1,0 +1,81 @@
+---
+title: "githubDeviceFlow"
+description: "Service: GitHub Device Flow (Electron-only). Fully local OAuth: requests a device code from github.com, has the user approve it in their browser, polls until GitHub returns a token. No client_secret, no callback server, no reliance on redstring.io. Used for both the OAuth App (general repo access) and the GitHub App (live sync). The only difference between the two flows is the client_id — the App's device flow returns a user-to-server token (`ghu_*`) which acts with the App's permissions on installations the user has access to."
+---
+
+# githubDeviceFlow
+
+GitHub Device Flow (Electron-only). Fully local OAuth: requests a device code from github.com, has the user approve it in their browser, polls until GitHub returns a token. No client_secret, no callback server, no reliance on redstring.io. Used for both the OAuth App (general repo access) and the GitHub App (live sync). The only difference between the two flows is the client_id — the App's device flow returns a user-to-server token (`ghu_*`) which acts with the App's permissions on installations the user has access to.
+
+## Location
+`src/services/githubDeviceFlow.js`
+
+## Functions
+
+
+### assertElectron
+
+```javascript
+function assertElectron(
+```
+
+No description available.
+
+
+### requestDeviceCode
+
+```javascript
+function requestDeviceCode(
+```
+
+No description available.
+
+
+### openVerificationUrl
+
+```javascript
+function openVerificationUrl(
+```
+
+No description available.
+
+
+### pollForToken
+
+```javascript
+function pollForToken(
+```
+
+No description available.
+
+
+### getOAuthClientId
+
+```javascript
+export function getOAuthClientId(
+```
+
+No description available.
+
+
+### getAppClientId
+
+```javascript
+export function getAppClientId(
+```
+
+No description available.
+
+
+### getAppSlug
+
+```javascript
+export function getAppSlug(
+```
+
+No description available.
+
+
+---
+
+*Auto-generated from source code*

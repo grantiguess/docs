@@ -1,0 +1,32 @@
+---
+title: "useCanvasTransform"
+description: "React component: useCanvasTransform — DOM-bypass pan/zoom for NodeCanvas. Owns panOffset and zoomLevel as refs (not state).  Every mutation writes directly to the SVG element's style.transform, bypassing React reconciliation. A debounced \"settled\" React state pair (`settledPan`, `settledZoom`) is exposed for consumers that need React re-renders (culling, child-component props, view-state persistence).  These update only after the user stops interacting for `SETTLE_DELAY` ms."
+---
+
+# useCanvasTransform
+
+useCanvasTransform — DOM-bypass pan/zoom for NodeCanvas. Owns panOffset and zoomLevel as refs (not state).  Every mutation writes directly to the SVG element's style.transform, bypassing React reconciliation. A debounced \"settled\" React state pair (`settledPan`, `settledZoom`) is exposed for consumers that need React re-renders (culling, child-component props, view-state persistence).  These update only after the user stops interacting for `SETTLE_DELAY` ms.
+
+## Location
+`src/hooks/useCanvasTransform.js`
+
+## Props
+
+This component does not accept props.
+
+## Hooks Used
+
+- `useRef`
+- `useState`
+- `useCallback`
+- `useCanvasTransform`
+- `user`
+- `used`
+
+## Dependencies
+
+- `react`
+
+---
+
+*Auto-generated from source code*

@@ -1,0 +1,61 @@
+---
+title: "step"
+description: "React component: useNodeDrag — Extracts all node/group dragging behavior from NodeCanvas. Owns: - draggingNodeInfo state (single / multi-select / group shapes) - Drag zoom-out/restore animations - Edge panning (auto-pan when cursor near viewport edges during drag) - RAF-throttled position updates during drag - History recording on drag end - Node scale bump (1.15x on start, 1.0 on end) - DOM-bypass: writes CSS transforms directly to node/edge SVG elements during drag (no Zustand state updates, no React re-renders until drag end) Does NOT own: - Long-press timeout / click discrimination (handleNodeMouseDown stays in NodeCanvas) - Group-drop detection UI (NodeCanvas handles the dialog using returned draggedNodeIds) - Connection drawing (separate concern)"
+---
+
+# step
+
+useNodeDrag — Extracts all node/group dragging behavior from NodeCanvas. Owns: - draggingNodeInfo state (single / multi-select / group shapes) - Drag zoom-out/restore animations - Edge panning (auto-pan when cursor near viewport edges during drag) - RAF-throttled position updates during drag - History recording on drag end - Node scale bump (1.15x on start, 1.0 on end) - DOM-bypass: writes CSS transforms directly to node/edge SVG elements during drag (no Zustand state updates, no React re-renders until drag end) Does NOT own: - Long-press timeout / click discrimination (handleNodeMouseDown stays in NodeCanvas) - Group-drop detection UI (NodeCanvas handles the dialog using returned draggedNodeIds) - Connection drawing (separate concern)
+
+## Location
+`src/hooks/useNodeDrag.js`
+
+## Props
+
+This component does not accept props.
+
+## Hooks Used
+
+- `useState`
+- `useRef`
+- `useEffect`
+- `useLayoutEffect`
+- `useCallback`
+- `useHistoryStore`
+- `useGraphStore`
+- `user`
+- `useNodeDrag`
+- `useDown`
+- `useCanvasTransform`
+- `usePositionRef`
+- `usemove`
+- `useUp`
+- `useX`
+- `useY`
+- `useCanvasX`
+- `useCanvasY`
+- `useCanvas`
+- `useCurve`
+- `usedown`
+- `useMove`
+- `uses`
+- `useSettings`
+- `used`
+
+## Dependencies
+
+- `react`
+- `../utils/canvas/geometryUtils.js`
+- `../utils.js`
+- `../store/historyStore.js`
+- `../store/graphStore.js`
+- `../utils/canvas/nodeHitbox.js`
+- `../utils/canvas/parallelEdgeUtils.js`
+- `../utils/canvas/selfLoopUtils.js`
+- `../services/groupLayout.js`
+- `../services/textMeasurement.js`
+- `../services/SaveCoordinator.js`
+
+---
+
+*Auto-generated from source code*

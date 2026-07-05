@@ -1,0 +1,54 @@
+---
+title: "storeActions"
+description: "Service: storeActions.js The store-mutation action handlers that back the bridge's applyMutations / pending-action executor. Extracted from BridgeClient's `window.redstringStoreActions` object so the browser and the Node daemon execute the SAME handlers. Environment coupling is injected via createStoreActions(deps): - useGraphStore    the store singleton (same module in both hosts). - emitEvent(evt)   browser: (evt) => window.dispatchEvent(evt); node: no-op. Handlers build `new CustomEvent(...)` (global in browsers and Node >= 22) and hand it to emitEvent; node drops it. - markActive()     browser: bumps the connection activity ref; node: no-op. - navigate(gid)    browser: canvas navigation; node: no-op. - syncState()      browser: POST current store to the bridge; node: no-op. Replaces the old inline self-sync payloads. - bridgeStateFetch() browser: GET /api/bridge/state; node: -> {ok:false}. - uiCallbacks      browser wiring for wizard/chat UI reads (getTabs, getWizardStatus); absent in node -> handlers report the UI is unavailable. STALE-STATE FIX: the original captured `const state = getState()` once at registration and reused it across every later handler call. All those `state.*` accesses are rewritten to `useGraphStore.getState().*` so each handler reads the CURRENT store at call time."
+---
+
+# storeActions
+
+storeActions.js The store-mutation action handlers that back the bridge's applyMutations / pending-action executor. Extracted from BridgeClient's `window.redstringStoreActions` object so the browser and the Node daemon execute the SAME handlers. Environment coupling is injected via createStoreActions(deps): - useGraphStore    the store singleton (same module in both hosts). - emitEvent(evt)   browser: (evt) => window.dispatchEvent(evt); node: no-op. Handlers build `new CustomEvent(...)` (global in browsers and Node >= 22) and hand it to emitEvent; node drops it. - markActive()     browser: bumps the connection activity ref; node: no-op. - navigate(gid)    browser: canvas navigation; node: no-op. - syncState()      browser: POST current store to the bridge; node: no-op. Replaces the old inline self-sync payloads. - bridgeStateFetch() browser: GET /api/bridge/state; node: -> \{ok:false\}. - uiCallbacks      browser wiring for wizard/chat UI reads (getTabs, getWizardStatus); absent in node -> handlers report the UI is unavailable. STALE-STATE FIX: the original captured `const state = getState()` once at registration and reused it across every later handler call. All those `state.*` accesses are rewritten to `useGraphStore.getState().*` so each handler reads the CURRENT store at call time.
+
+## Location
+`src/services/storeActions.js`
+
+## Functions
+
+
+### normalizeId
+
+```javascript
+export const normalizeId = (val, keyHint) =>
+```
+
+No description available.
+
+
+### priority
+
+```javascript
+export const priority = (act) =>
+```
+
+No description available.
+
+
+### createStoreActions
+
+```javascript
+export function createStoreActions(
+```
+
+No description available.
+
+
+### ensurePrototype
+
+```javascript
+const ensurePrototype = async (prototypeId) =>
+```
+
+No description available.
+
+
+---
+
+*Auto-generated from source code*

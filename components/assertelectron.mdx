@@ -1,0 +1,30 @@
+---
+title: "assertElectron"
+description: "React component: GitHub Device Flow (Electron-only). Fully local OAuth: requests a device code from github.com, has the user approve it in their browser, polls until GitHub returns a token. No client_secret, no callback server, no reliance on redstring.io. Used for both the OAuth App (general repo access) and the GitHub App (live sync). The only difference between the two flows is the client_id — the App's device flow returns a user-to-server token (`ghu_*`) which acts with the App's permissions on installations the user has access to."
+---
+
+# assertElectron
+
+GitHub Device Flow (Electron-only). Fully local OAuth: requests a device code from github.com, has the user approve it in their browser, polls until GitHub returns a token. No client_secret, no callback server, no reliance on redstring.io. Used for both the OAuth App (general repo access) and the GitHub App (live sync). The only difference between the two flows is the client_id — the App's device flow returns a user-to-server token (`ghu_*`) which acts with the App's permissions on installations the user has access to.
+
+## Location
+`src/services/githubDeviceFlow.js`
+
+## Props
+
+This component does not accept props.
+
+## Hooks Used
+
+- `user`
+- `userCode`
+- `user_code`
+
+## Dependencies
+
+- `../utils/fileAccessAdapter.js`
+- `../config/githubClientIds.js`
+
+---
+
+*Auto-generated from source code*

@@ -1,11 +1,11 @@
 ---
 title: "useViewportBounds"
-description: "React component: Computes the central usable viewport bounds by subtracting left/right panel widths and the bottom TypeList bar from window dimensions. Accounts for collapsed panels by using 0 width when panels are not expanded. Includes space for resizer handles when panels are expanded. Listens to window resize and custom panel events: - panelWidthChanging, panelWidthChanged Also reads persisted widths from localStorage on mount for initial render."
+description: "React component: Computes the central usable viewport bounds by subtracting left/right panel widths and the bottom TypeList bar from window dimensions. Accounts for collapsed panels by using 0 width when panels are not expanded. Includes space for resizer handles when panels are expanded. In exclusive panel mode (narrow viewport — see EXCLUSIVE_PANEL_MODE_THRESHOLD), panels render as fixed overlays on top of the canvas rather than as flex siblings, so their widths must NOT be subtracted from the usable viewport. Listens to window resize and custom panel events: - panelWidthChanging, panelWidthChanged Also reads persisted widths from localStorage on mount for initial render."
 ---
 
 # useViewportBounds
 
-Computes the central usable viewport bounds by subtracting left/right panel widths and the bottom TypeList bar from window dimensions. Accounts for collapsed panels by using 0 width when panels are not expanded. Includes space for resizer handles when panels are expanded. Listens to window resize and custom panel events: - panelWidthChanging, panelWidthChanged Also reads persisted widths from localStorage on mount for initial render.
+Computes the central usable viewport bounds by subtracting left/right panel widths and the bottom TypeList bar from window dimensions. Accounts for collapsed panels by using 0 width when panels are not expanded. Includes space for resizer handles when panels are expanded. In exclusive panel mode (narrow viewport — see EXCLUSIVE_PANEL_MODE_THRESHOLD), panels render as fixed overlays on top of the canvas rather than as flex siblings, so their widths must NOT be subtracted from the usable viewport. Listens to window resize and custom panel events: - panelWidthChanging, panelWidthChanged Also reads persisted widths from localStorage on mount for initial render.
 
 ## Location
 `src/hooks/useViewportBounds.js`

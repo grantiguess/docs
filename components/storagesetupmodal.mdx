@@ -1,11 +1,11 @@
 ---
 title: "StorageSetupModal"
-description: "React component: Storage Setup Modal Allows users to choose between folder-based storage and browser storage Shown after welcome screen when user clicks \"Get Started\""
+description: "React component: Storage Setup Modal Allows users to choose between folder-based storage and browser storage Shown after welcome screen when user clicks \"Get Started\" Flow: 1. \"Where should we save your work?\" (Folder vs Skip) 2. If Folder -> \"Name your Universe\""
 ---
 
 # StorageSetupModal
 
-Storage Setup Modal Allows users to choose between folder-based storage and browser storage Shown after welcome screen when user clicks \"Get Started\"
+Storage Setup Modal Allows users to choose between folder-based storage and browser storage Shown after welcome screen when user clicks \"Get Started\" Flow: 1. \"Where should we save your work?\" (Folder vs Skip) 2. If Folder -> \"Name your Universe\"
 
 ## Location
 `src/components/StorageSetupModal.jsx`
@@ -17,6 +17,7 @@ This component does not accept props.
 ## Hooks Used
 
 - `useState`
+- `useTheme`
 - `users`
 - `user`
 - `useEffect`
@@ -27,6 +28,8 @@ This component does not accept props.
 
 - `./CanvasModal`
 - `../utils/fileAccessAdapter.js`
+- `lucide-react`
+- `../hooks/useTheme.js`
 
 ---
 

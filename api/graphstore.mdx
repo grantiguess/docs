@@ -1,0 +1,1392 @@
+---
+title: "graphStore"
+description: "Zustand store: Creates a new visual group within a graph, optionally pre-populated with member instances. Groups are visual clusters of node instances. They store semantic metadata for RDF relationship tracking. Returns the new group ID."
+---
+
+# graphStore
+
+Creates a new visual group within a graph, optionally pre-populated with member instances. Groups are visual clusters of node instances. They store semantic metadata for RDF relationship tracking. Returns the new group ID.
+
+## Location
+`src/store/graphStore.js`
+
+## Actions
+
+
+### setLeftPanelExpanded
+
+Sets whether the left panel is expanded.
+
+**Parameters:**
+
+- `{boolean} expanded`
+
+---
+
+### setRightPanelExpanded
+
+
+**Parameters:**
+
+- `{boolean} expanded`
+
+---
+
+### toggleLeftPanel
+
+Toggles the left panel open/closed.
+
+---
+
+### toggleRightPanel
+
+Toggles the right panel open/closed.
+
+---
+
+### createGroup
+
+Creates a new visual group within a graph, optionally pre-populated with member instances. Groups are visual clusters of node instances. They store semantic metadata for RDF relationship tracking. Returns the new group ID.
+
+**Parameters:**
+
+- `{string} graphId - ID of the graph to create the group in.`
+- `{Object} [options]`
+- `{string} [options.name='Group'] - Display name for the group.`
+- `{string} [options.color='#8B0000'] - Hex color for the group border.`
+- `{string[]} [options.memberInstanceIds=[]] - Instance IDs to include as initial members.`
+- `{Object} [contextOptions] - Save context flags (isDragging, phase, etc.).`
+
+**Returns:** {string|null} The new group ID, or null if the graph was not found.
+
+---
+
+### updateGroup
+
+Applies an Immer recipe function to a group, mutating it in place. Automatically updates `semanticMetadata.lastModified` and syncs the RDF relationship list when membership changes.
+
+**Parameters:**
+
+- `{string} graphId - ID of the graph containing the group.`
+- `{string} groupId - ID of the group to update.`
+- `{function} recipe - Immer recipe: `(group) => { group.name = '...'; }`.`
+- `{Object} [contextOptions] - Save context flags.`
+
+---
+
+### deleteGroup
+
+Removes a group from a graph, restoring all member instances to ungrouped state. Clears `isGroupAnchor` and `anchorForGroupId` flags from the anchor instance.
+
+**Parameters:**
+
+- `{string} graphId - ID of the graph containing the group.`
+- `{string} groupId - ID of the group to delete.`
+- `{Object} [contextOptions] - Save context flags.`
+
+---
+
+### ensureGroupAnchor
+
+Ensures a group has a valid anchor instance, creating one or reassigning as needed. An anchor instance is the group's "representative" node on the canvas — it remains visible when the group is collapsed. If `preferredAnchorInstanceId` is provided and belongs to the group, it is promoted; otherwise the first member is used.
+
+**Parameters:**
+
+- `{string} graphId - ID of the graph containing the group.`
+- `{string} groupId - ID of the group to anchor.`
+- `{Object} [options]`
+- `{string} [options.preferredAnchorInstanceId] - Instance ID to prefer as anchor.`
+- `{Object} [options] - Remaining keys are passed as contextOptions.`
+
+---
+
+### convertGroupToNodeGroup
+
+Converts a plain group into a node-group: associates it with a node prototype so the group renders as a "thing" with an expandable interior. If `createNewPrototype` is true, creates a new prototype with `newPrototypeName`/ `newPrototypeColor`; otherwise links the group to the existing `nodePrototypeId`. The group's anchor instance is converted to represent the prototype.
+
+**Parameters:**
+
+- `{string} graphId - Graph containing the group.`
+- `{string} groupId - Group to convert.`
+- `{string} nodePrototypeId - Prototype to link (ignored if createNewPrototype=true).`
+- `{boolean} [createNewPrototype=false] - Create a new prototype instead of linking an existing one.`
+- `{string} [newPrototypeName=''] - Name for the new prototype (requires createNewPrototype=true).`
+- `{string} [newPrototypeColor='#8B0000'] - Color for the new prototype.`
+- `{Object} [contextOptions] - Save context flags.`
+
+---
+
+### combineNodeGroup
+
+Collapses a node-group back into a single node instance (the inverse of decompose). Removes all member instances and their edges from the graph, leaving only the anchor instance. The anchor's prototype retains its definition graph.
+
+**Parameters:**
+
+- `{string} graphId - Graph containing the group.`
+- `{string} groupId - Node-group to combine.`
+- `{Object} [contextOptions] - Save context flags.`
+
+---
+
+### decomposeNodeToGroup
+
+Expands a node instance into a node-group by materializing its definition graph in place. Copies all instances and edges from the prototype's definition graph (at `definitionIndex`) into the active graph, then creates a group linking them to the source prototype. The original instance becomes the group anchor. Returns the new group ID.
+
+**Parameters:**
+
+- `{string} graphId - Graph containing the instance to decompose.`
+- `{string} prototypeId - Prototype whose definition graph provides the expansion content.`
+- `{number} [definitionIndex=0] - Which definition graph to expand (0 = first).`
+- `{Object} [contextOptions] - Save context flags.`
+
+**Returns:** {string|null} The new group ID, or null if decomposition failed.
+
+---
+
+### addNodePrototype
+
+Adds a new node prototype to the global pool and pins it to the right panel. Does nothing if a prototype with the same ID already exists. Auto-generates a UUID if `prototypeData.id` is absent. Sets `agentConfig` to null if not provided.
+
+**Parameters:**
+
+- `{Object} prototypeData - Prototype fields (name, color, description, etc.).`
+- `{string} [prototypeData.id] - Optional ID; auto-generated UUID if omitted.`
+
+---
+
+### upsertProtectedPrototype
+
+Upserts a prototype into the protected catalog so it shows up in All Things and is excluded from cleanup. Intended for local Orbit index entries.
+
+---
+
+### addNodePrototypeWithDeduplication
+
+Adds a node prototype with name-based deduplication. If a prototype with the same name (case-insensitive) already exists, merges `semanticMetadata` from the incoming data into the existing prototype and returns the existing ID. Otherwise delegates to `addNodePrototype`.
+
+**Parameters:**
+
+- `{Object} prototypeData - Same shape as `addNodePrototype`.`
+
+**Returns:** {string} The ID of the existing or newly created prototype.
+
+---
+
+### findPotentialDuplicates
+
+Identifies pairs of node prototypes whose names are similar enough to be duplicates. Uses Levenshtein distance-based similarity. Returns pairs where both prototypes have similarity ≥ `threshold`. Does not modify state.
+
+**Parameters:**
+
+- `{number} [threshold=0.8] - Similarity threshold in [0, 1].`
+
+**Returns:** {Array<{proto1: NodePrototype, proto2: NodePrototype, similarity: number}>}
+
+---
+
+### mergeNodePrototypes
+
+Merges a secondary node prototype into a primary, transferring all instances, edges, and definition graphs to the primary, then deletes the secondary. After the merge: all instances that referenced `secondaryId` are updated to reference `primaryId`; all edges referencing the secondary prototype's instances are preserved; all definition graphs previously owned by the secondary are re-owned by the primary.
+
+**Parameters:**
+
+- `{string} primaryId - The prototype to merge INTO (survives).`
+- `{string} secondaryId - The prototype to merge FROM (deleted after merge).`
+
+---
+
+### mergeDefinitionGraphs
+
+Merges the definition graphs of two prototypes according to a strategy. Strategies: - `'combine'` (default): Appends secondary's definition graph IDs to primary's list. - `'overwrite_with_primary'`: Secondary's definition graphs are removed. - `'overwrite_with_secondary'`: Primary's definition graphs are replaced with secondary's. - `'selective'`: Only graphs selected via `keepPrimary`/`keepSecondary` booleans are kept. All affected graphs have their `definingNodeIds` updated to reference `primaryId`.
+
+**Parameters:**
+
+- `{string} primaryId - Primary prototype ID.`
+- `{string} secondaryId - Secondary prototype ID.`
+- `{Object} [mergeOptions]`
+- `{'combine'|'overwrite_with_primary'|'overwrite_with_secondary'|'selective'} [mergeOptions.strategy='combine']`
+- `{boolean} [mergeOptions.keepPrimary] - For 'selective': retain primary's graphs.`
+- `{boolean} [mergeOptions.keepSecondary] - For 'selective': retain secondary's graphs.`
+
+---
+
+### duplicateNodePrototype
+
+Creates a copy of a node prototype with a " (Copy)" name suffix. The duplicate gets a new UUID and does not share definition graphs with the original. Semantic metadata is shallow-copied with `isMergedNode` cleared.
+
+**Parameters:**
+
+- `{string} prototypeId - ID of the prototype to duplicate.`
+
+**Returns:** {string} The new duplicate prototype's ID (via Immer return).
+
+---
+
+### addNodeInstance
+
+Adds a new instance of a prototype to a specific graph at the given position.
+
+**Parameters:**
+
+- `{string} graphId - ID of the target graph.`
+- `{string} prototypeId - ID of the prototype to instantiate.`
+- `{{x: number, y: number}} position - Canvas coordinates for the new instance.`
+- `{string} [instanceId] - Optional specific instance ID; auto-generated if omitted.`
+
+---
+
+### removeNodeInstance
+
+Hard-deletes a node instance and all of its connected edges in a single transaction. If the instance is a group anchor, its associated group is also deleted. Removes the instance from any group membership lists. Clears any pending-deletion entry.
+
+**Parameters:**
+
+- `{string} graphId - Graph containing the instance.`
+- `{string} instanceId - Instance to permanently delete.`
+
+---
+
+### removeMultipleNodeInstances
+
+Hard-deletes multiple instances and all of their connected edges in a single transaction.
+
+**Parameters:**
+
+- `{string} graphId - Graph containing the instances.`
+- `{string[]|Set<string>} instanceIds - Instances to permanently delete.`
+
+---
+
+### forceDeleteNodeInstance
+
+Force-deletes an instance bypassing grace-period protection. Use for programmatic cleanup where soft-delete semantics don't apply.
+
+**Parameters:**
+
+- `{string} graphId`
+- `{string} instanceId`
+
+---
+
+### restoreNodeInstance
+
+Restores a soft-deleted instance from `pendingDeletions` back into its graph.
+
+**Parameters:**
+
+- `{string} instanceId - Instance ID in pendingDeletions.`
+
+---
+
+### cleanupExpiredDeletions
+
+Removes all soft-deleted instances whose grace period has elapsed. Should be called periodically (e.g., on app focus or timer).
+
+---
+
+### updateNodePrototype
+
+Updates a node prototype using an Immer recipe, affecting all its instances visually. Automatically syncs any name change to definition graphs and right-panel tab titles.
+
+**Parameters:**
+
+- `{string} prototypeId - ID of the prototype to update.`
+- `{function} recipe - Immer recipe: `(prototype) => { prototype.name = '...'; }`.`
+
+---
+
+### updateNodeInstance
+
+Updates a node instance using an Immer recipe.
+
+**Parameters:**
+
+- `{string} graphId - Graph containing the instance.`
+- `{string} instanceId - Instance to update.`
+- `{function} recipe - Immer recipe: `(instance) => { instance.x = 100; }`.`
+- `{Object} [contextOptions] - Save context flags; `contextOptions.type` overrides the change type.`
+
+---
+
+### updateMultipleNodeInstancePositions
+
+Updates the (x, y) position of multiple instances in a single transaction.
+
+**Parameters:**
+
+- `{string} graphId - Graph containing the instances.`
+- `{Array<{instanceId: string, x: number, y: number}>} updates - Position updates.`
+- `{Object} [contextOptions] - Save context flags (set isDragging=true during drag).`
+
+---
+
+### pasteNodesAndEdges
+
+Pastes nodes and edges as an atomic operation — used by the copy/paste system. Skips any edge whose source or destination instance is missing from the graph (guards against stale clipboard data).
+
+**Parameters:**
+
+- `{string} graphId - Target graph for the paste.`
+- `{Array<{instanceId: string, prototypeId: string, x: number, y: number, scale: number}>} nodes`
+- `{Array<EdgeData>} edges - Edges to restore; each must have valid source/destination IDs.`
+- `{Object} [contextOptions] - Save context flags.`
+
+---
+
+### addEdge
+
+Connects two node instances with an edge in a single transaction. Validates that both instance IDs exist in the graph. Skips silently if the edge ID already exists. Defaults to `base-connection-prototype` edge type if `typeNodeId` is absent. Normalizes `directionality.arrowsToward` to a Set.
+
+**Parameters:**
+
+- `{string} graphId - Graph containing both instances.`
+- `{EdgeData} newEdgeData - Edge descriptor; must include `id`, `sourceId`, `destinationId`.`
+- `{Object} [contextOptions] - Save context flags.`
+
+---
+
+### updateEdge
+
+Updates an edge using an Immer recipe.
+
+**Parameters:**
+
+- `{string} edgeId - ID of the edge to update.`
+- `{function} recipe - Immer recipe: `(edge) => { edge.name = '...'; }`.`
+
+---
+
+### setNodeType
+
+Sets the type prototype for a node in the abstraction hierarchy. Guards against circular typing and prevents reassigning the root `base-thing-prototype`. Pass `null` to remove the type assignment.
+
+**Parameters:**
+
+- `{string} nodeId - Prototype ID of the node to retype.`
+- `{string|null} typeNodeId - ID of the prototype to use as the type, or null to clear.`
+
+---
+
+### addEdgePrototype
+
+Adds a new edge prototype (connection type) to the edge prototype catalog. Does nothing if an edge prototype with the same ID already exists.
+
+**Parameters:**
+
+- `{Object} prototypeData - Edge prototype fields (id, name, color, description, etc.).`
+
+---
+
+### updateEdgePrototype
+
+Updates an edge prototype using an Immer recipe. Prevents changing the type of the root `base-connection-prototype`.
+
+**Parameters:**
+
+- `{string} prototypeId - ID of the edge prototype to update.`
+- `{function} recipe - Immer recipe applied to the edge prototype.`
+
+---
+
+### setEdgeType
+
+Sets the type prototype for an edge. Validates that the type exists in `edgePrototypes`. Pass `null` to clear.
+
+**Parameters:**
+
+- `{string} edgeId - ID of the edge to retype.`
+- `{string|null} typeNodeId - ID of the edge prototype to use as type, or null.`
+
+---
+
+### removeEdge
+
+Removes an edge from the store and from its graph's `edgeIds` list.
+
+**Parameters:**
+
+- `{string} edgeId - ID of the edge to remove.`
+- `{Object} [contextOptions] - Save context flags.`
+
+---
+
+### openGraphTab
+
+Opens a graph in the tab bar and makes it the active graph. If the graph is already open, it is simply activated (not duplicated). Also sets `activeDefinitionNodeId` to the provided `definitionNodeId`, or clears it if none is given. Auto-expands the graph in the "Open Things" list.
+
+**Parameters:**
+
+- `{string} graphId - ID of the graph to open.`
+- `{string|null} [definitionNodeId=null] - Prototype ID to track as the active definition context.`
+
+---
+
+### closeGraphTab
+
+Removes a graph from the open tab list. If it was the active graph, activates the first remaining open graph.
+
+**Parameters:**
+
+- `{string} graphId - ID of the graph tab to close.`
+
+---
+
+### setActiveGraphTab
+
+Sets the active graph tab without opening or closing any tabs. Requires the graph to already be in `openGraphIds`. Pass `null` to clear.
+
+**Parameters:**
+
+- `{string|null} graphId - ID of the graph to activate.`
+
+---
+
+### applyBulkGraphUpdates
+
+Applies a batch of nodes, edges, and groups to an existing graph in one transaction. Handles deduplication: nodes with matching names are reused, edges between the same pair with the same type are updated rather than duplicated. Creates connection-type prototypes for named edge types on the fly. Accepts node names by string for edges, resolving them via a case-insensitive lookup map.
+
+**Parameters:**
+
+- `{string} graphId - Target graph ID.`
+- `{Object} batch`
+- `{Array<{name: string, color?: string, description?: string, x?: number, y?: number, prototypeId?: string, instanceId?: string}>} [batch.nodes=[]]`
+- `{Array<{source: string, target: string, type?: string, directionality?: string, definitionNode?: Object}>} [batch.edges=[]]`
+- `{Array<{name: string, memberNames?: string[], memberInstanceIds?: string[]}>} [batch.groups=[]]`
+
+---
+
+### createNewGraph
+
+Creates a new graph paired with a defining prototype, and activates it. Both the graph and its owning prototype are assigned new UUIDs (unless `initialData.id` provides a specific graph ID). The graph is opened as a tab, its defining prototype is pinned to the right panel, and `activeDefinitionNodeId` is set to the new prototype.
+
+**Parameters:**
+
+- `{Object} [initialData]`
+- `{string} [initialData.id] - Specific graph ID; auto-generated UUID if omitted.`
+- `{string} [initialData.name='New Thing'] - Name for both the graph and its prototype.`
+- `{string} [initialData.description] - Description text.`
+- `{string} [initialData.color] - Hex color.`
+- `{string|null} [initialData.typeNodeId] - Type assignment for the defining prototype.`
+
+**Returns:** {string} The new graph ID.
+
+---
+
+### createGraphWithId
+
+Creates a graph with a specific ID, or no-ops if that ID already exists. Used when a deterministic ID is needed (e.g., wizard tools that predict IDs). Activates the new graph and adds it to the open tab list.
+
+**Parameters:**
+
+- `{string} graphId - Specific UUID to use for the new graph.`
+- `{Object} [initialData] - Same shape as `createNewGraph` initial data.`
+
+---
+
+### repairGraphLinkages
+
+Re-syncs bidirectional links between graphs and their defining prototypes. Walks all graphs and ensures each `definingNodeIds` entry has a matching `definitionGraphIds` entry in the referenced prototype. Run this to recover from data corruption or mismatched state after a partial import.
+
+---
+
+### createAndAssignGraphDefinition
+
+Creates a new graph assigned as a definition to a prototype, and activates it. The new graph is added to `prototype.definitionGraphIds`, opened as a tab, and set as the active graph. Returns the new graph ID.
+
+**Parameters:**
+
+- `{string} prototypeId - Prototype that will own the new definition graph.`
+
+**Returns:** {string|null} The new graph ID, or null if the prototype was not found.
+
+---
+
+### createAndAssignGraphDefinitionWithoutActivation
+
+Creates a new graph assigned as a definition to a prototype, without activating it. Same as `createAndAssignGraphDefinition` but leaves `activeGraphId` unchanged. Use this when building definition graphs in the background.
+
+**Parameters:**
+
+- `{string} prototypeId - Prototype that will own the new definition graph.`
+
+**Returns:** {string|null} The new graph ID, or null if the prototype was not found.
+
+---
+
+### createDefinitionGraphWithId
+
+Creates a definition graph with a specific ID and assigns it to a prototype. Does NOT change `activeGraphId`. If the graph already exists, opens its tab without re-creating it. Used by wizard tools that generate predictive IDs to avoid UUID mismatch between AgentLoop predictions and real store IDs.
+
+**Parameters:**
+
+- `{string} graphId - Specific UUID to use for the new definition graph.`
+- `{string} prototypeId - Prototype that will own this definition graph.`
+
+---
+
+### findPrototypeByName
+
+Finds a node prototype by name (case-insensitive, trims whitespace). Returns the first match. Does not modify state.
+
+**Parameters:**
+
+- `{string} name - Name to search for.`
+
+**Returns:** {NodePrototype|undefined} The matching prototype, or undefined if not found.
+
+---
+
+### createComplexConcept
+
+High-level helper for creating a concept prototype with an optional definition graph pre-populated with sub-concepts and relationships. Creates: (1) a prototype for the concept, (2) a definition graph if `subConcepts` are provided, (3) prototype+instance for each sub-concept inside that graph, (4) edges for each relationship, (5) optionally, an instance in `targetGraphId`.
+
+**Parameters:**
+
+- `{Object} conceptData`
+- `{string} conceptData.name - Name for the main concept.`
+- `{string} [conceptData.color] - Hex color.`
+- `{string} [conceptData.description] - Description text.`
+- `{Array<{name: string, color?: string, description?: string}>} [conceptData.subConcepts=[]]`
+- `{Array<{source: string, target: string, type?: string}>} [conceptData.relationships=[]]`
+- `{string|null} [conceptData.targetGraphId=null] - Graph to place the main concept instance in.`
+
+**Returns:** {{prototypeId: string, definitionGraphId: string|null, instanceId: string|null, subConceptIds: Array, edgeIds: string[]}}
+
+---
+
+### setActiveGraph
+
+Sets the active graph, automatically determining the `activeDefinitionNodeId` from the graph's `definingNodeIds[0]`. Falls back to the first open graph if `graphId` is invalid or not open.
+
+**Parameters:**
+
+- `{string} graphId - ID of the graph to activate.`
+
+---
+
+### updateGraph
+
+Updates graph properties using an Immer recipe function. Automatically syncs any name change to the graph's defining prototype(s) and to open right-panel tab titles.
+
+**Parameters:**
+
+- `{string} graphId - ID of the graph to update.`
+- `{function} updateFn - Immer recipe: `(graph) => { graph.name = '...'; }`.`
+
+---
+
+### openRightPanelNodeTab
+
+Opens or activates a node tab in the right panel for the given prototype. If a tab for this node already exists, activates it. Otherwise appends a new tab. All other tabs are deactivated. Also ensures the right panel is expanded so the navigated-to node is visible.
+
+**Parameters:**
+
+- `{string} nodeId - Prototype ID to open in the panel.`
+- `{string} [nodeNameFallback='Node Details'] - Tab title fallback if prototype name is absent.`
+
+---
+
+### activateRightPanelTab
+
+Activates a right panel tab by its zero-based index. All other tabs are deactivated.
+
+**Parameters:**
+
+- `{number} index - Index into `rightPanelTabs`.`
+
+---
+
+### closeRightPanelTab
+
+Removes a node tab from the right panel. The home tab (index 0) is never removed. If the closed tab was active, activates the home tab.
+
+**Parameters:**
+
+- `{string} nodeIdToClose - Prototype ID of the tab to close.`
+
+---
+
+### moveRightPanelTab
+
+Reorders right panel tabs via drag-and-drop. Indices are 0-based from the drag layer (the home tab at position 0 is excluded).
+
+**Parameters:**
+
+- `{number} dragIndex - Source position (0-based, excluding home tab).`
+- `{number} hoverIndex - Target position (0-based, excluding home tab).`
+
+---
+
+### closeGraph
+
+Closes a graph tab and removes it from the open list. If it was the active graph, activates the nearest remaining open graph. Schedules `cleanupOrphanedData` 100ms after close.
+
+**Parameters:**
+
+- `{string} graphId - ID of the graph to close.`
+
+---
+
+### toggleGraphExpanded
+
+Toggles whether a graph node is expanded in the "Open Things" left panel list.
+
+**Parameters:**
+
+- `{string} graphId`
+
+---
+
+### toggleSavedNode
+
+Toggles a node prototype's pinned status in the right panel. Removing a saved node schedules `cleanupOrphanedData` 100ms later to purge any now-orphaned prototypes.
+
+**Parameters:**
+
+- `{string} nodeId - Prototype ID to pin/unpin.`
+
+---
+
+### toggleSavedGraph
+
+Toggles a graph's bookmarked status by pinning/unpinning its defining prototype. If the graph has no defining prototype, creates one automatically. Toggling operates on `savedNodeIds` via the defining prototype ID.
+
+**Parameters:**
+
+- `{string} graphId - ID of the graph to bookmark/unbookmark.`
+
+---
+
+### setConnectionLabelSize
+
+Sets the scale multiplier for connection label text. Persists to localStorage.
+
+**Parameters:**
+
+- `{number} size - Multiplier (e.g., 1.0 = default size).`
+
+---
+
+### toggleShowConnectionNames
+
+Toggles visibility of connection labels on the canvas. Persists to localStorage.
+
+---
+
+### toggleShowEdgeGlowIndicators
+
+Toggles directional glow effects on edges. Persists to localStorage.
+
+---
+
+### toggleShowHoverPreview
+
+Toggles the hover-preview card shown when hovering over a node. Persists to localStorage.
+
+---
+
+### toggleShowNodeControlPanel
+
+Toggles the single-node control panel. Persists to localStorage.
+
+---
+
+### toggleShowMultipleNodesControlPanel
+
+Toggles the multi-node selection control panel. Persists to localStorage.
+
+---
+
+### toggleShowConnectionControlPanel
+
+Toggles the connection (edge) control panel. Persists to localStorage.
+
+---
+
+### toggleShowGroupControlPanel
+
+Toggles the group control panel. Persists to localStorage.
+
+---
+
+### toggleShowAbstractionControlPanel
+
+Toggles the abstraction chain control panel. Persists to localStorage.
+
+---
+
+### setHoverPreviewSize
+
+Sets the hover preview card scale multiplier. Clamped to [0.5, 1.5]. Persists to localStorage.
+
+**Parameters:**
+
+- `{number} value`
+
+---
+
+### toggleDarkMode
+
+Toggles dark mode. Persists to localStorage and syncs to workspace config if available.
+
+---
+
+### loadUISettingsFromWorkspace
+
+Loads UI settings (currently just darkMode) from a workspace config service. Stores the service reference on `window.__workspaceService` for future saves.
+
+**Parameters:**
+
+- `{Object} workspaceService - Service with a `getUISettings()` method.`
+
+---
+
+### setInputMode
+
+Sets the active input modality. No-ops when value is unchanged to avoid spurious re-renders. Flipped automatically by the pointerdown handler in NodeCanvas based on `PointerEvent.pointerType`.
+
+**Parameters:**
+
+- `{'mouse'|'touch'} mode`
+
+---
+
+### setGridMode
+
+Sets the grid visualization mode. Persists to localStorage.
+
+**Parameters:**
+
+- `{'off'|'hover'|'always'} mode`
+
+---
+
+### setGridSize
+
+Sets the grid cell size in canvas pixels. Clamped to [20, 400]. Persists to localStorage.
+
+**Parameters:**
+
+- `{number} value`
+
+---
+
+### toggleDragZoomEnabled
+
+Toggles drag-to-zoom (pinch/scroll zoom on drag). Persists to localStorage.
+
+---
+
+### setDragZoomAmount
+
+Sets how aggressively drag-zoom scales the view. Clamped to [0, 0.9]. Persists to localStorage.
+
+**Parameters:**
+
+- `{number} value - 0 = no zoom, 0.9 = zoom out by 90%.`
+
+---
+
+### toggleEnableAutoRouting
+
+Toggles whether edge auto-routing avoids nodes. Persists to localStorage.
+
+---
+
+### setGroupLayoutAlgorithm
+
+Sets the algorithm used to lay out node-groups.
+
+**Parameters:**
+
+- `{'node-driven'|string} algorithm`
+
+---
+
+### toggleShowClusterHulls
+
+Toggles debug cluster hull visualization. Persists to localStorage.
+
+---
+
+### setRoutingStyle
+
+Sets the edge routing style.
+
+**Parameters:**
+
+- `{'straight'|'orthogonal'|string} style`
+
+---
+
+### setManhattanBends
+
+Sets how Manhattan-style bends are applied to routed edges.
+
+**Parameters:**
+
+- `{'auto'|string} mode`
+
+---
+
+### setCleanLaneSpacing
+
+Sets spacing between parallel edge lanes in canvas pixels. Persists to localStorage.
+
+**Parameters:**
+
+- `{number} value`
+
+---
+
+### setMultiConnectionCurve
+
+Sets the curve multiplier for parallel (multi) connections. Persists to localStorage. 1.0 = default bow-out distance.
+
+**Parameters:**
+
+- `{number} value`
+
+---
+
+### setTextFontSize
+
+Sets font size multiplier for node label text. Persists to localStorage.
+
+**Parameters:**
+
+- `{number} value`
+
+---
+
+### setTextLineSpacing
+
+Sets line spacing multiplier for node label text. Persists to localStorage.
+
+**Parameters:**
+
+- `{number} value`
+
+---
+
+### setNodeScale
+
+Sets the global node size scale multiplier. Persists to localStorage.
+
+**Parameters:**
+
+- `{number} value`
+
+---
+
+### setConnectionWidth
+
+Sets the stroke width for edge connections. Persists to localStorage.
+
+**Parameters:**
+
+- `{number} value`
+
+---
+
+### setPlusSignScale
+
+Sets the scale multiplier for the plus-sign node creation affordance. Persists to localStorage.
+
+**Parameters:**
+
+- `{number} value`
+
+---
+
+### setPieMenuScale
+
+Sets the scale multiplier for the pie-menu radial overlay. Persists to localStorage.
+
+**Parameters:**
+
+- `{number} value`
+
+---
+
+### setKeyboardZoomSensitivity
+
+Sets keyboard zoom sensitivity. Range [0, 1]. Persists to localStorage.
+
+**Parameters:**
+
+- `{number} value`
+
+---
+
+### setKeyboardPanSensitivity
+
+Sets keyboard pan sensitivity. Range [0, 1]. Persists to localStorage.
+
+**Parameters:**
+
+- `{number} value`
+
+---
+
+### toggleMiddleMouseZoom
+
+Toggles middle-mouse-button zoom. Persists to localStorage.
+
+---
+
+### toggleNodeDragEdgePan
+
+Toggles edge-pan-while-dragging-node. Persists to localStorage.
+
+---
+
+### toggleConnectionDrawEdgePan
+
+Toggles edge-pan-while-drawing-a-connection. Persists to localStorage.
+
+---
+
+### toggleMouseGlide
+
+Toggles momentum/glide panning for mouse click-drag. Persists to localStorage.
+
+---
+
+### setMouseGlideStrength
+
+Sets how far mouse glide coasts after release. Range [0, 1]. Persists to localStorage.
+
+**Parameters:**
+
+- `{number} value`
+
+---
+
+### setNodeLiftDelay
+
+Sets the hold duration (ms) before a node starts dragging. Clamped to [50, 1000]. Persists to localStorage.
+
+**Parameters:**
+
+- `{number} value`
+
+---
+
+### setTouchZoomSensitivity
+
+Sets touch pinch-zoom sensitivity. Range [0, 1]. Persists to localStorage.
+
+**Parameters:**
+
+- `{number} value`
+
+---
+
+### setTouchPanSensitivity
+
+Sets touch single-finger pan sensitivity. Range [0, 1]. Persists to localStorage.
+
+**Parameters:**
+
+- `{number} value`
+
+---
+
+### toggleTouchGlide
+
+Toggles momentum/glide panning for single-finger touch. Persists to localStorage.
+
+---
+
+### setTouchGlideStrength
+
+Sets how far touch glide coasts after release. Range [0, 1]. Persists to localStorage.
+
+**Parameters:**
+
+- `{number} value`
+
+---
+
+### setTrackpadZoomSensitivity
+
+Sets trackpad pinch-zoom sensitivity. Range [0.1, 1]. Persists to localStorage.
+
+**Parameters:**
+
+- `{number} value`
+
+---
+
+### setTrackpadPanSensitivity
+
+Sets trackpad pan sensitivity. Range [0.1, 1]. Persists to localStorage.
+
+**Parameters:**
+
+- `{number} value`
+
+---
+
+### setLayoutScalePreset
+
+Sets the auto-layout spacing preset.
+
+**Parameters:**
+
+- `{'compact'|'balanced'|'spacious'} preset`
+
+---
+
+### setLayoutScaleMultiplier
+
+Sets the auto-layout scale multiplier. Clamped to [0.5, MAX_LAYOUT_SCALE_MULTIPLIER].
+
+**Parameters:**
+
+- `{number} value`
+
+---
+
+### setLayoutIterationPreset
+
+Sets the auto-layout iteration depth preset.
+
+**Parameters:**
+
+- `{'fast'|'balanced'|'deep'} preset`
+
+---
+
+### setForceTunerScalePreset
+
+Sets the Force Tuner spacing preset.
+
+**Parameters:**
+
+- `{'compact'|'balanced'|'spacious'} preset`
+
+---
+
+### setForceTunerScaleMultiplier
+
+Sets the Force Tuner scale multiplier. Clamped to [0.2, MAX_LAYOUT_SCALE_MULTIPLIER].
+
+**Parameters:**
+
+- `{number} value`
+
+---
+
+### setForceTunerIterationPreset
+
+Sets the Force Tuner iteration depth preset.
+
+**Parameters:**
+
+- `{'fast'|'balanced'|'deep'} preset`
+
+---
+
+### copyForceTunerSettingsToAutoLayout
+
+Copies all current Force Tuner settings into the Auto Layout settings object. Useful for promoting a tuned layout configuration to the default.
+
+---
+
+### setActiveDefinitionNode
+
+Explicitly sets the active definition node (prototype) context. Used when switching graphs to keep the definition panel in sync.
+
+**Parameters:**
+
+- `{string|null} nodeId - Prototype ID to set as the active definition context.`
+
+---
+
+### setSelectedEdgeId
+
+Sets the single selected edge for editing in the connection control panel.
+
+**Parameters:**
+
+- `{string|null} edgeId`
+
+---
+
+### setSelectedEdgeIds
+
+Replaces the entire multi-edge selection with the provided set.
+
+**Parameters:**
+
+- `{string[]|Iterable<string>} edgeIds`
+
+---
+
+### addSelectedEdgeId
+
+Adds an edge to the multi-edge selection.
+
+**Parameters:**
+
+- `{string} edgeId`
+
+---
+
+### removeSelectedEdgeId
+
+Removes an edge from the multi-edge selection.
+
+**Parameters:**
+
+- `{string} edgeId`
+
+---
+
+### clearSelectedEdgeIds
+
+Clears all selected edges.
+
+---
+
+### setTypeListMode
+
+Sets the type list display mode in the left panel.
+
+**Parameters:**
+
+- `{'closed'|'node'|'connection'|'component'} mode`
+
+---
+
+### removeDefinitionFromNode
+
+Removes a definition graph from a prototype's `definitionGraphIds` list. If no other prototype references the graph, also deletes it and closes its tab.
+
+**Parameters:**
+
+- `{string} nodeId - Prototype to remove the definition from.`
+- `{string} graphId - Definition graph to remove.`
+
+---
+
+### openGraphTabAndBringToTop
+
+Opens or moves a graph tab to the front of the tab list and activates it. Equivalent to the Panel.jsx double-click navigation behavior.
+
+**Parameters:**
+
+- `{string} graphId - Graph to open/bring to front.`
+- `{string|null} [definitionNodeId=null] - Prototype to set as active definition context.`
+
+---
+
+### cleanupOrphanedData
+
+Removes orphaned prototypes, graphs, and edges that are no longer reachable. A prototype is considered "reachable" if it is saved, has an open right-panel tab, has a definition graph, is instantiated in a graph, or is protected. Also prunes stale right-panel tabs, resets `activeDefinitionNodeId` if its prototype was deleted, and removes edges referencing missing instances. Called automatically 100ms after `toggleSavedNode` and `closeGraph`.
+
+---
+
+### restoreFromSession
+
+Restores the last saved session from local storage.
+
+---
+
+### getFileStatus
+
+Returns the current file status object from the file storage layer.
+
+**Returns:** {Object} File status including `hasFile`, `fileName`, etc.
+
+---
+
+### loadUniverseFromFile
+
+Replaces all store state with the provided universe data object. Deserializes Maps and Sets from the plain-object format used in `.redstring` files. Sets `isUniverseLoaded: true` and `isUniverseLoading: false` on success. Does NOT save or touch the file handle — call SaveCoordinator separately if needed.
+
+**Parameters:**
+
+- `{Object} dataToLoad - Deserialized universe state (from `importFromRedstring`).`
+
+---
+
+### setUniverseError
+
+Sets the universe loading error message (shown in the loading UI). Pass `null` to clear the error.
+
+**Parameters:**
+
+- `{string|null} error`
+
+---
+
+### addToAbstractionChain
+
+Inserts a node into an abstraction chain for a given dimension and direction. Abstraction chains represent the Is-a hierarchy (Tree of Porphyry). Each node can have a chain in the specificity dimension. The new node is inserted relative to `insertRelativeToNodeId` in the specified direction.
+
+**Parameters:**
+
+- `{string} nodeId - Prototype ID that owns the chain.`
+- `{string} dimension - The abstraction dimension (e.g., 'specificity').`
+- `{'above'|'below'} direction - Insert above (more general) or below (more specific).`
+- `{string} newNodeId - Prototype ID of the node to insert into the chain.`
+- `{string|null} insertRelativeToNodeId - Existing chain member to insert relative to.`
+
+---
+
+### removeFromAbstractionChain
+
+Removes a node from an abstraction chain.
+
+**Parameters:**
+
+- `{string} nodeId - Prototype ID that owns the chain.`
+- `{string} dimension - The abstraction dimension.`
+- `{string} nodeToRemove - Prototype ID of the node to remove from the chain.`
+
+---
+
+### swapNodeInChain
+
+Replaces one node with another in all abstraction chains. Used when renaming/retyping a node that participates in chains.
+
+**Parameters:**
+
+- `{string} currentNodeId - Prototype ID to replace.`
+- `{string} newNodeId - Prototype ID to substitute in.`
+
+---
+
+### clearUniverse
+
+Resets all store state to the empty default. Used to start a new universe.
+
+---
+
+### setUniverseConnected
+
+Marks the universe as connected to a file (hasUniverseFile). @param {boolean} [hasFile=true]
+
+---
+
+### setUniverseLoaded
+
+Marks the universe load as complete. @param {boolean} [loaded=true] @param {boolean} [hasFile=true]
+
+---
+
+### setStorageMode
+
+Sets the storage mode. @param {'local'|'git'|'hybrid'} mode
+
+---
+
+### updateGitSettings
+
+Merges partial Git settings into the gitSettings object. @param {Object} settings
+
+---
+
+### updateGraphView
+
+Persists pan/zoom viewport state for a graph. @param {string} graphId @param {{x: number, y: number}} panOffset @param {number} zoomLevel
+
+---
+
+### setGitConnection
+
+Sets the active Git remote connection configuration. @param {Object} connectionConfig
+
+---
+
+### clearGitConnection
+
+Clears the Git remote connection and removes it from localStorage.
+
+---
+
+### setGitSyncEngine
+
+Sets the live GitSyncEngine instance (called by UniverseManager). @param {Object} syncEngine
+
+---
+
+### setGitSourceOfTruth
+
+Sets whether 'local' or 'git' is the authoritative data source. @param {'local'|'git'} sourceOfTruth
+
+---
+
+### deleteNodePrototype
+
+Permanently deletes a node prototype and all of its associated data. Also deletes any graphs that list this prototype as their sole defining node, removes all instances of this prototype from all graphs, removes connected edges, removes the prototype from saved/panel state, and closes any open tabs. Cannot delete the base `base-thing-prototype` or `base-connection-prototype`.
+
+**Parameters:**
+
+- `{string} prototypeId - ID of the prototype to delete.`
+
+---
+
+### deleteGraph
+
+Permanently deletes a graph and all of its associated data. Removes all instances in the graph, all edges, closes the tab, and clears any active-graph references. Also removes the graph ID from its defining prototypes' `definitionGraphIds` lists.
+
+**Parameters:**
+
+- `{string} graphId - ID of the graph to delete.`
+
+---
+
+### cleanupOrphanedGraphs
+
+Removes graphs that are no longer referenced by any prototype's `definitionGraphIds`. Also deletes all edges belonging to each orphaned graph.
+
+---
+
+### applyPatches
+
+Applies Immer inverse patches to revert or redo a state change. Used by the history store's undo/redo system.
+
+**Parameters:**
+
+- `{import('immer').Patch[]} patches - Immer patches to apply.`
+
+---
+
+### setWizardPlanForConversation
+
+Saves a wizard execution plan for a conversation/tab, persisting across LLM context clears.
+
+**Parameters:**
+
+- `{string} conversationId - Conversation or tab ID.`
+- `{Object[]} plan - Array of plan step objects.`
+- `{string|null} graphId - Graph the plan is scoped to.`
+
+---
+
+### clearWizardPlanForConversation
+
+Removes the wizard plan for a conversation/tab.
+
+**Parameters:**
+
+- `{string} conversationId - Conversation or tab ID whose plan to clear.`
+
+---
+
+### revertWizardAction
+
+Reverts a specific wizard-authored action by applying its inverse Immer patches. Records the revert itself as a history entry.
+
+**Parameters:**
+
+- `{string} actionId - ID of the wizard action to revert (from historyStore).`
+
+
+---
+
+*Auto-generated from source code*

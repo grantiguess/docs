@@ -1,11 +1,11 @@
 ---
 title: "HoverVisionAid"
-description: "React component: HoverVisionAid"
+description: "React component: HoverVisionAid displays a high-fidelity preview of nodes or connections when the user hovers over elements on the canvas. SCALING FIX: Uses standard getNodeDimensions(node, false) to avoid massive square mode. The live hover props feed a small internal state machine that decouples what is *displayed* from what is currently hovered, so the preview can linger and fade after the pointer leaves without any fade-in or resize animation on the way back in."
 ---
 
 # HoverVisionAid
 
-The HoverVisionAid component.
+HoverVisionAid displays a high-fidelity preview of nodes or connections when the user hovers over elements on the canvas. SCALING FIX: Uses standard getNodeDimensions(node, false) to avoid massive square mode. The live hover props feed a small internal state machine that decouples what is *displayed* from what is currently hovered, so the preview can linger and fade after the pointer leaves without any fade-in or resize animation on the way back in.
 
 ## Location
 `src/components/HoverVisionAid.jsx`
@@ -16,12 +16,20 @@ This component does not accept props.
 
 ## Hooks Used
 
-No React hooks detected.
+- `useState`
+- `useEffect`
+- `useRef`
+- `useMemo`
+- `useGraphStore`
+- `user`
 
 ## Dependencies
 
-- `react`
 - `../UniversalNodeRenderer`
+- `../UniversalNodeRenderer.presets`
+- `../utils.js`
+- `../services/textMeasurement.js`
+- `../store/graphStore.js`
 
 ---
 

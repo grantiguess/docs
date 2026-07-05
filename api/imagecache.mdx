@@ -1,0 +1,19 @@
+---
+title: "imageCache"
+description: "Zustand store: Separate Zustand store for auto-enrichment image data (thumbnails). WHY THIS EXISTS: The main graphStore gets JSON.stringify'd for save hashing + file writes. Storing image data in nodePrototypes means every save cycle copies/hashes/writes megabytes of strings, causing V8 OOM crashes in Electron when 10+ nodes are enriched. This store: - Holds \{ protoId → \{ thumbnailSrc: blob URL, imageAspectRatio \} \} for auto-enriched nodes - Is NEVER serialized, hashed, or saved to disk - Components subscribe to it per-node, so only the affected node re-renders when an image loads - On reload, images re-fetch from Wikipedia URLs stored in semanticMetadata thumbnailSrc is a blob: URL (not a data URL or remote URL) because: - Blob URLs are same-origin, so SVG <image> elements render them without CORS issues - Blob data lives in the browser's native cache, NOT in the JS heap (no OOM) - They're never serialized (blob URLs are opaque strings, ~40 chars) User-uploaded images (via drag-drop or file picker) still go in the main store since those are intentional single-node operations that don't cause batch OOM."
+---
+
+# imageCache
+
+Separate Zustand store for auto-enrichment image data (thumbnails). WHY THIS EXISTS: The main graphStore gets JSON.stringify'd for save hashing + file writes. Storing image data in nodePrototypes means every save cycle copies/hashes/writes megabytes of strings, causing V8 OOM crashes in Electron when 10+ nodes are enriched. This store: - Holds \{ protoId → \{ thumbnailSrc: blob URL, imageAspectRatio \} \} for auto-enriched nodes - Is NEVER serialized, hashed, or saved to disk - Components subscribe to it per-node, so only the affected node re-renders when an image loads - On reload, images re-fetch from Wikipedia URLs stored in semanticMetadata thumbnailSrc is a blob: URL (not a data URL or remote URL) because: - Blob URLs are same-origin, so SVG <image> elements render them without CORS issues - Blob data lives in the browser's native cache, NOT in the JS heap (no OOM) - They're never serialized (blob URLs are opaque strings, ~40 chars) User-uploaded images (via drag-drop or file picker) still go in the main store since those are intentional single-node operations that don't cause batch OOM.
+
+## Location
+`src/services/imageCache.js`
+
+## Actions
+
+No actions detected.
+
+---
+
+*Auto-generated from source code*

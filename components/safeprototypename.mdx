@@ -1,14 +1,14 @@
 ---
 title: "safePrototypeName"
-description: "React component: Bridge Client Component (formerly MCPBridge) Establishes a bridge between the Redstring store and the orchestration daemon. Sends minimal store state via HTTP and registers store actions for applyMutations."
+description: "React component: bridgeStateSerializer.js Environment-agnostic construction of the \"bridge state\" payload — the lossy summary of the Redstring store that the wizard-server exposes at `GET /api/bridge/state` and that the MCP server + wizard tools read. This is the MCP compatibility contract. The shape produced by `buildBridgeState` is what `redstring-mcp-server.js` (`getRealRedstringState` → `toPlainState`) deserializes. A Vitest snapshot test locks this shape; if you add a field the tools need, update all three serialization hops (BridgeClient/daemon → wizard-server → MCP) — see MEMORY.md. Extracted verbatim from BridgeClient.jsx so the browser (BridgeClient) and the Node daemon (wizard-server headless mode) build the identical payload from the same code. No browser globals are referenced here — safe in Node. NOTE: this is a summary payload for MCP *reads*, NOT a sync format. Daemon↔ browser hydration must use `exportToRedstring` JSON, not this."
 ---
 
 # safePrototypeName
 
-Bridge Client Component (formerly MCPBridge) Establishes a bridge between the Redstring store and the orchestration daemon. Sends minimal store state via HTTP and registers store actions for applyMutations.
+bridgeStateSerializer.js Environment-agnostic construction of the \"bridge state\" payload — the lossy summary of the Redstring store that the wizard-server exposes at `GET /api/bridge/state` and that the MCP server + wizard tools read. This is the MCP compatibility contract. The shape produced by `buildBridgeState` is what `redstring-mcp-server.js` (`getRealRedstringState` → `toPlainState`) deserializes. A Vitest snapshot test locks this shape; if you add a field the tools need, update all three serialization hops (BridgeClient/daemon → wizard-server → MCP) — see MEMORY.md. Extracted verbatim from BridgeClient.jsx so the browser (BridgeClient) and the Node daemon (wizard-server headless mode) build the identical payload from the same code. No browser globals are referenced here — safe in Node. NOTE: this is a summary payload for MCP *reads*, NOT a sync format. Daemon↔ browser hydration must use `exportToRedstring` JSON, not this.
 
 ## Location
-`src/ai/BridgeClient.jsx`
+`src/services/bridgeStateSerializer.js`
 
 ## Props
 
@@ -16,18 +16,11 @@ This component does not accept props.
 
 ## Hooks Used
 
-- `useEffect`
-- `useRef`
 - `useGraphStore`
-- `user`
-- `uses`
 
 ## Dependencies
 
-- `react`
-- `../store/graphStore.jsx`
-- `../services/bridgeConfig.js`
-- `../services/canvasNavigationService.js`
+- `../constants.js`
 
 ---
 

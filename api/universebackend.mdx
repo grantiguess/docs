@@ -1,11 +1,11 @@
 ---
 title: "universeBackend"
-description: "Service: Universe Backend Service This is the TRUE backend for universe management that should run independently of any UI components. All universe operations should go through this service. The UI (GitNativeFederation.jsx) should ONLY display data and call these methods."
+description: "Service: Universe Backend Service This is the TRUE backend for universe management that should run independently of any UI components. All universe operations should go through this service. The UI (UniverseManager.jsx) should ONLY display data and call these methods."
 ---
 
 # universeBackend
 
-Universe Backend Service This is the TRUE backend for universe management that should run independently of any UI components. All universe operations should go through this service. The UI (GitNativeFederation.jsx) should ONLY display data and call these methods.
+Universe Backend Service This is the TRUE backend for universe management that should run independently of any UI components. All universe operations should go through this service. The UI (UniverseManager.jsx) should ONLY display data and call these methods.
 
 ## Location
 `src/services/universeBackend.js`
@@ -13,28 +13,28 @@ Universe Backend Service This is the TRUE backend for universe management that s
 ## Functions
 
 
-### gfLog
+### umLog
 
 ```javascript
-const gfLog = (...args) =>
+const umLog = (...args) =>
 ```
 
 No description available.
 
 
-### gfWarn
+### umWarn
 
 ```javascript
-const gfWarn = (...args) =>
+const umWarn = (...args) =>
 ```
 
 No description available.
 
 
-### gfError
+### umError
 
 ```javascript
-const gfError = (...args) =>
+const umError = (...args) =>
 ```
 
 No description available.
@@ -179,6 +179,24 @@ No description available.
 
 ```javascript
 const shouldSync = (last) =>
+```
+
+No description available.
+
+
+### swapToOauth
+
+```javascript
+const swapToOauth = async () =>
+```
+
+No description available.
+
+
+### isNotFound
+
+```javascript
+const isNotFound = (err) =>
 ```
 
 No description available.

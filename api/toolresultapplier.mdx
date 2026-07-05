@@ -1,0 +1,72 @@
+---
+title: "toolResultApplier"
+description: "Service: toolResultApplier.js Applies wizard/MCP tool results to the Redstring store. Extracted verbatim from LeftAIView.jsx so the browser and the Node daemon (wizard-server headless mode) apply mutations through the identical code path — including the critical resolve-by-name-take-LAST semantics (see MEMORY.md: predictive IDs from AgentLoop never match real store IDs, so handlers resolve entities by name and take the LAST match). Environment handling: - Browser globals (window.dispatchEvent / CustomEvent) are all `typeof window` guarded in the moved code, so they are automatic no-ops in Node — exactly the \"no-op emit headless\" behavior we want. - Wikipedia enrichment is browser-specific (fetch + thumbnail cache), so it is INJECTED: the browser calls configureToolResultApplier() with the real enrichNodeWithWikipedia / enrichMultipleNodes; a headless host leaves the no-op defaults (or supplies its own later). - useGraphStore is the same module singleton in both hosts (the daemon's createHeadlessStore imports the very same module), so it is imported directly rather than injected."
+---
+
+# toolResultApplier
+
+toolResultApplier.js Applies wizard/MCP tool results to the Redstring store. Extracted verbatim from LeftAIView.jsx so the browser and the Node daemon (wizard-server headless mode) apply mutations through the identical code path — including the critical resolve-by-name-take-LAST semantics (see MEMORY.md: predictive IDs from AgentLoop never match real store IDs, so handlers resolve entities by name and take the LAST match). Environment handling: - Browser globals (window.dispatchEvent / CustomEvent) are all `typeof window` guarded in the moved code, so they are automatic no-ops in Node — exactly the \"no-op emit headless\" behavior we want. - Wikipedia enrichment is browser-specific (fetch + thumbnail cache), so it is INJECTED: the browser calls configureToolResultApplier() with the real enrichNodeWithWikipedia / enrichMultipleNodes; a headless host leaves the no-op defaults (or supplies its own later). - useGraphStore is the same module singleton in both hosts (the daemon's createHeadlessStore imports the very same module), so it is imported directly rather than injected.
+
+## Location
+`src/services/toolResultApplier.js`
+
+## Functions
+
+
+### configureToolResultApplier
+
+```javascript
+export function configureToolResultApplier(
+```
+
+No description available.
+
+
+### generateConnectionColor
+
+```javascript
+function generateConnectionColor(
+```
+
+No description available.
+
+
+### dispatchWizardToolFailed
+
+```javascript
+function dispatchWizardToolFailed(
+```
+
+No description available.
+
+
+### setWizardProvenanceContext
+
+```javascript
+export function setWizardProvenanceContext(
+```
+
+No description available.
+
+
+### wizardSemanticMetadata
+
+```javascript
+const wizardSemanticMetadata = () =>
+```
+
+No description available.
+
+
+### applyToolResultToStore
+
+```javascript
+export function applyToolResultToStore(
+```
+
+No description available.
+
+
+---
+
+*Auto-generated from source code*

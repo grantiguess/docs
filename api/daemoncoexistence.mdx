@@ -1,0 +1,108 @@
+---
+title: "daemonCoexistence"
+description: "Service: daemonCoexistence.js Browser-side controller for running the app alongside a headless daemon (Phase 6). Truth model: daemon-canonical-when-present. When a headless daemon is detected, the browser: 1. hydrates from the daemon (GET /api/store/export → loadUniverseFromFile), 2. suspends its own local file writes (saveCoordinator.setEnabled(false)), 3. forwards local edits to the daemon (POST /api/store/import) with optimistic concurrency (baseVersion), re-hydrating on 409, and 4. re-hydrates when the daemon advances externally (MCP/CLI mutations). When the daemon disappears, it resumes standalone (setEnabled(true)). Fully dependency-injected (no static graphStore import) so it stays browser- safe AND can be integration-tested in Node against a real daemon."
+---
+
+# daemonCoexistence
+
+daemonCoexistence.js Browser-side controller for running the app alongside a headless daemon (Phase 6). Truth model: daemon-canonical-when-present. When a headless daemon is detected, the browser: 1. hydrates from the daemon (GET /api/store/export → loadUniverseFromFile), 2. suspends its own local file writes (saveCoordinator.setEnabled(false)), 3. forwards local edits to the daemon (POST /api/store/import) with optimistic concurrency (baseVersion), re-hydrating on 409, and 4. re-hydrates when the daemon advances externally (MCP/CLI mutations). When the daemon disappears, it resumes standalone (setEnabled(true)). Fully dependency-injected (no static graphStore import) so it stays browser- safe AND can be integration-tested in Node against a real daemon.
+
+## Location
+`src/services/daemonCoexistence.js`
+
+## Functions
+
+
+### createDaemonCoexistence
+
+```javascript
+export function createDaemonCoexistence(
+```
+
+No description available.
+
+
+### getJson
+
+```javascript
+function getJson(
+```
+
+No description available.
+
+
+### hydrate
+
+```javascript
+function hydrate(
+```
+
+No description available.
+
+
+### engage
+
+```javascript
+function engage(
+```
+
+No description available.
+
+
+### disengage
+
+```javascript
+function disengage(
+```
+
+No description available.
+
+
+### scheduleForward
+
+```javascript
+function scheduleForward(
+```
+
+No description available.
+
+
+### forwardEdit
+
+```javascript
+function forwardEdit(
+```
+
+No description available.
+
+
+### tick
+
+```javascript
+function tick(
+```
+
+No description available.
+
+
+### start
+
+```javascript
+function start(
+```
+
+No description available.
+
+
+### stop
+
+```javascript
+function stop(
+```
+
+No description available.
+
+
+---
+
+*Auto-generated from source code*

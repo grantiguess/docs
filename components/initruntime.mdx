@@ -1,0 +1,32 @@
+---
+title: "initRuntime"
+description: "React component: runtime.js Wires the headless store + a workspace of universes + the shared action modules into a single runtime the wizard-server mounts when a workspace is configured. Node analogue of the browser's BridgeClient + universeBackend: it owns the store, manages universes (create/list/switch/delete), executes pending actions in-process, and persists to disk. Executor mirrors BridgeClient's dispatch exactly (BridgeClient.jsx ~666/672 and the __rs_applyToolResultToStore fallback ~735): try storeActions[action] first, else route through applyToolResultToStore."
+---
+
+# initRuntime
+
+runtime.js Wires the headless store + a workspace of universes + the shared action modules into a single runtime the wizard-server mounts when a workspace is configured. Node analogue of the browser's BridgeClient + universeBackend: it owns the store, manages universes (create/list/switch/delete), executes pending actions in-process, and persists to disk. Executor mirrors BridgeClient's dispatch exactly (BridgeClient.jsx ~666/672 and the __rs_applyToolResultToStore fallback ~735): try storeActions[action] first, else route through applyToolResultToStore.
+
+## Location
+`src/headless/runtime.js`
+
+## Props
+
+This component does not accept props.
+
+## Hooks Used
+
+- `useGraphStore`
+
+## Dependencies
+
+- `node:path`
+- `./createHeadlessStore.js`
+- `./HeadlessWorkspace.js`
+- `../services/bridgeStateSerializer.js`
+- `../formats/redstringFormat.js`
+- `./config.js`
+
+---
+
+*Auto-generated from source code*

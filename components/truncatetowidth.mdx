@@ -1,0 +1,43 @@
+---
+title: "truncateToWidth"
+description: "React component: Truncate `text` with an ellipsis so it fits on a single line within `maxWidth` (px) at the given canvas `fontString`. Uses Pretext-backed measurement (cached) to clip precisely instead of estimating characters — so labels never wrap or overflow the node in compact previews. Returns the original text if it fits."
+---
+
+# truncateToWidth
+
+Truncate `text` with an ellipsis so it fits on a single line within `maxWidth` (px) at the given canvas `fontString`. Uses Pretext-backed measurement (cached) to clip precisely instead of estimating characters — so labels never wrap or overflow the node in compact previews. Returns the original text if it fits.
+
+## Location
+`src/UniversalNodeRenderer.jsx`
+
+## Props
+
+This component does not accept props.
+
+## Hooks Used
+
+- `useMemo`
+- `useState`
+- `useCallback`
+- `useRef`
+- `useGraphStore`
+- `useTheme`
+- `used`
+- `useEnter`
+- `useLeave`
+- `userSpaceOnUse`
+- `userSelect`
+
+## Dependencies
+
+- `./store/graphStore.js`
+- `./utils.js`
+- `./utils/colorUtils.js`
+- `./ai/palettes.js`
+- `./constants.js`
+- `./hooks/useTheme.js`
+- `./services/textMeasurement.js`
+
+---
+
+*Auto-generated from source code*

@@ -1,0 +1,37 @@
+---
+title: "GitHubDeviceFlowModal"
+description: "React component: Displays the GitHub device-flow user code and verification URL while the background poll waits for the user to approve in their browser. Driven entirely by props — the caller owns the polling promise and mutates the cancel signal it passed in when the user clicks Cancel."
+---
+
+# GitHubDeviceFlowModal
+
+Displays the GitHub device-flow user code and verification URL while the background poll waits for the user to approve in their browser. Driven entirely by props — the caller owns the polling promise and mutates the cancel signal it passed in when the user clicks Cancel.
+
+## Location
+`src/components/modals/GitHubDeviceFlowModal.jsx`
+
+## Props
+
+This component does not accept props.
+
+## Hooks Used
+
+- `useEffect`
+- `useRef`
+- `useState`
+- `useTheme`
+- `user`
+- `userCode`
+- `userSelect`
+
+## Dependencies
+
+- `lucide-react`
+- `../shared/Modal.jsx`
+- `../shared/PanelIconButton.jsx`
+- `../../hooks/useTheme.js`
+- `../../services/githubDeviceFlow.js`
+
+---
+
+*Auto-generated from source code*

@@ -1,0 +1,27 @@
+---
+title: "memberBoundaryPaddingFor"
+description: "React component: Pure helper for computing the visual layout of a group (thing-group or node-group). Used by both the static render in NodeCanvas.jsx and the DOM-bypass drag updater in useNodeDrag.js so they share one source of truth. No React, no Zustand, no DOM access. Text measurement is injected via `context.measureLabelWidth` so tests can stub it. Nesting handling: when a member instance also belongs to another node-group in the same graph, the outer bbox folds in that nested group's title-included `nodeGroupRect.y` rather than just the member's raw `n.y`. Without this, the outer rect undershoots by ~labelHeight + 48px."
+---
+
+# memberBoundaryPaddingFor
+
+Pure helper for computing the visual layout of a group (thing-group or node-group). Used by both the static render in NodeCanvas.jsx and the DOM-bypass drag updater in useNodeDrag.js so they share one source of truth. No React, no Zustand, no DOM access. Text measurement is injected via `context.measureLabelWidth` so tests can stub it. Nesting handling: when a member instance also belongs to another node-group in the same graph, the outer bbox folds in that nested group's title-included `nodeGroupRect.y` rather than just the member's raw `n.y`. Without this, the outer rect undershoots by ~labelHeight + 48px.
+
+## Location
+`src/services/groupLayout.js`
+
+## Props
+
+This component does not accept props.
+
+## Hooks Used
+
+- `useNodeDrag`
+
+## Dependencies
+
+No imports detected.
+
+---
+
+*Auto-generated from source code*

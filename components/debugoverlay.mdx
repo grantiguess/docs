@@ -1,11 +1,11 @@
 ---
 title: "DebugOverlay"
-description: "React component: DebugOverlay"
+description: "React component: On-screen debug panel. Mobile-friendly (touch drag, viewport-clamped). Two render modes, chosen by debugData shape: - `debugData._sync` present → structured sync-engine diagnostics with action buttons (retry, force-save, refresh) wired via `actions` prop. Used to debug \"Awaiting sync engine forever\" on mobile, where devtools aren't easily accessible. - otherwise → generic key/value dump (legacy debug usage)."
 ---
 
 # DebugOverlay
 
-The DebugOverlay component.
+On-screen debug panel. Mobile-friendly (touch drag, viewport-clamped). Two render modes, chosen by debugData shape: - `debugData._sync` present → structured sync-engine diagnostics with action buttons (retry, force-save, refresh) wired via `actions` prop. Used to debug \"Awaiting sync engine forever\" on mobile, where devtools aren't easily accessible. - otherwise → generic key/value dump (legacy debug usage).
 
 ## Location
 `src/DebugOverlay.jsx`
@@ -18,13 +18,15 @@ This component does not accept props.
 
 - `useState`
 - `useEffect`
-- `useDown`
-- `useMove`
-- `useUp`
-- `useX`
-- `useY`
+- `useCallback`
 - `usemove`
 - `useup`
+- `useDown`
+- `uses`
+- `user`
+- `users`
+- `userSelect`
+- `userAgent`
 
 ## Dependencies
 

@@ -32,6 +32,9 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="CommitterService" href="/api/committerservice">
     CommitterService class documentation
   </Card>
+  <Card title="DruidInstance" href="/api/druidinstance">
+    DruidInstance - The Druid's Cognitive State Manager The Druid is a meta-cognitive AI that automatically structures human thought into persistent graph representations. This class manages: - 6 cognitive graphs (Goals, Beliefs, Observations, Plans, Episodic Memory, Semantic Memory) - Workspace discovery and creation - Automatic thought structuring - Termination logic for thought completion
+  </Card>
   <Card title="EventLog" href="/api/eventlog">
     EventLog class documentation
   </Card>
@@ -50,11 +53,11 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="UserAnalytics" href="/api/useranalytics">
     UserAnalytics class documentation
   </Card>
+  <Card title="WorkspaceService" href="/api/workspaceservice">
+    WorkspaceService class documentation
+  </Card>
   <Card title="AgentExecutor" href="/api/agentexecutor">
     AgentExecutor class documentation
-  </Card>
-  <Card title="DruidInstance" href="/api/druidinstance">
-    DruidInstance class documentation
   </Card>
   <Card title="EventBus" href="/api/eventbus">
     EventBus class documentation
@@ -188,8 +191,20 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="Node" href="/api/node">
     Represents a node in the graph, extending the base Entry class. Equivalent to Node.java.
   </Card>
+  <Card title="HeadlessUniverse" href="/api/headlessuniverse">
+    HeadlessUniverse.js Owns a single `.redstring` file on disk for the headless daemon: loads it into the headless store, then persists store changes back with a debounced, atomic, shrink-guarded writer. This is the Node-side analogue of the browser's SaveCoordinator + file handle — but the daemon writes directly to the path. Design notes: - One store singleton per process (see createHeadlessStore) → one universe per daemon. Multi-universe = one daemon process per universe. - Sync format is exportToRedstring JSON (the full, lossless form), NOT the lossy bridge payload. - An exclusive lockfile under ~/.redstring/locks prevents two daemons from fighting over the same file. Stale locks (dead pid) are stolen. - Atomic writes: write `<file>.tmp` then rename, so a crash mid-write never truncates the real file. - Shrink guard: refuse to overwrite a non-empty universe with an empty one (ports the intent of graphStore's countUserData collapse tripwire).
+  </Card>
+  <Card title="HeadlessWorkspace" href="/api/headlessworkspace">
+    HeadlessWorkspace.js A workspace is a local folder that holds `.redstring` universe files. This is the Node analogue of the browser's universe registry (universeBackend) — but lean and filesystem-based: the folder IS the registry (existence = files on disk), and a small manifest at `<dir>/.redstring/workspace.json` adds the active pointer, display names, and git links. One universe is "active" and loaded into the singleton store at a time. Switching flushes the current file and loads the new one (mirrors the browser's switchActiveUniverse). Universe object shapes mirror the browser's so a folder of `.redstring` files interoperates between browser and headless.
+  </Card>
+  <Card title="GitHubUniverseSync" href="/api/githubuniversesync">
+    GitHubUniverseSync class documentation
+  </Card>
   <Card title="CommitterService" href="/api/committerservice">
     CommitterService class documentation
+  </Card>
+  <Card title="DruidInstance" href="/api/druidinstance">
+    DruidInstance - The Druid's Cognitive State Manager The Druid is a meta-cognitive AI that automatically structures human thought into persistent graph representations. This class manages: - 6 cognitive graphs (Goals, Beliefs, Observations, Plans, Episodic Memory, Semantic Memory) - Workspace discovery and creation - Automatic thought structuring - Termination logic for thought completion
   </Card>
   <Card title="EventLog" href="/api/eventlog">
     EventLog class documentation
@@ -209,11 +224,11 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="UserAnalytics" href="/api/useranalytics">
     UserAnalytics class documentation
   </Card>
+  <Card title="WorkspaceService" href="/api/workspaceservice">
+    WorkspaceService class documentation
+  </Card>
   <Card title="AgentExecutor" href="/api/agentexecutor">
     AgentExecutor class documentation
-  </Card>
-  <Card title="DruidInstance" href="/api/druidinstance">
-    DruidInstance class documentation
   </Card>
   <Card title="EventBus" href="/api/eventbus">
     EventBus class documentation
@@ -346,6 +361,9 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="Committer" href="/api/committer">
     Committer service documentation
   </Card>
+  <Card title="DruidInstance" href="/api/druidinstance">
+    DruidInstance - The Druid's Cognitive State Manager The Druid is a meta-cognitive AI that automatically structures human thought into persistent graph representations. This class manages: - 6 cognitive graphs (Goals, Beliefs, Observations, Plans, Episodic Memory, Semantic Memory) - Workspace discovery and creation - Automatic thought structuring - Termination logic for thought completion
+  </Card>
   <Card title="EventLog" href="/api/eventlog">
     EventLog service documentation
   </Card>
@@ -364,20 +382,29 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="UserAnalytics" href="/api/useranalytics">
     User Analytics Service Tracks unique users, sessions, and user activity
   </Card>
+  <Card title="WorkspaceService" href="/api/workspaceservice">
+    Workspace Service Centralized manager for the Redstring workspace. - Manages the root folder handle/path. - Reads/Writes `redstring.config.json` as the source of truth for the active universe. - Handles creation of new universes and config updates.
+  </Card>
+  <Card title="groupLayout.test" href="/api/grouplayout.test">
+    groupLayout.test service documentation
+  </Card>
   <Card title="semanticSystem.test" href="/api/semanticsystem.test">
     Semantic Discovery System - Integration Tests
   </Card>
   <Card title="AgentExecutor" href="/api/agentexecutor">
     Agent Executor - Traverses agent graphs and executes nodes
   </Card>
-  <Card title="DruidInstance" href="/api/druidinstance">
-    Druid Instance - The agent's cognitive state as a Redstring graph The Druid is an agent whose mind IS a Redstring instance
-  </Card>
-  <Card title="DruidStore" href="/api/druidstore">
-    Druid Store - Isolated Zustand store for The Druid's cognitive state This is a separate Redstring instance representing an agent's internal mind
+  <Card title="DruidPrompt" href="/api/druidprompt">
+    DruidPrompt service documentation
   </Card>
   <Card title="EventBus" href="/api/eventbus">
     Event Bus for Agent Communication Enables event-driven agent execution where agents can subscribe to events
+  </Card>
+  <Card title="PromptFragments" href="/api/promptfragments">
+    PromptFragments service documentation
+  </Card>
+  <Card title="WizardPrompt" href="/api/wizardprompt">
+    WizardPrompt service documentation
   </Card>
   <Card title="WorkingMemory" href="/api/workingmemory">
     Working Memory for Agent Chains Shared context across agent execution with event-driven updates
@@ -390,15 +417,6 @@ This documentation is automatically generated from the Redstring source code.
   </Card>
   <Card title="nodeRunners" href="/api/noderunners">
     Node Type Runners - Execute different agent node types
-  </Card>
-  <Card title="Executor" href="/api/executor">
-    Helper to find prototype ID by name
-  </Card>
-  <Card title="Planner" href="/api/planner">
-    Extract color palette from node prototypes
-  </Card>
-  <Card title="StateMirror" href="/api/statemirror">
-    Smart merge: Preserves graphs/prototypes from other sources (e.g. tests) if not explicitly overwritten
   </Card>
   <Card title="ai-agent-service" href="/api/ai-agent-service">
     AI Agent Service Handles AI agent endpoints (/api/ai/agent, /api/ai/chat, etc.) NOTE: This is a temporary bridge that will be fully migrated from bridge-daemon.js For now, it provides a placeholder that guides users to run the bridge daemon separately
@@ -421,6 +439,9 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="bridgeConfig" href="/api/bridgeconfig">
     bridgeConfig service documentation
   </Card>
+  <Card title="bridgeStateSerializer" href="/api/bridgestateserializer">
+    bridgeStateSerializer.js Environment-agnostic construction of the \"bridge state\" payload — the lossy summary of the Redstring store that the wizard-server exposes at `GET /api/bridge/state` and that the MCP server + wizard tools read. This is the MCP compatibility contract. The shape produced by `buildBridgeState` is what `redstring-mcp-server.js` (`getRealRedstringState` → `toPlainState`) deserializes. A Vitest snapshot test locks this shape; if you add a field the tools need, update all three serialization hops (BridgeClient/daemon → wizard-server → MCP) — see MEMORY.md. Extracted verbatim from BridgeClient.jsx so the browser (BridgeClient) and the Node daemon (wizard-server headless mode) build the identical payload from the same code. No browser globals are referenced here — safe in Node. NOTE: this is a summary payload for MCP *reads*, NOT a sync format. Daemon↔ browser hydration must use `exportToRedstring` JSON, not this.
+  </Card>
   <Card title="bridgeStoreAccessor" href="/api/bridgestoreaccessor">
     Bridge Store Accessor Provides read-only access to the mirrored bridge store data from orchestrator components
   </Card>
@@ -436,20 +457,23 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="cognitiveAgent" href="/api/cognitiveagent">
     AI Agent for Redstring Provides intelligent, goal-oriented AI behavior that understands the prototype/instance architecture
   </Card>
+  <Card title="daemonCoexistence" href="/api/daemoncoexistence">
+    daemonCoexistence.js Browser-side controller for running the app alongside a headless daemon (Phase 6). Truth model: daemon-canonical-when-present. When a headless daemon is detected, the browser: 1. hydrates from the daemon (GET /api/store/export → loadUniverseFromFile), 2. suspends its own local file writes (saveCoordinator.setEnabled(false)), 3. forwards local edits to the daemon (POST /api/store/import) with optimistic concurrency (baseVersion), re-hydrating on 409, and 4. re-hydrates when the daemon advances externally (MCP/CLI mutations). When the daemon disappears, it resumes standalone (setEnabled(true)). Fully dependency-injected (no static graphStore import) so it stays browser- safe AND can be integration-tested in Node against a real daemon.
+  </Card>
   <Card title="domainVerification" href="/api/domainverification">
     Domain Verification Service Handles domain ownership verification without email requirements Supports DNS, file-based, and meta tag verification methods
   </Card>
   <Card title="entityMatching" href="/api/entitymatching">
     Entity Matching Service Multi-factor confidence scoring for entity deduplication across knowledge sources. Handles sameAs links, external identifiers, and fuzzy matching.
   </Card>
+  <Card title="externalUniverseLoader" href="/api/externaluniverseloader">
+    External Universe Loader Pure functions for loading .redstring files from arbitrary web URLs: - GitHub file URLs (github.com/.../blob/... or raw.githubusercontent.com/...) - GitHub folder URLs (github.com/.../tree/...) - GitHub repo URLs (github.com/owner/repo) - Arbitrary direct URLs whose path ends in .redstring No React, no store imports. Just URL classification, fetch, and GitHub API listing. GitHub calls are unauthenticated (60 req/hr limit per IP — acceptable for one-shot load).
+  </Card>
   <Card title="fileHandlePersistence" href="/api/filehandlepersistence">
     File Handle Persistence Service Handles persistent storage of File System Access API handles and metadata. Since FileSystemFileHandle objects cannot be serialized, we store metadata and attempt to restore access using the permission system. In Electron: file handles are string paths stored in a local JSON file. In Browser: file handles are FileSystemFileHandle objects stored in IndexedDB.
   </Card>
   <Card title="folderPersistence" href="/api/folderpersistence">
     Folder Persistence Service Manages storage and retrieval of the Redstring workspace folder handle/path. - Web: Stores DirectoryHandle in IndexedDB - Electron: Stores folder path string in localStorage
-  </Card>
-  <Card title="gitFederationService" href="/api/gitfederationservice">
-    Attach Git repository to an existing universe IMPORTANT: This implements the 2-SLOT STORAGE SYSTEM - Universes can have BOTH local file AND Git storage simultaneously - sourceOfTruth determines which is PRIMARY (authoritative) - The other slot serves as BACKUP/SECONDARY storage This function preserves the existing sourceOfTruth to avoid data loss: - If universe has local file enabled → keeps 'local' as primary, Git becomes backup - If universe has no sourceOfTruth set → defaults to 'git' - User can explicitly change primary via setPrimaryStorage()
   </Card>
   <Card title="gitNativeProvider" href="/api/gitnativeprovider">
     Git-Native Semantic Web Provider Core abstraction for hot-swappable Git providers Enables real-time responsiveness, true decentralization, and distributed resilience
@@ -460,6 +484,9 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="githubApp" href="/api/githubapp">
     GitHub App Authentication Service Provides reliable, long-lived authentication using GitHub Apps instead of traditional OAuth tokens that expire.
   </Card>
+  <Card title="githubDeviceFlow" href="/api/githubdeviceflow">
+    GitHub Device Flow (Electron-only). Fully local OAuth: requests a device code from github.com, has the user approve it in their browser, polls until GitHub returns a token. No client_secret, no callback server, no reliance on redstring.io. Used for both the OAuth App (general repo access) and the GitHub App (live sync). The only difference between the two flows is the client_id — the App's device flow returns a user-to-server token (`ghu_*`) which acts with the App's permissions on installations the user has access to.
+  </Card>
   <Card title="githubRateLimiter" href="/api/githubratelimiter">
     GitHub API Rate Limiter Tracks API usage across all GitSyncEngines to prevent exceeding limits GitHub Free Plan: 5,000 requests/hour per authentication method
   </Card>
@@ -468,6 +495,12 @@ This documentation is automatically generated from the Redstring source code.
   </Card>
   <Card title="graphQueries" href="/api/graphqueries">
     Graph Query Abstraction Layer Provides semantic, high-level queries for graph data from the bridge store. This abstracts away the internal data structure (maps, instances, prototypes, edges) and provides a consistent API for the AI agent and orchestration pipeline.
+  </Card>
+  <Card title="groupLayout" href="/api/grouplayout">
+    Pure helper for computing the visual layout of a group (thing-group or node-group). Used by both the static render in NodeCanvas.jsx and the DOM-bypass drag updater in useNodeDrag.js so they share one source of truth. No React, no Zustand, no DOM access. Text measurement is injected via `context.measureLabelWidth` so tests can stub it. Nesting handling: when a member instance also belongs to another node-group in the same graph, the outer bbox folds in that nested group's title-included `nodeGroupRect.y` rather than just the member's raw `n.y`. Without this, the outer rect undershoots by ~labelHeight + 48px.
+  </Card>
+  <Card title="imageCache" href="/api/imagecache">
+    Separate Zustand store for auto-enrichment image data (thumbnails). WHY THIS EXISTS: The main graphStore gets JSON.stringify'd for save hashing + file writes. Storing image data in nodePrototypes means every save cycle copies/hashes/writes megabytes of strings, causing V8 OOM crashes in Electron when 10+ nodes are enriched. This store: - Holds \{ protoId → \{ thumbnailSrc: blob URL, imageAspectRatio \} \} for auto-enriched nodes - Is NEVER serialized, hashed, or saved to disk - Components subscribe to it per-node, so only the affected node re-renders when an image loads - On reload, images re-fetch from Wikipedia URLs stored in semanticMetadata thumbnailSrc is a blob: URL (not a data URL or remote URL) because: - Blob URLs are same-origin, so SVG <image> elements render them without CORS issues - Blob data lives in the browser's native cache, NOT in the JS heap (no OOM) - They're never serialized (blob URLs are opaque strings, ~40 chars) User-uploaded images (via drag-drop or file picker) still go in the main store since those are intentional single-node operations that don't cause batch OOM.
   </Card>
   <Card title="knowledgeFederation" href="/api/knowledgefederation">
     Knowledge Federation Service Connects to multiple knowledge bases simultaneously, imports related entities, and creates federated search across domains
@@ -483,6 +516,9 @@ This documentation is automatically generated from the Redstring source code.
   </Card>
   <Card title="oauthAutoConnect" href="/api/oauthautoconnect">
     OAuth Auto-Connect Service Provides robust OAuth auto-connection functionality that is independent of any UI component. Handles both OAuth tokens and GitHub App installations.
+  </Card>
+  <Card title="offscreenLayout" href="/api/offscreenlayout">
+    Compute and persist a force-directed layout for any graph, active or not. Uses estimated node dimensions (no DOM access required) and a fixed 2000×2000 virtual canvas. Positions are written directly to the store.
   </Card>
   <Card title="orbitLocalIndex" href="/api/orbitlocalindex">
     Ingests catalog entries and optionally upserts protected prototypes into the store. Each entry shape: \{ uri: 'http://example.org/entity', label: 'Example', description?: '...', types?: ['Q5'], source?: 'orbit-local', related?: [\{ uri, label, predicate?, source?, types? \}] \}
@@ -532,6 +568,9 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="semanticFederation" href="/api/semanticfederation">
     Semantic Federation Engine Handles cross-domain discovery, subscriptions, and real-time federation Enables informal knowledge pools through TTL-based linking
   </Card>
+  <Card title="semanticHash" href="/api/semantichash">
+    Semantic and full hash functions for .redstring documents and store states. D5 (FORMAT_REFACTOR_PLAN §3): two hash tiers. Tier-1 — semanticHash / semanticHashFromStore SHA-256 over URDNA2015 canonical N-Quads of the exported document. The canonical export is always produced via exportToRedstring (emitV4:false), so a v3-serialized file and a v4-serialized file with identical knowledge produce the same tier-1 hash. Used by detectSlotConflict. Tier-2 — fullHash / fullHashFromStore SHA-256 over canonically-ordered JSON minus presentation-only sections. Covers knowledge + spatial layout but not UI state / viewport / derived caches.
+  </Card>
   <Card title="semanticIntegration" href="/api/semanticintegration">
     Semantic Integration - Unified API High-level API that combines semantic discovery, entity matching, and radial layout into a cohesive system.
   </Card>
@@ -556,27 +595,57 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="startupCoordinator" href="/api/startupcoordinator">
     Startup Coordinator - Prevents multiple initialization conflicts This singleton coordinates app initialization to prevent: - Multiple GitSyncEngine creation - Race conditions between bootstrap components - API spam during startup
   </Card>
+  <Card title="storeActions" href="/api/storeactions">
+    storeActions.js The store-mutation action handlers that back the bridge's applyMutations / pending-action executor. Extracted from BridgeClient's `window.redstringStoreActions` object so the browser and the Node daemon execute the SAME handlers. Environment coupling is injected via createStoreActions(deps): - useGraphStore    the store singleton (same module in both hosts). - emitEvent(evt)   browser: (evt) => window.dispatchEvent(evt); node: no-op. Handlers build `new CustomEvent(...)` (global in browsers and Node >= 22) and hand it to emitEvent; node drops it. - markActive()     browser: bumps the connection activity ref; node: no-op. - navigate(gid)    browser: canvas navigation; node: no-op. - syncState()      browser: POST current store to the bridge; node: no-op. Replaces the old inline self-sync payloads. - bridgeStateFetch() browser: GET /api/bridge/state; node: -> \{ok:false\}. - uiCallbacks      browser wiring for wizard/chat UI reads (getTabs, getWizardStatus); absent in node -> handlers report the UI is unavailable. STALE-STATE FIX: the original captured `const state = getState()` once at registration and reused it across every later handler call. All those `state.*` accesses are rewritten to `useGraphStore.getState().*` so each handler reads the CURRENT store at call time.
+  </Card>
+  <Card title="tabularDataStore" href="/api/tabulardatastore">
+    Temporary in-memory storage for parsed tabular data. File attachments are parsed client-side and stored here so that wizard tools (via config passthrough) can access the full dataset. Designed for both in-app wizard and future UI import features.
+  </Card>
+  <Card title="tabularParser" href="/api/tabularparser">
+    Tabular data parsing layer. Handles CSV, TSV, XLSX, and JSON (array-of-objects) formats. Zero dependency on wizard/graph systems — designed for reuse by future UI import features.
+  </Card>
+  <Card title="tabularParser.test" href="/api/tabularparser.test">
+    tabularParser.test service documentation
+  </Card>
+  <Card title="textMeasurement" href="/api/textmeasurement">
+    Text measurement service powered by @chenglou/pretext. Replaces DOM-based hidden-element measurement (offsetWidth/offsetHeight) and canvas measureText() calls with Pretext's DOM-free layout engine, eliminating synchronous layout reflows.
+  </Card>
   <Card title="toolRegistry" href="/api/toolregistry">
     Unified Tool Registry for Redstring AI Central hub for all AI tool management, validation, and execution
+  </Card>
+  <Card title="toolResultApplier" href="/api/toolresultapplier">
+    toolResultApplier.js Applies wizard/MCP tool results to the Redstring store. Extracted verbatim from LeftAIView.jsx so the browser and the Node daemon (wizard-server headless mode) apply mutations through the identical code path — including the critical resolve-by-name-take-LAST semantics (see MEMORY.md: predictive IDs from AgentLoop never match real store IDs, so handlers resolve entities by name and take the LAST match). Environment handling: - Browser globals (window.dispatchEvent / CustomEvent) are all `typeof window` guarded in the moved code, so they are automatic no-ops in Node — exactly the \"no-op emit headless\" behavior we want. - Wikipedia enrichment is browser-specific (fetch + thumbnail cache), so it is INJECTED: the browser calls configureToolResultApplier() with the real enrichNodeWithWikipedia / enrichMultipleNodes; a headless host leaves the no-op defaults (or supplies its own later). - useGraphStore is the same module singleton in both hosts (the daemon's createHeadlessStore imports the very same module), so it is imported directly rather than injected.
   </Card>
   <Card title="toolValidator" href="/api/toolvalidator">
     Tool Validation System for Redstring MCP Provides robust schema validation and type checking for all tool operations
   </Card>
   <Card title="universeBackend" href="/api/universebackend">
-    Universe Backend Service This is the TRUE backend for universe management that should run independently of any UI components. All universe operations should go through this service. The UI (GitNativeFederation.jsx) should ONLY display data and call these methods.
+    Universe Backend Service This is the TRUE backend for universe management that should run independently of any UI components. All universe operations should go through this service. The UI (UniverseManager.jsx) should ONLY display data and call these methods.
   </Card>
   <Card title="universeBackendBridge" href="/api/universebackendbridge">
     Universe Backend Bridge Utility Provides a safe, reusable bridge for UI components to communicate with the universe backend via window events. Centralizes command dispatching to avoid temporal dead zone pitfalls and duplicate implementations.
+  </Card>
+  <Card title="universeManagerService" href="/api/universemanagerservice">
+    Attach Git repository to an existing universe IMPORTANT: This implements the 2-SLOT STORAGE SYSTEM - Universes can have BOTH local file AND Git storage simultaneously - sourceOfTruth determines which is PRIMARY (authoritative) - The other slot serves as BACKUP/SECONDARY storage This function preserves the existing sourceOfTruth to avoid data loss: - If universe has local file enabled → keeps 'local' as primary, Git becomes backup - If universe has no sourceOfTruth set → defaults to 'git' - User can explicitly change primary via setPrimaryStorage()
   </Card>
   <Card title="uriGenerator" href="/api/urigenerator">
     URI Generator Service Generates URIs dynamically based on user domains Replaces hardcoded redstring.io URIs with user-controlled namespaces
   </Card>
   <Card title="userTracking" href="/api/usertracking">
     Client-side User Tracking Tracks user actions in the browser and sends to analytics API
+  </Card>
+  <Card title="wikidataSlice" href="/api/wikidataslice">
+    Client-side Wikidata slice fetcher for the Semantic Discovery catalog. Queries the Wikidata SPARQL endpoint directly from the browser using the existing sparqlClient infrastructure (rate limiting, caching, timeout).
+  </Card>
+  <Card title="workspaceFolderService" href="/api/workspacefolderservice">
+    Saves a directory handle (web) or folder path (Electron) for the workspace
   </Card>
   <Card title="Committer" href="/api/committer">
     Committer service documentation
   </Card>
+  <Card title="DruidInstance" href="/api/druidinstance">
+    DruidInstance - The Druid's Cognitive State Manager The Druid is a meta-cognitive AI that automatically structures human thought into persistent graph representations. This class manages: - 6 cognitive graphs (Goals, Beliefs, Observations, Plans, Episodic Memory, Semantic Memory) - Workspace discovery and creation - Automatic thought structuring - Termination logic for thought completion
+  </Card>
   <Card title="EventLog" href="/api/eventlog">
     EventLog service documentation
   </Card>
@@ -595,20 +664,29 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="UserAnalytics" href="/api/useranalytics">
     User Analytics Service Tracks unique users, sessions, and user activity
   </Card>
+  <Card title="WorkspaceService" href="/api/workspaceservice">
+    Workspace Service Centralized manager for the Redstring workspace. - Manages the root folder handle/path. - Reads/Writes `redstring.config.json` as the source of truth for the active universe. - Handles creation of new universes and config updates.
+  </Card>
+  <Card title="groupLayout.test" href="/api/grouplayout.test">
+    groupLayout.test service documentation
+  </Card>
   <Card title="semanticSystem.test" href="/api/semanticsystem.test">
     Semantic Discovery System - Integration Tests
   </Card>
   <Card title="AgentExecutor" href="/api/agentexecutor">
     Agent Executor - Traverses agent graphs and executes nodes
   </Card>
-  <Card title="DruidInstance" href="/api/druidinstance">
-    Druid Instance - The agent's cognitive state as a Redstring graph The Druid is an agent whose mind IS a Redstring instance
-  </Card>
-  <Card title="DruidStore" href="/api/druidstore">
-    Druid Store - Isolated Zustand store for The Druid's cognitive state This is a separate Redstring instance representing an agent's internal mind
+  <Card title="DruidPrompt" href="/api/druidprompt">
+    DruidPrompt service documentation
   </Card>
   <Card title="EventBus" href="/api/eventbus">
     Event Bus for Agent Communication Enables event-driven agent execution where agents can subscribe to events
+  </Card>
+  <Card title="PromptFragments" href="/api/promptfragments">
+    PromptFragments service documentation
+  </Card>
+  <Card title="WizardPrompt" href="/api/wizardprompt">
+    WizardPrompt service documentation
   </Card>
   <Card title="WorkingMemory" href="/api/workingmemory">
     Working Memory for Agent Chains Shared context across agent execution with event-driven updates
@@ -621,15 +699,6 @@ This documentation is automatically generated from the Redstring source code.
   </Card>
   <Card title="nodeRunners" href="/api/noderunners">
     Node Type Runners - Execute different agent node types
-  </Card>
-  <Card title="Executor" href="/api/executor">
-    Helper to find prototype ID by name
-  </Card>
-  <Card title="Planner" href="/api/planner">
-    Extract color palette from node prototypes
-  </Card>
-  <Card title="StateMirror" href="/api/statemirror">
-    Smart merge: Preserves graphs/prototypes from other sources (e.g. tests) if not explicitly overwritten
   </Card>
   <Card title="ai-agent-service" href="/api/ai-agent-service">
     AI Agent Service Handles AI agent endpoints (/api/ai/agent, /api/ai/chat, etc.) NOTE: This is a temporary bridge that will be fully migrated from bridge-daemon.js For now, it provides a placeholder that guides users to run the bridge daemon separately
@@ -652,6 +721,9 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="bridgeConfig" href="/api/bridgeconfig">
     bridgeConfig service documentation
   </Card>
+  <Card title="bridgeStateSerializer" href="/api/bridgestateserializer">
+    bridgeStateSerializer.js Environment-agnostic construction of the \"bridge state\" payload — the lossy summary of the Redstring store that the wizard-server exposes at `GET /api/bridge/state` and that the MCP server + wizard tools read. This is the MCP compatibility contract. The shape produced by `buildBridgeState` is what `redstring-mcp-server.js` (`getRealRedstringState` → `toPlainState`) deserializes. A Vitest snapshot test locks this shape; if you add a field the tools need, update all three serialization hops (BridgeClient/daemon → wizard-server → MCP) — see MEMORY.md. Extracted verbatim from BridgeClient.jsx so the browser (BridgeClient) and the Node daemon (wizard-server headless mode) build the identical payload from the same code. No browser globals are referenced here — safe in Node. NOTE: this is a summary payload for MCP *reads*, NOT a sync format. Daemon↔ browser hydration must use `exportToRedstring` JSON, not this.
+  </Card>
   <Card title="bridgeStoreAccessor" href="/api/bridgestoreaccessor">
     Bridge Store Accessor Provides read-only access to the mirrored bridge store data from orchestrator components
   </Card>
@@ -667,20 +739,23 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="cognitiveAgent" href="/api/cognitiveagent">
     AI Agent for Redstring Provides intelligent, goal-oriented AI behavior that understands the prototype/instance architecture
   </Card>
+  <Card title="daemonCoexistence" href="/api/daemoncoexistence">
+    daemonCoexistence.js Browser-side controller for running the app alongside a headless daemon (Phase 6). Truth model: daemon-canonical-when-present. When a headless daemon is detected, the browser: 1. hydrates from the daemon (GET /api/store/export → loadUniverseFromFile), 2. suspends its own local file writes (saveCoordinator.setEnabled(false)), 3. forwards local edits to the daemon (POST /api/store/import) with optimistic concurrency (baseVersion), re-hydrating on 409, and 4. re-hydrates when the daemon advances externally (MCP/CLI mutations). When the daemon disappears, it resumes standalone (setEnabled(true)). Fully dependency-injected (no static graphStore import) so it stays browser- safe AND can be integration-tested in Node against a real daemon.
+  </Card>
   <Card title="domainVerification" href="/api/domainverification">
     Domain Verification Service Handles domain ownership verification without email requirements Supports DNS, file-based, and meta tag verification methods
   </Card>
   <Card title="entityMatching" href="/api/entitymatching">
     Entity Matching Service Multi-factor confidence scoring for entity deduplication across knowledge sources. Handles sameAs links, external identifiers, and fuzzy matching.
   </Card>
+  <Card title="externalUniverseLoader" href="/api/externaluniverseloader">
+    External Universe Loader Pure functions for loading .redstring files from arbitrary web URLs: - GitHub file URLs (github.com/.../blob/... or raw.githubusercontent.com/...) - GitHub folder URLs (github.com/.../tree/...) - GitHub repo URLs (github.com/owner/repo) - Arbitrary direct URLs whose path ends in .redstring No React, no store imports. Just URL classification, fetch, and GitHub API listing. GitHub calls are unauthenticated (60 req/hr limit per IP — acceptable for one-shot load).
+  </Card>
   <Card title="fileHandlePersistence" href="/api/filehandlepersistence">
     File Handle Persistence Service Handles persistent storage of File System Access API handles and metadata. Since FileSystemFileHandle objects cannot be serialized, we store metadata and attempt to restore access using the permission system. In Electron: file handles are string paths stored in a local JSON file. In Browser: file handles are FileSystemFileHandle objects stored in IndexedDB.
   </Card>
   <Card title="folderPersistence" href="/api/folderpersistence">
     Folder Persistence Service Manages storage and retrieval of the Redstring workspace folder handle/path. - Web: Stores DirectoryHandle in IndexedDB - Electron: Stores folder path string in localStorage
-  </Card>
-  <Card title="gitFederationService" href="/api/gitfederationservice">
-    Attach Git repository to an existing universe IMPORTANT: This implements the 2-SLOT STORAGE SYSTEM - Universes can have BOTH local file AND Git storage simultaneously - sourceOfTruth determines which is PRIMARY (authoritative) - The other slot serves as BACKUP/SECONDARY storage This function preserves the existing sourceOfTruth to avoid data loss: - If universe has local file enabled → keeps 'local' as primary, Git becomes backup - If universe has no sourceOfTruth set → defaults to 'git' - User can explicitly change primary via setPrimaryStorage()
   </Card>
   <Card title="gitNativeProvider" href="/api/gitnativeprovider">
     Git-Native Semantic Web Provider Core abstraction for hot-swappable Git providers Enables real-time responsiveness, true decentralization, and distributed resilience
@@ -691,6 +766,9 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="githubApp" href="/api/githubapp">
     GitHub App Authentication Service Provides reliable, long-lived authentication using GitHub Apps instead of traditional OAuth tokens that expire.
   </Card>
+  <Card title="githubDeviceFlow" href="/api/githubdeviceflow">
+    GitHub Device Flow (Electron-only). Fully local OAuth: requests a device code from github.com, has the user approve it in their browser, polls until GitHub returns a token. No client_secret, no callback server, no reliance on redstring.io. Used for both the OAuth App (general repo access) and the GitHub App (live sync). The only difference between the two flows is the client_id — the App's device flow returns a user-to-server token (`ghu_*`) which acts with the App's permissions on installations the user has access to.
+  </Card>
   <Card title="githubRateLimiter" href="/api/githubratelimiter">
     GitHub API Rate Limiter Tracks API usage across all GitSyncEngines to prevent exceeding limits GitHub Free Plan: 5,000 requests/hour per authentication method
   </Card>
@@ -699,6 +777,12 @@ This documentation is automatically generated from the Redstring source code.
   </Card>
   <Card title="graphQueries" href="/api/graphqueries">
     Graph Query Abstraction Layer Provides semantic, high-level queries for graph data from the bridge store. This abstracts away the internal data structure (maps, instances, prototypes, edges) and provides a consistent API for the AI agent and orchestration pipeline.
+  </Card>
+  <Card title="groupLayout" href="/api/grouplayout">
+    Pure helper for computing the visual layout of a group (thing-group or node-group). Used by both the static render in NodeCanvas.jsx and the DOM-bypass drag updater in useNodeDrag.js so they share one source of truth. No React, no Zustand, no DOM access. Text measurement is injected via `context.measureLabelWidth` so tests can stub it. Nesting handling: when a member instance also belongs to another node-group in the same graph, the outer bbox folds in that nested group's title-included `nodeGroupRect.y` rather than just the member's raw `n.y`. Without this, the outer rect undershoots by ~labelHeight + 48px.
+  </Card>
+  <Card title="imageCache" href="/api/imagecache">
+    Separate Zustand store for auto-enrichment image data (thumbnails). WHY THIS EXISTS: The main graphStore gets JSON.stringify'd for save hashing + file writes. Storing image data in nodePrototypes means every save cycle copies/hashes/writes megabytes of strings, causing V8 OOM crashes in Electron when 10+ nodes are enriched. This store: - Holds \{ protoId → \{ thumbnailSrc: blob URL, imageAspectRatio \} \} for auto-enriched nodes - Is NEVER serialized, hashed, or saved to disk - Components subscribe to it per-node, so only the affected node re-renders when an image loads - On reload, images re-fetch from Wikipedia URLs stored in semanticMetadata thumbnailSrc is a blob: URL (not a data URL or remote URL) because: - Blob URLs are same-origin, so SVG <image> elements render them without CORS issues - Blob data lives in the browser's native cache, NOT in the JS heap (no OOM) - They're never serialized (blob URLs are opaque strings, ~40 chars) User-uploaded images (via drag-drop or file picker) still go in the main store since those are intentional single-node operations that don't cause batch OOM.
   </Card>
   <Card title="knowledgeFederation" href="/api/knowledgefederation">
     Knowledge Federation Service Connects to multiple knowledge bases simultaneously, imports related entities, and creates federated search across domains
@@ -714,6 +798,9 @@ This documentation is automatically generated from the Redstring source code.
   </Card>
   <Card title="oauthAutoConnect" href="/api/oauthautoconnect">
     OAuth Auto-Connect Service Provides robust OAuth auto-connection functionality that is independent of any UI component. Handles both OAuth tokens and GitHub App installations.
+  </Card>
+  <Card title="offscreenLayout" href="/api/offscreenlayout">
+    Compute and persist a force-directed layout for any graph, active or not. Uses estimated node dimensions (no DOM access required) and a fixed 2000×2000 virtual canvas. Positions are written directly to the store.
   </Card>
   <Card title="orbitLocalIndex" href="/api/orbitlocalindex">
     Ingests catalog entries and optionally upserts protected prototypes into the store. Each entry shape: \{ uri: 'http://example.org/entity', label: 'Example', description?: '...', types?: ['Q5'], source?: 'orbit-local', related?: [\{ uri, label, predicate?, source?, types? \}] \}
@@ -763,6 +850,9 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="semanticFederation" href="/api/semanticfederation">
     Semantic Federation Engine Handles cross-domain discovery, subscriptions, and real-time federation Enables informal knowledge pools through TTL-based linking
   </Card>
+  <Card title="semanticHash" href="/api/semantichash">
+    Semantic and full hash functions for .redstring documents and store states. D5 (FORMAT_REFACTOR_PLAN §3): two hash tiers. Tier-1 — semanticHash / semanticHashFromStore SHA-256 over URDNA2015 canonical N-Quads of the exported document. The canonical export is always produced via exportToRedstring (emitV4:false), so a v3-serialized file and a v4-serialized file with identical knowledge produce the same tier-1 hash. Used by detectSlotConflict. Tier-2 — fullHash / fullHashFromStore SHA-256 over canonically-ordered JSON minus presentation-only sections. Covers knowledge + spatial layout but not UI state / viewport / derived caches.
+  </Card>
   <Card title="semanticIntegration" href="/api/semanticintegration">
     Semantic Integration - Unified API High-level API that combines semantic discovery, entity matching, and radial layout into a cohesive system.
   </Card>
@@ -787,37 +877,67 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="startupCoordinator" href="/api/startupcoordinator">
     Startup Coordinator - Prevents multiple initialization conflicts This singleton coordinates app initialization to prevent: - Multiple GitSyncEngine creation - Race conditions between bootstrap components - API spam during startup
   </Card>
+  <Card title="storeActions" href="/api/storeactions">
+    storeActions.js The store-mutation action handlers that back the bridge's applyMutations / pending-action executor. Extracted from BridgeClient's `window.redstringStoreActions` object so the browser and the Node daemon execute the SAME handlers. Environment coupling is injected via createStoreActions(deps): - useGraphStore    the store singleton (same module in both hosts). - emitEvent(evt)   browser: (evt) => window.dispatchEvent(evt); node: no-op. Handlers build `new CustomEvent(...)` (global in browsers and Node >= 22) and hand it to emitEvent; node drops it. - markActive()     browser: bumps the connection activity ref; node: no-op. - navigate(gid)    browser: canvas navigation; node: no-op. - syncState()      browser: POST current store to the bridge; node: no-op. Replaces the old inline self-sync payloads. - bridgeStateFetch() browser: GET /api/bridge/state; node: -> \{ok:false\}. - uiCallbacks      browser wiring for wizard/chat UI reads (getTabs, getWizardStatus); absent in node -> handlers report the UI is unavailable. STALE-STATE FIX: the original captured `const state = getState()` once at registration and reused it across every later handler call. All those `state.*` accesses are rewritten to `useGraphStore.getState().*` so each handler reads the CURRENT store at call time.
+  </Card>
+  <Card title="tabularDataStore" href="/api/tabulardatastore">
+    Temporary in-memory storage for parsed tabular data. File attachments are parsed client-side and stored here so that wizard tools (via config passthrough) can access the full dataset. Designed for both in-app wizard and future UI import features.
+  </Card>
+  <Card title="tabularParser" href="/api/tabularparser">
+    Tabular data parsing layer. Handles CSV, TSV, XLSX, and JSON (array-of-objects) formats. Zero dependency on wizard/graph systems — designed for reuse by future UI import features.
+  </Card>
+  <Card title="tabularParser.test" href="/api/tabularparser.test">
+    tabularParser.test service documentation
+  </Card>
+  <Card title="textMeasurement" href="/api/textmeasurement">
+    Text measurement service powered by @chenglou/pretext. Replaces DOM-based hidden-element measurement (offsetWidth/offsetHeight) and canvas measureText() calls with Pretext's DOM-free layout engine, eliminating synchronous layout reflows.
+  </Card>
   <Card title="toolRegistry" href="/api/toolregistry">
     Unified Tool Registry for Redstring AI Central hub for all AI tool management, validation, and execution
+  </Card>
+  <Card title="toolResultApplier" href="/api/toolresultapplier">
+    toolResultApplier.js Applies wizard/MCP tool results to the Redstring store. Extracted verbatim from LeftAIView.jsx so the browser and the Node daemon (wizard-server headless mode) apply mutations through the identical code path — including the critical resolve-by-name-take-LAST semantics (see MEMORY.md: predictive IDs from AgentLoop never match real store IDs, so handlers resolve entities by name and take the LAST match). Environment handling: - Browser globals (window.dispatchEvent / CustomEvent) are all `typeof window` guarded in the moved code, so they are automatic no-ops in Node — exactly the \"no-op emit headless\" behavior we want. - Wikipedia enrichment is browser-specific (fetch + thumbnail cache), so it is INJECTED: the browser calls configureToolResultApplier() with the real enrichNodeWithWikipedia / enrichMultipleNodes; a headless host leaves the no-op defaults (or supplies its own later). - useGraphStore is the same module singleton in both hosts (the daemon's createHeadlessStore imports the very same module), so it is imported directly rather than injected.
   </Card>
   <Card title="toolValidator" href="/api/toolvalidator">
     Tool Validation System for Redstring MCP Provides robust schema validation and type checking for all tool operations
   </Card>
   <Card title="universeBackend" href="/api/universebackend">
-    Universe Backend Service This is the TRUE backend for universe management that should run independently of any UI components. All universe operations should go through this service. The UI (GitNativeFederation.jsx) should ONLY display data and call these methods.
+    Universe Backend Service This is the TRUE backend for universe management that should run independently of any UI components. All universe operations should go through this service. The UI (UniverseManager.jsx) should ONLY display data and call these methods.
   </Card>
   <Card title="universeBackendBridge" href="/api/universebackendbridge">
     Universe Backend Bridge Utility Provides a safe, reusable bridge for UI components to communicate with the universe backend via window events. Centralizes command dispatching to avoid temporal dead zone pitfalls and duplicate implementations.
+  </Card>
+  <Card title="universeManagerService" href="/api/universemanagerservice">
+    Attach Git repository to an existing universe IMPORTANT: This implements the 2-SLOT STORAGE SYSTEM - Universes can have BOTH local file AND Git storage simultaneously - sourceOfTruth determines which is PRIMARY (authoritative) - The other slot serves as BACKUP/SECONDARY storage This function preserves the existing sourceOfTruth to avoid data loss: - If universe has local file enabled → keeps 'local' as primary, Git becomes backup - If universe has no sourceOfTruth set → defaults to 'git' - User can explicitly change primary via setPrimaryStorage()
   </Card>
   <Card title="uriGenerator" href="/api/urigenerator">
     URI Generator Service Generates URIs dynamically based on user domains Replaces hardcoded redstring.io URIs with user-controlled namespaces
   </Card>
   <Card title="userTracking" href="/api/usertracking">
     Client-side User Tracking Tracks user actions in the browser and sends to analytics API
+  </Card>
+  <Card title="wikidataSlice" href="/api/wikidataslice">
+    Client-side Wikidata slice fetcher for the Semantic Discovery catalog. Queries the Wikidata SPARQL endpoint directly from the browser using the existing sparqlClient infrastructure (rate limiting, caching, timeout).
+  </Card>
+  <Card title="workspaceFolderService" href="/api/workspacefolderservice">
+    Saves a directory handle (web) or folder path (Electron) for the workspace
+  </Card>
+  <Card title="wikipediaEnrichment" href="/api/wikipediaenrichment">
+    Wikipedia Enrichment Service — runs server-side (Node.js / wizard-server). Handles all Wikipedia API calls so the Electron renderer doesn't need to. Returns lightweight metadata (URLs as strings, never image binaries). IMPORTANT: This file is imported by wizard-server.js. NEVER use console.log() — use console.error() for logging (MCP stdio rule).
   </Card>
 </CardGroup>
 
 ## Components
 
 <CardGroup cols={2}>
+  <Card title="openBrowserUniverseDB" href="/components/openbrowseruniversedb">
+    File Storage Module for Redstring Bridge to UniverseManager for backward compatibility Delegates to UniverseManager while maintaining existing API
+  </Card>
   <Card title="produce" href="/components/produce">
     Custom produce wrapper to capture patches from existing actions. This allows us to \"spy\" on state changes without refactoring all 3500+ lines of action code.
   </Card>
   <Card title="ensureDir" href="/components/ensuredir">
     ensureDir component documentation
-  </Card>
-  <Card title="runSave" href="/components/runsave">
-    Save Coordinator - Simplified save management system Coordinates between: - Local file saves (FileStorage) - Git repository commits (GitSyncEngine) Features: - Single debounced save timer (500ms) for all changes - GitSyncEngine handles its own batching and rate limiting - Consistent state synchronization
   </Card>
   <Card title="return" href="/components/return">
     Event Bus for Agent Communication Enables event-driven agent execution where agents can subscribe to events
@@ -828,20 +948,20 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="readEnvValue" href="/components/readenvvalue">
     readEnvValue component documentation
   </Card>
-  <Card title="gfLog" href="/components/gflog">
-    Attach Git repository to an existing universe IMPORTANT: This implements the 2-SLOT STORAGE SYSTEM - Universes can have BOTH local file AND Git storage simultaneously - sourceOfTruth determines which is PRIMARY (authoritative) - The other slot serves as BACKUP/SECONDARY storage This function preserves the existing sourceOfTruth to avoid data loss: - If universe has local file enabled → keeps 'local' as primary, Git becomes backup - If universe has no sourceOfTruth set → defaults to 'git' - User can explicitly change primary via setPrimaryStorage()
+  <Card title="safePrototypeName" href="/components/safeprototypename">
+    bridgeStateSerializer.js Environment-agnostic construction of the \"bridge state\" payload — the lossy summary of the Redstring store that the wizard-server exposes at `GET /api/bridge/state` and that the MCP server + wizard tools read. This is the MCP compatibility contract. The shape produced by `buildBridgeState` is what `redstring-mcp-server.js` (`getRealRedstringState` → `toPlainState`) deserializes. A Vitest snapshot test locks this shape; if you add a field the tools need, update all three serialization hops (BridgeClient/daemon → wizard-server → MCP) — see MEMORY.md. Extracted verbatim from BridgeClient.jsx so the browser (BridgeClient) and the Node daemon (wizard-server headless mode) build the identical payload from the same code. No browser globals are referenced here — safe in Node. NOTE: this is a summary payload for MCP *reads*, NOT a sync format. Daemon↔ browser hydration must use `exportToRedstring` JSON, not this.
   </Card>
-  <Card title="findRelatedEntities" href="/components/findrelatedentities">
-    Local Semantic Query Service Provides semantic querying capabilities within the local Redstring knowledge graph, finding related concepts, entities, and patterns without external CORS issues.
+  <Card title="assertElectron" href="/components/assertelectron">
+    GitHub Device Flow (Electron-only). Fully local OAuth: requests a device code from github.com, has the user approve it in their browser, polls until GitHub returns a token. No client_secret, no callback server, no reliance on redstring.io. Used for both the OAuth App (general repo access) and the GitHub App (live sync). The only difference between the two flows is the client_id — the App's device flow returns a user-to-server token (`ghu_*`) which acts with the App's permissions on installations the user has access to.
   </Card>
-  <Card title="getSourceTrust" href="/components/getsourcetrust">
-    getSourceTrust component documentation
+  <Card title="memberBoundaryPaddingFor" href="/components/memberboundarypaddingfor">
+    Pure helper for computing the visual layout of a group (thing-group or node-group). Used by both the static render in NodeCanvas.jsx and the DOM-bypass drag updater in useNodeDrag.js so they share one source of truth. No React, no Zustand, no DOM access. Text measurement is injected via `context.measureLabelWidth` so tests can stub it. Nesting handling: when a member instance also belongs to another node-group in the same graph, the outer bbox folds in that nested group's title-included `nodeGroupRect.y` rather than just the member's raw `n.y`. Without this, the outer rect undershoots by ~labelHeight + 48px.
+  </Card>
+  <Card title="resizeWikipediaThumbUrl" href="/components/resizewikipediathumburl">
+    Separate Zustand store for auto-enrichment image data (thumbnails). WHY THIS EXISTS: The main graphStore gets JSON.stringify'd for save hashing + file writes. Storing image data in nodePrototypes means every save cycle copies/hashes/writes megabytes of strings, causing V8 OOM crashes in Electron when 10+ nodes are enriched. This store: - Holds \{ protoId → \{ thumbnailSrc: blob URL, imageAspectRatio \} \} for auto-enriched nodes - Is NEVER serialized, hashed, or saved to disk - Components subscribe to it per-node, so only the affected node re-renders when an image loads - On reload, images re-fetch from Wikipedia URLs stored in semanticMetadata thumbnailSrc is a blob: URL (not a data URL or remote URL) because: - Blob URLs are same-origin, so SVG <image> elements render them without CORS issues - Blob data lives in the browser's native cache, NOT in the JS heap (no OOM) - They're never serialized (blob URLs are opaque strings, ~40 chars) User-uploaded images (via drag-drop or file picker) still go in the main store since those are intentional single-node operations that don't cause batch OOM.
   </Card>
   <Card title="toTitleCase" href="/components/totitlecase">
     toTitleCase component documentation
-  </Card>
-  <Card title="markPrototypesProtected" href="/components/markprototypesprotected">
-    Mark a set of prototype IDs as protected from cleanup.
   </Card>
   <Card title="generateHash" href="/components/generatehash">
     Save Worker Handles heavy serialization and hashing off the main thread
@@ -849,20 +969,29 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="createRateLimiter" href="/components/createratelimiter">
     Semantic Web Query Service Direct SPARQL queries and Wikipedia API integration for immediate semantic web data access
   </Card>
-  <Card title="gfLog" href="/components/gflog">
-    Universe Backend Service This is the TRUE backend for universe management that should run independently of any UI components. All universe operations should go through this service. The UI (GitNativeFederation.jsx) should ONLY display data and call these methods.
+  <Card title="evictOldest" href="/components/evictoldest">
+    Text measurement service powered by @chenglou/pretext. Replaces DOM-based hidden-element measurement (offsetWidth/offsetHeight) and canvas measureText() calls with Pretext's DOM-free layout engine, eliminating synchronous layout reflows.
+  </Card>
+  <Card title="configureToolResultApplier" href="/components/configuretoolresultapplier">
+    toolResultApplier.js Applies wizard/MCP tool results to the Redstring store. Extracted verbatim from LeftAIView.jsx so the browser and the Node daemon (wizard-server headless mode) apply mutations through the identical code path — including the critical resolve-by-name-take-LAST semantics (see MEMORY.md: predictive IDs from AgentLoop never match real store IDs, so handlers resolve entities by name and take the LAST match). Environment handling: - Browser globals (window.dispatchEvent / CustomEvent) are all `typeof window` guarded in the moved code, so they are automatic no-ops in Node — exactly the \"no-op emit headless\" behavior we want. - Wikipedia enrichment is browser-specific (fetch + thumbnail cache), so it is INJECTED: the browser calls configureToolResultApplier() with the real enrichNodeWithWikipedia / enrichMultipleNodes; a headless host leaves the no-op defaults (or supplies its own later). - useGraphStore is the same module singleton in both hosts (the daemon's createHeadlessStore imports the very same module), so it is imported directly rather than injected.
+  </Card>
+  <Card title="umLog" href="/components/umlog">
+    Universe Backend Service This is the TRUE backend for universe management that should run independently of any UI components. All universe operations should go through this service. The UI (UniverseManager.jsx) should ONLY display data and call these methods.
   </Card>
   <Card title="clearWarningTimer" href="/components/clearwarningtimer">
     Universe Backend Bridge Utility Provides a safe, reusable bridge for UI components to communicate with the universe backend via window events. Centralizes command dispatching to avoid temporal dead zone pitfalls and duplicate implementations.
   </Card>
+  <Card title="umLog" href="/components/umlog">
+    Attach Git repository to an existing universe IMPORTANT: This implements the 2-SLOT STORAGE SYSTEM - Universes can have BOTH local file AND Git storage simultaneously - sourceOfTruth determines which is PRIMARY (authoritative) - The other slot serves as BACKUP/SECONDARY storage This function preserves the existing sourceOfTruth to avoid data loss: - If universe has local file enabled → keeps 'local' as primary, Git becomes backup - If universe has no sourceOfTruth set → defaults to 'git' - User can explicitly change primary via setPrimaryStorage()
+  </Card>
   <Card title="AgentConfigEditor" href="/components/agentconfigeditor">
     Agent Config Editor - Edit agent configuration for nodes
   </Card>
-  <Card title="AlphaOnboardingModal" href="/components/alphaonboardingmodal">
-    Alpha Onboarding Modal A specialized CanvasModal that welcomes users to Redstring's open alpha Inherits all CanvasModal functionality while providing alpha-specific content
-  </Card>
   <Card title="AutoGraphModal" href="/components/autographmodal">
     Auto Graph Modal Modal UI for generating graphs from various data formats
+  </Card>
+  <Card title="BetaOnboardingModal" href="/components/betaonboardingmodal">
+    Beta Onboarding Modal A specialized CanvasModal that welcomes users to Redstring's open beta Inherits all CanvasModal functionality while providing beta-specific content
   </Card>
   <Card title="CanvasModal" href="/components/canvasmodal">
     Canvas Modal Component Positions content within the canvas viewport with canvas-colored styling and drop shadow. Includes margins and proper backdrop handling.
@@ -870,8 +999,8 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="CollapsibleSection" href="/components/collapsiblesection">
     CollapsibleSection component documentation
   </Card>
-  <Card title="RDFTriplet" href="/components/rdftriplet">
-    Improved RDF Triplet Visual Component Displays subject -> predicate -> object relationships as connected nodes Styled to match NodeCanvas connections exactly with proper arrows and directionality Supports ultra-slim panels with responsive design
+  <Card title="ConnectionTriplet" href="/components/connectiontriplet">
+    Connection Triplet Component Renders subject -> predicate -> object using UniversalNodeRenderer for visual consistency with the canvas, hover view, and control panel.
   </Card>
   <Card title="ContextMenu" href="/components/contextmenu">
     ContextMenu component documentation
@@ -892,13 +1021,10 @@ This documentation is automatically generated from the Redstring source code.
     Centralized Edge Renderer Component Handles all edge rendering logic including parallel edge curve offsets, glow effects, arrows, hover states, and connection names.
   </Card>
   <Card title="FederationBootstrap" href="/components/federationbootstrap">
-    Federation Bootstrap - Ensures federation services are initialized regardless of whether the GitNativeFederation tab is selected This component runs at app startup and: 1. Initializes authentication services 2. Establishes background Git connections 3. Sets up SaveCoordinator 4. Manages universe synchronization
+    Federation Bootstrap - Ensures federation services are initialized regardless of whether the UniverseManager tab is selected This component runs at app startup and: 1. Initializes authentication services 2. Establishes background Git connections 3. Sets up SaveCoordinator 4. Manages universe synchronization
   </Card>
   <Card title="ForceSimulationModal" href="/components/forcesimulationmodal">
-    Draggable modal for interactive force-directed layout tuning Applies forces directly to the active graph - no separate preview!
-  </Card>
-  <Card title="GitFederationBootstrap" href="/components/gitfederationbootstrap">
-    Universe Backend Bootstrap - COMPLETELY DECOUPLED This component only acts as an event bridge. It uses dynamic imports with delayed loading to completely avoid circular dependencies. The backend is loaded ONLY when needed, never during module parse time.
+    Draggable modal for interactive force-directed layout tuning. All simulation logic lives in useForceSimulation — this is UI only.
   </Card>
   <Card title="showContextMenu" href="/components/showcontextmenu">
     showContextMenu component documentation
@@ -907,10 +1033,10 @@ This documentation is automatically generated from the Redstring source code.
     Help Modal Comprehensive guide for using Redstring
   </Card>
   <Card title="HoverVisionAid" href="/components/hovervisionaid">
-    HoverVisionAid component documentation
+    HoverVisionAid displays a high-fidelity preview of nodes or connections when the user hovers over elements on the canvas. SCALING FIX: Uses standard getNodeDimensions(node, false) to avoid massive square mode. The live hover props feed a small internal state machine that decouples what is *displayed* from what is currently hovered, so the preview can linger and fade after the pointer leaves without any fade-in or resize animation on the way back in.
   </Card>
   <Card title="IntegratedUniverseModal" href="/components/integrateduniversemodal">
-    Simple Universe Modal - Just GitNativeFederation in a modal
+    Simple Universe Modal - Just UniverseManager in a modal
   </Card>
   <Card title="MaroonSlider" href="/components/maroonslider">
     MaroonSlider component documentation
@@ -942,11 +1068,17 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="SemanticIdentity" href="/components/semanticidentity">
     Semantic Web Identity Component Determines and displays how this node relates to the semantic web: - Neutral: No semantic web integration - Provider: Self-hosted semantic data (publishes RDF) - Receiver: Consumes external semantic data (imports from Wikidata/DBpedia)
   </Card>
+  <Card title="SettingsModal" href="/components/settingsmodal">
+    Settings Modal Full-screen overlay with two-column layout for app settings. Reads/writes settings directly via useGraphStore.
+  </Card>
   <Card title="StandardDivider" href="/components/standarddivider">
     StandardDivider component documentation
   </Card>
+  <Card title="StatusBanner" href="/components/statusbanner">
+    StatusBanner component documentation
+  </Card>
   <Card title="StorageSetupModal" href="/components/storagesetupmodal">
-    Storage Setup Modal Allows users to choose between folder-based storage and browser storage Shown after welcome screen when user clicks \"Get Started\"
+    Storage Setup Modal Allows users to choose between folder-based storage and browser storage Shown after welcome screen when user clicks \"Get Started\" Flow: 1. \"Where should we save your work?\" (Folder vs Skip) 2. If Folder -> \"Name your Universe\"
   </Card>
   <Card title="ToggleSlider" href="/components/toggleslider">
     Reusable Toggle Slider Component Creates a slider toggle similar to the ConnectionBrowser's \"In Graph\" ↔ \"All Connections\" toggle
@@ -958,40 +1090,40 @@ This documentation is automatically generated from the Redstring source code.
     Universe Browser Component Discovers and displays available universes in connected repositories Enables easy linking and switching between universes
   </Card>
   <Card title="getDeviceInfo" href="/components/getdeviceinfo">
-    Universe Management Panel - Standalone universe management component This is the SINGLE SOURCE OF TRUTH for universe management UI. Can be used both embedded in GitNativeFederation AND as a standalone modal. Essential for startup and mobile scenarios where it may be the only data access method.
+    Universe Management Panel - Standalone universe management component This is the SINGLE SOURCE OF TRUTH for universe management UI. Can be used both embedded in UniverseManager AND as a standalone modal. Essential for startup and mobile scenarios where it may be the only data access method.
   </Card>
-  <Card title="buttonStyle" href="/components/buttonstyle">
-    buttonStyle component documentation
+  <Card title="UniverseManagerBootstrap" href="/components/universemanagerbootstrap">
+    Universe Backend Bootstrap - COMPLETELY DECOUPLED This component only acts as an event bridge. It uses dynamic imports with delayed loading to completely avoid circular dependencies. The backend is loaded ONLY when needed, never during module parse time.
   </Card>
-  <Card title="formatWhen" href="/components/formatwhen">
-    formatWhen component documentation
+  <Card title="UpdateDiagnosticsCard" href="/components/updatediagnosticscard">
+    UpdateDiagnosticsCard — popover above UpdateToast (or standalone bottom-right) surfacing the full updater state so wedged installs can be diagnosed and recovered without spelunking the filesystem.
   </Card>
-  <Card title="buttonStyle" href="/components/buttonstyle">
-    RepositoriesSection - Shows your managed repositories Add repos from GitHub that you want to use with Redstring
+  <Card title="UpdateToast" href="/components/updatetoast">
+    UpdateToast — bottom-right notification for Electron auto-update lifecycle. Shows as soon as a release is detected (not just when fully downloaded), so a stalled download doesn't silently hide the fact that an update exists.
   </Card>
-  <Card title="buttonStyle" href="/components/buttonstyle">
-    SourcesSection - Displays external GitHub repository sources These are repos that aren't Redstring-specific but are used across universes
+  <Card title="SelfLoopEdge" href="/components/selfloopedge">
+    SelfLoopEdge component documentation
   </Card>
-  <Card title="buttonStyle" href="/components/buttonstyle">
-    buttonStyle component documentation
+  <Card title="formatBytes" href="/components/formatbytes">
+    formatBytes component documentation
   </Card>
-  <Card title="SectionCard" href="/components/sectioncard">
-    Reusable section card container Provides consistent styling for all git federation sections
-  </Card>
-  <Card title="ConflictResolutionModal" href="/components/conflictresolutionmodal">
-    ConflictResolutionModal Shows when local file and Git repository have diverged, allowing user to choose which version to keep.
+  <Card title="GitHubDeviceFlowModal" href="/components/githubdeviceflowmodal">
+    Displays the GitHub device-flow user code and verification URL while the background poll waits for the user to approve in their browser. Driven entirely by props — the caller owns the polling promise and mutates the cancel signal it passed in when the user clicks Cancel.
   </Card>
   <Card title="RepositorySelectionModal" href="/components/repositoryselectionmodal">
     RepositorySelectionModal component documentation
   </Card>
   <Card title="UniverseLinkingModal" href="/components/universelinkingmodal">
-    UniverseLinkingModal Allows user to select an existing universe or create a new one when linking a Git repository to a universe. Color scheme: Maroon/red (#260000, #7A0000) with gray tones (#bdb5b5, #979090, #cfc6c6)
+    UniverseLinkingModal Allows user to select an existing universe or create a new one when linking a Git repository to a universe. Color scheme: Uses Unified Theming System (defaults to maroon/red based on active graph)
   </Card>
   <Card title="CustomDragLayer" href="/components/customdraglayer">
     CustomDragLayer component documentation
   </Card>
   <Card title="DraggableTab" href="/components/draggabletab">
     DraggableTab component documentation
+  </Card>
+  <Card title="LazySection" href="/components/lazysection">
+    Culls offscreen sections by only mounting children when the section is within `rootMargin` of the scroll viewport. When not visible, renders a placeholder div preserving the estimated height so scroll position stays stable.
   </Card>
   <Card title="getNodeData" href="/components/getnodedata">
     Wrapper component that handles data fetching and action binding for both home and node tabs PERFORMANCE: This component is memoized to prevent re-renders during zoom/pan
@@ -1011,8 +1143,11 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="getSemanticNodeColor" href="/components/getsemanticnodecolor">
     getSemanticNodeColor component documentation
   </Card>
-  <Card title="applyToolResultToStore" href="/components/applytoolresulttostore">
-    Apply wizard tool results to the store This bridges the gap between server-side tool execution and client-side store
+  <Card title="ConceptDetailView" href="/components/conceptdetailview">
+    ConceptDetailView component documentation
+  </Card>
+  <Card title="buildEnrichmentUpdates" href="/components/buildenrichmentupdates">
+    Build the update object for a node from a server enrichment match. Shared between single and batch enrichment.
   </Card>
   <Card title="LeftAllThingsView" href="/components/leftallthingsview">
     LeftAllThingsView component documentation
@@ -1038,6 +1173,9 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="RepositoryManager" href="/components/repositorymanager">
     Repository Manager Component Manages repository collections for users and organizations Handles OAuth integration and repository CRUD operations
   </Card>
+  <Card title="AISection" href="/components/aisection">
+    AI Settings Section - Adapted to Settings Modal patterns Uses settings-row, selects, and inline controls
+  </Card>
   <Card title="CanvasConfirmDialog" href="/components/canvasconfirmdialog">
     A confirm dialog positioned absolutely in the canvas at specific coordinates Used for contextual confirmations like adding nodes to groups
   </Card>
@@ -1052,6 +1190,33 @@ This documentation is automatically generated from the Redstring source code.
   </Card>
   <Card title="PanelIconButton" href="/components/paneliconbutton">
     PanelIconButton - Reusable icon button matching right panel style with PieMenu-style hover effects Features: - Matches right panel icon button style (simple dark icons) - PieMenu-style hover effect (light gray fill with maroon stroke, matching PieMenu bubbles) - Conditional fill support (for star/saved buttons) - Works with any Lucide icon - Compact design for slim views
+  </Card>
+  <Card title="formatCount" href="/components/formatcount">
+    formatCount component documentation
+  </Card>
+  <Card title="AuthSection" href="/components/authsection">
+    AuthSection component documentation
+  </Card>
+  <Card title="formatWhen" href="/components/formatwhen">
+    formatWhen component documentation
+  </Card>
+  <Card title="RepositoriesSection" href="/components/repositoriessection">
+    RepositoriesSection - Shows your managed repositories Add repos from GitHub that you want to use with Redstring
+  </Card>
+  <Card title="SourcesSection" href="/components/sourcessection">
+    SourcesSection - Displays external GitHub repository sources These are repos that aren't Redstring-specific but are used across universes
+  </Card>
+  <Card title="formatWhen" href="/components/formatwhen">
+    formatWhen component documentation
+  </Card>
+  <Card title="PanelSegment" href="/components/panelsegment">
+    PanelSegment component documentation
+  </Card>
+  <Card title="SectionCard" href="/components/sectioncard">
+    Reusable section card container Provides consistent styling for all git federation sections
+  </Card>
+  <Card title="WizardActionChip" href="/components/wizardactionchip">
+    Compact, right-aligned card representing a programmatic Ask The Wizard action (e.g., refine a connection or define a node's components). Visually identical to the AI's tool-call cards on the wizard side — same CSS classes and layout — just rendered on the user side. No expand/dropdown; the rich prompt is sent to the model but never shown to the user.
   </Card>
   <Card title="physicsReducer" href="/components/physicsreducer">
     physicsReducer component documentation
@@ -1075,7 +1240,7 @@ This documentation is automatically generated from the Redstring source code.
     ConnectionControlPanel component documentation
   </Card>
   <Card title="DebugOverlay" href="/components/debugoverlay">
-    DebugOverlay component documentation
+    On-screen debug panel. Mobile-friendly (touch drag, viewport-clamped). Two render modes, chosen by debugData shape: - `debugData._sync` present → structured sync-engine diagnostics with action buttons (retry, force-save, refresh) wired via `actions` prop. Used to debug \"Awaiting sync engine forever\" on mobile, where devtools aren't easily accessible. - otherwise → generic key/value dump (legacy debug usage).
   </Card>
   <Card title="DynamicFederation" href="/components/dynamicfederation">
     Dynamic Federation Component User-configurable Pod management with domain ownership verification No hardcoded values - each user controls their own domain and URIs
@@ -1086,8 +1251,8 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="Federation" href="/components/federation">
     Federation Component Manages Solid Pod connections, authentication, and cognitive space browsing
   </Card>
-  <Card title="gfLog" href="/components/gflog">
-    gfLog component documentation
+  <Card title="areGraphListItemPropsEqual" href="/components/aregraphlistitempropsequal">
+    areGraphListItemPropsEqual component documentation
   </Card>
   <Card title="GraphPreview" href="/components/graphpreview">
     GraphPreview component documentation
@@ -1104,7 +1269,7 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="Node" href="/components/node">
     Node component documentation
   </Card>
-  <Card title="NodeCanvas" href="/components/nodecanvas">
+  <Card title="clampOverlayPanelWidth" href="/components/clampoverlaypanelwidth">
     Transforms client/screen coordinates to canvas coordinates. Wrapper around GeometryUtils.clientToCanvasCoordinates with current state.
   </Card>
   <Card title="createTestGraph" href="/components/createtestgraph">
@@ -1155,26 +1320,38 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="handleColorPickerToggle" href="/components/handlecolorpickertoggle">
     handleColorPickerToggle component documentation
   </Card>
-  <Card title="ConnectionText" href="/components/connectiontext">
-    Connection Text Component A dedicated component for rendering connection names with proper styling, colors, and stroke effects that match NodeCanvas appearance.
+  <Card title="truncateToWidth" href="/components/truncatetowidth">
+    Truncate `text` with an ellipsis so it fits on a single line within `maxWidth` (px) at the given canvas `fontString`. Uses Pretext-backed measurement (cached) to clip precisely instead of estimating characters — so labels never wrap or overflow the node in compact previews. Returns the original text if it fits.
+  </Card>
+  <Card title="umLog" href="/components/umlog">
+    Drive a GitHub Device Flow from start to token. Shows the modal with the user_code, polls in the background, and resolves with the token payload. Throws if the user cancels or the code expires.
   </Card>
   <Card title="VideoNodeAnimation" href="/components/videonodeanimation">
     Special video animation component for Y-key + plus sign click Phases: 1. Stretch (0-1s): Dot expands into horizontal line 2. Tremble (1-4s): Line oscillates height (±1/6 of NODE_HEIGHT) 3. Explode (4-5s): Expands to full node with \"Hello, World\" text
   </Card>
-  <Card title="safePrototypeName" href="/components/safeprototypename">
+  <Card title="BridgeClient" href="/components/bridgeclient">
     Bridge Client Component (formerly MCPBridge) Establishes a bridge between the Redstring store and the orchestration daemon. Sends minimal store state via HTTP and registers store actions for applyMutations.
   </Card>
   <Card title="APIKeySetup" href="/components/apikeysetup">
     APIKeySetup component documentation
   </Card>
+  <Card title="MultipleChoiceOverlay" href="/components/multiplechoiceoverlay">
+    Overlay for rendering a multiple choice question from the AI
+  </Card>
+  <Card title="PlanCard" href="/components/plancard">
+    PlanCard - Live-updating plan checklist that renders inline in the wizard chat. Matches the visual language of MultipleChoiceOverlay (sharp corners, EmOne font, maroon accents, slideUpFade entrance). Supports nested substeps under each step. Substeps are visible when the parent step is in_progress or done, collapsed when pending.
+  </Card>
+  <Card title="ThinkingBlock" href="/components/thinkingblock">
+    ThinkingBlock component documentation
+  </Card>
   <Card title="AgentConfigEditor" href="/components/agentconfigeditor">
     Agent Config Editor - Edit agent configuration for nodes
   </Card>
-  <Card title="AlphaOnboardingModal" href="/components/alphaonboardingmodal">
-    Alpha Onboarding Modal A specialized CanvasModal that welcomes users to Redstring's open alpha Inherits all CanvasModal functionality while providing alpha-specific content
-  </Card>
   <Card title="AutoGraphModal" href="/components/autographmodal">
     Auto Graph Modal Modal UI for generating graphs from various data formats
+  </Card>
+  <Card title="BetaOnboardingModal" href="/components/betaonboardingmodal">
+    Beta Onboarding Modal A specialized CanvasModal that welcomes users to Redstring's open beta Inherits all CanvasModal functionality while providing beta-specific content
   </Card>
   <Card title="CanvasModal" href="/components/canvasmodal">
     Canvas Modal Component Positions content within the canvas viewport with canvas-colored styling and drop shadow. Includes margins and proper backdrop handling.
@@ -1182,8 +1359,8 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="CollapsibleSection" href="/components/collapsiblesection">
     CollapsibleSection component documentation
   </Card>
-  <Card title="RDFTriplet" href="/components/rdftriplet">
-    Improved RDF Triplet Visual Component Displays subject -> predicate -> object relationships as connected nodes Styled to match NodeCanvas connections exactly with proper arrows and directionality Supports ultra-slim panels with responsive design
+  <Card title="ConnectionTriplet" href="/components/connectiontriplet">
+    Connection Triplet Component Renders subject -> predicate -> object using UniversalNodeRenderer for visual consistency with the canvas, hover view, and control panel.
   </Card>
   <Card title="ContextMenu" href="/components/contextmenu">
     ContextMenu component documentation
@@ -1204,13 +1381,10 @@ This documentation is automatically generated from the Redstring source code.
     Centralized Edge Renderer Component Handles all edge rendering logic including parallel edge curve offsets, glow effects, arrows, hover states, and connection names.
   </Card>
   <Card title="FederationBootstrap" href="/components/federationbootstrap">
-    Federation Bootstrap - Ensures federation services are initialized regardless of whether the GitNativeFederation tab is selected This component runs at app startup and: 1. Initializes authentication services 2. Establishes background Git connections 3. Sets up SaveCoordinator 4. Manages universe synchronization
+    Federation Bootstrap - Ensures federation services are initialized regardless of whether the UniverseManager tab is selected This component runs at app startup and: 1. Initializes authentication services 2. Establishes background Git connections 3. Sets up SaveCoordinator 4. Manages universe synchronization
   </Card>
   <Card title="ForceSimulationModal" href="/components/forcesimulationmodal">
-    Draggable modal for interactive force-directed layout tuning Applies forces directly to the active graph - no separate preview!
-  </Card>
-  <Card title="GitFederationBootstrap" href="/components/gitfederationbootstrap">
-    Universe Backend Bootstrap - COMPLETELY DECOUPLED This component only acts as an event bridge. It uses dynamic imports with delayed loading to completely avoid circular dependencies. The backend is loaded ONLY when needed, never during module parse time.
+    Draggable modal for interactive force-directed layout tuning. All simulation logic lives in useForceSimulation — this is UI only.
   </Card>
   <Card title="showContextMenu" href="/components/showcontextmenu">
     showContextMenu component documentation
@@ -1219,10 +1393,10 @@ This documentation is automatically generated from the Redstring source code.
     Help Modal Comprehensive guide for using Redstring
   </Card>
   <Card title="HoverVisionAid" href="/components/hovervisionaid">
-    HoverVisionAid component documentation
+    HoverVisionAid displays a high-fidelity preview of nodes or connections when the user hovers over elements on the canvas. SCALING FIX: Uses standard getNodeDimensions(node, false) to avoid massive square mode. The live hover props feed a small internal state machine that decouples what is *displayed* from what is currently hovered, so the preview can linger and fade after the pointer leaves without any fade-in or resize animation on the way back in.
   </Card>
   <Card title="IntegratedUniverseModal" href="/components/integrateduniversemodal">
-    Simple Universe Modal - Just GitNativeFederation in a modal
+    Simple Universe Modal - Just UniverseManager in a modal
   </Card>
   <Card title="MaroonSlider" href="/components/maroonslider">
     MaroonSlider component documentation
@@ -1254,11 +1428,17 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="SemanticIdentity" href="/components/semanticidentity">
     Semantic Web Identity Component Determines and displays how this node relates to the semantic web: - Neutral: No semantic web integration - Provider: Self-hosted semantic data (publishes RDF) - Receiver: Consumes external semantic data (imports from Wikidata/DBpedia)
   </Card>
+  <Card title="SettingsModal" href="/components/settingsmodal">
+    Settings Modal Full-screen overlay with two-column layout for app settings. Reads/writes settings directly via useGraphStore.
+  </Card>
   <Card title="StandardDivider" href="/components/standarddivider">
     StandardDivider component documentation
   </Card>
+  <Card title="StatusBanner" href="/components/statusbanner">
+    StatusBanner component documentation
+  </Card>
   <Card title="StorageSetupModal" href="/components/storagesetupmodal">
-    Storage Setup Modal Allows users to choose between folder-based storage and browser storage Shown after welcome screen when user clicks \"Get Started\"
+    Storage Setup Modal Allows users to choose between folder-based storage and browser storage Shown after welcome screen when user clicks \"Get Started\" Flow: 1. \"Where should we save your work?\" (Folder vs Skip) 2. If Folder -> \"Name your Universe\"
   </Card>
   <Card title="ToggleSlider" href="/components/toggleslider">
     Reusable Toggle Slider Component Creates a slider toggle similar to the ConnectionBrowser's \"In Graph\" ↔ \"All Connections\" toggle
@@ -1270,40 +1450,40 @@ This documentation is automatically generated from the Redstring source code.
     Universe Browser Component Discovers and displays available universes in connected repositories Enables easy linking and switching between universes
   </Card>
   <Card title="getDeviceInfo" href="/components/getdeviceinfo">
-    Universe Management Panel - Standalone universe management component This is the SINGLE SOURCE OF TRUTH for universe management UI. Can be used both embedded in GitNativeFederation AND as a standalone modal. Essential for startup and mobile scenarios where it may be the only data access method.
+    Universe Management Panel - Standalone universe management component This is the SINGLE SOURCE OF TRUTH for universe management UI. Can be used both embedded in UniverseManager AND as a standalone modal. Essential for startup and mobile scenarios where it may be the only data access method.
   </Card>
-  <Card title="buttonStyle" href="/components/buttonstyle">
-    buttonStyle component documentation
+  <Card title="UniverseManagerBootstrap" href="/components/universemanagerbootstrap">
+    Universe Backend Bootstrap - COMPLETELY DECOUPLED This component only acts as an event bridge. It uses dynamic imports with delayed loading to completely avoid circular dependencies. The backend is loaded ONLY when needed, never during module parse time.
   </Card>
-  <Card title="formatWhen" href="/components/formatwhen">
-    formatWhen component documentation
+  <Card title="UpdateDiagnosticsCard" href="/components/updatediagnosticscard">
+    UpdateDiagnosticsCard — popover above UpdateToast (or standalone bottom-right) surfacing the full updater state so wedged installs can be diagnosed and recovered without spelunking the filesystem.
   </Card>
-  <Card title="buttonStyle" href="/components/buttonstyle">
-    RepositoriesSection - Shows your managed repositories Add repos from GitHub that you want to use with Redstring
+  <Card title="UpdateToast" href="/components/updatetoast">
+    UpdateToast — bottom-right notification for Electron auto-update lifecycle. Shows as soon as a release is detected (not just when fully downloaded), so a stalled download doesn't silently hide the fact that an update exists.
   </Card>
-  <Card title="buttonStyle" href="/components/buttonstyle">
-    SourcesSection - Displays external GitHub repository sources These are repos that aren't Redstring-specific but are used across universes
+  <Card title="SelfLoopEdge" href="/components/selfloopedge">
+    SelfLoopEdge component documentation
   </Card>
-  <Card title="buttonStyle" href="/components/buttonstyle">
-    buttonStyle component documentation
+  <Card title="formatBytes" href="/components/formatbytes">
+    formatBytes component documentation
   </Card>
-  <Card title="SectionCard" href="/components/sectioncard">
-    Reusable section card container Provides consistent styling for all git federation sections
-  </Card>
-  <Card title="ConflictResolutionModal" href="/components/conflictresolutionmodal">
-    ConflictResolutionModal Shows when local file and Git repository have diverged, allowing user to choose which version to keep.
+  <Card title="GitHubDeviceFlowModal" href="/components/githubdeviceflowmodal">
+    Displays the GitHub device-flow user code and verification URL while the background poll waits for the user to approve in their browser. Driven entirely by props — the caller owns the polling promise and mutates the cancel signal it passed in when the user clicks Cancel.
   </Card>
   <Card title="RepositorySelectionModal" href="/components/repositoryselectionmodal">
     RepositorySelectionModal component documentation
   </Card>
   <Card title="UniverseLinkingModal" href="/components/universelinkingmodal">
-    UniverseLinkingModal Allows user to select an existing universe or create a new one when linking a Git repository to a universe. Color scheme: Maroon/red (#260000, #7A0000) with gray tones (#bdb5b5, #979090, #cfc6c6)
+    UniverseLinkingModal Allows user to select an existing universe or create a new one when linking a Git repository to a universe. Color scheme: Uses Unified Theming System (defaults to maroon/red based on active graph)
   </Card>
   <Card title="CustomDragLayer" href="/components/customdraglayer">
     CustomDragLayer component documentation
   </Card>
   <Card title="DraggableTab" href="/components/draggabletab">
     DraggableTab component documentation
+  </Card>
+  <Card title="LazySection" href="/components/lazysection">
+    Culls offscreen sections by only mounting children when the section is within `rootMargin` of the scroll viewport. When not visible, renders a placeholder div preserving the estimated height so scroll position stays stable.
   </Card>
   <Card title="getNodeData" href="/components/getnodedata">
     Wrapper component that handles data fetching and action binding for both home and node tabs PERFORMANCE: This component is memoized to prevent re-renders during zoom/pan
@@ -1323,8 +1503,11 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="getSemanticNodeColor" href="/components/getsemanticnodecolor">
     getSemanticNodeColor component documentation
   </Card>
-  <Card title="applyToolResultToStore" href="/components/applytoolresulttostore">
-    Apply wizard tool results to the store This bridges the gap between server-side tool execution and client-side store
+  <Card title="ConceptDetailView" href="/components/conceptdetailview">
+    ConceptDetailView component documentation
+  </Card>
+  <Card title="buildEnrichmentUpdates" href="/components/buildenrichmentupdates">
+    Build the update object for a node from a server enrichment match. Shared between single and batch enrichment.
   </Card>
   <Card title="LeftAllThingsView" href="/components/leftallthingsview">
     LeftAllThingsView component documentation
@@ -1350,6 +1533,9 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="RepositoryManager" href="/components/repositorymanager">
     Repository Manager Component Manages repository collections for users and organizations Handles OAuth integration and repository CRUD operations
   </Card>
+  <Card title="AISection" href="/components/aisection">
+    AI Settings Section - Adapted to Settings Modal patterns Uses settings-row, selects, and inline controls
+  </Card>
   <Card title="CanvasConfirmDialog" href="/components/canvasconfirmdialog">
     A confirm dialog positioned absolutely in the canvas at specific coordinates Used for contextual confirmations like adding nodes to groups
   </Card>
@@ -1365,11 +1551,56 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="PanelIconButton" href="/components/paneliconbutton">
     PanelIconButton - Reusable icon button matching right panel style with PieMenu-style hover effects Features: - Matches right panel icon button style (simple dark icons) - PieMenu-style hover effect (light gray fill with maroon stroke, matching PieMenu bubbles) - Conditional fill support (for star/saved buttons) - Works with any Lucide icon - Compact design for slim views
   </Card>
-  <Card title="GitNativeFederationPureUI" href="/components/gitnativefederationpureui">
-    Example: GitNativeFederation as Pure UI Component This shows how GitNativeFederation SHOULD work - as a pure UI component that only displays data and calls backend services. NO backend logic, NO engine creation, NO authentication handling. Just UI and calls to universeBackend.
+  <Card title="formatCount" href="/components/formatcount">
+    formatCount component documentation
+  </Card>
+  <Card title="AuthSection" href="/components/authsection">
+    AuthSection component documentation
+  </Card>
+  <Card title="formatWhen" href="/components/formatwhen">
+    formatWhen component documentation
+  </Card>
+  <Card title="RepositoriesSection" href="/components/repositoriessection">
+    RepositoriesSection - Shows your managed repositories Add repos from GitHub that you want to use with Redstring
+  </Card>
+  <Card title="SourcesSection" href="/components/sourcessection">
+    SourcesSection - Displays external GitHub repository sources These are repos that aren't Redstring-specific but are used across universes
+  </Card>
+  <Card title="formatWhen" href="/components/formatwhen">
+    formatWhen component documentation
+  </Card>
+  <Card title="PanelSegment" href="/components/panelsegment">
+    PanelSegment component documentation
+  </Card>
+  <Card title="SectionCard" href="/components/sectioncard">
+    Reusable section card container Provides consistent styling for all git federation sections
+  </Card>
+  <Card title="WizardActionChip" href="/components/wizardactionchip">
+    Compact, right-aligned card representing a programmatic Ask The Wizard action (e.g., refine a connection or define a node's components). Visually identical to the AI's tool-call cards on the wizard side — same CSS classes and layout — just rendered on the user side. No expand/dropdown; the rich prompt is sent to the model but never shown to the user.
+  </Card>
+  <Card title="UniverseManagerPureUI" href="/components/universemanagerpureui">
+    Example: UniverseManager as Pure UI Component This shows how UniverseManager SHOULD work - as a pure UI component that only displays data and calls backend services. NO backend logic, NO engine creation, NO authentication handling. Just UI and calls to universeBackend.
+  </Card>
+  <Card title="initRuntime" href="/components/initruntime">
+    runtime.js Wires the headless store + a workspace of universes + the shared action modules into a single runtime the wizard-server mounts when a workspace is configured. Node analogue of the browser's BridgeClient + universeBackend: it owns the store, manages universes (create/list/switch/delete), executes pending actions in-process, and persists to disk. Executor mirrors BridgeClient's dispatch exactly (BridgeClient.jsx ~666/672 and the __rs_applyToolResultToStore fallback ~735): try storeActions[action] first, else route through applyToolResultToStore.
+  </Card>
+  <Card title="handleKeyDown" href="/components/handlekeydown">
+    handleKeyDown component documentation
+  </Card>
+  <Card title="useCanvasTouch" href="/components/usecanvastouch">
+    useCanvasTouch component documentation
+  </Card>
+  <Card title="useCanvasTransform" href="/components/usecanvastransform">
+    useCanvasTransform — DOM-bypass pan/zoom for NodeCanvas. Owns panOffset and zoomLevel as refs (not state).  Every mutation writes directly to the SVG element's style.transform, bypassing React reconciliation. A debounced \"settled\" React state pair (`settledPan`, `settledZoom`) is exposed for consumers that need React re-renders (culling, child-component props, view-state persistence).  These update only after the user stops interacting for `SETTLE_DELAY` ms.
   </Card>
   <Card title="useControlPanelActions" href="/components/usecontrolpanelactions">
     Control Panel actions hook Handles actions for NodeControlPanel (operates on prototypes + instances)
+  </Card>
+  <Card title="useForceSimulation" href="/components/useforcesimulation">
+    Custom hook encapsulating the force-directed simulation engine. Handles all physics computation, animation loop, parameter management, and auto-start/auto-stop behavior. No UI concerns.
+  </Card>
+  <Card title="resolveConnectionName" href="/components/resolveconnectionname">
+    Resolve the displayed connection name for an edge. Mirrors the rendering logic in NodeCanvas.jsx.
   </Card>
   <Card title="useKeyboardShortcuts" href="/components/usekeyboardshortcuts">
     Custom hook to track currently pressed keys.
@@ -1383,17 +1614,23 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="useNodeActions" href="/components/usenodeactions">
     Unified node actions hook Single source of truth for node operations used by both PieMenu and ControlPanels
   </Card>
+  <Card title="step" href="/components/step">
+    useNodeDrag — Extracts all node/group dragging behavior from NodeCanvas. Owns: - draggingNodeInfo state (single / multi-select / group shapes) - Drag zoom-out/restore animations - Edge panning (auto-pan when cursor near viewport edges during drag) - RAF-throttled position updates during drag - History recording on drag end - Node scale bump (1.15x on start, 1.0 on end) - DOM-bypass: writes CSS transforms directly to node/edge SVG elements during drag (no Zustand state updates, no React re-renders until drag end) Does NOT own: - Long-press timeout / click discrimination (handleNodeMouseDown stays in NodeCanvas) - Group-drop detection UI (NodeCanvas handles the dialog using returned draggedNodeIds) - Connection drawing (separate concern)
+  </Card>
   <Card title="useProjectionStore" href="/components/useprojectionstore">
     useProjectionStore component documentation
   </Card>
+  <Card title="useTheme" href="/components/usetheme">
+    Theme Hooks Custom React hooks for accessing the current theme.
+  </Card>
   <Card title="useViewportBounds" href="/components/useviewportbounds">
-    Computes the central usable viewport bounds by subtracting left/right panel widths and the bottom TypeList bar from window dimensions. Accounts for collapsed panels by using 0 width when panels are not expanded. Includes space for resizer handles when panels are expanded. Listens to window resize and custom panel events: - panelWidthChanging, panelWidthChanged Also reads persisted widths from localStorage on mount for initial render.
+    Computes the central usable viewport bounds by subtracting left/right panel widths and the bottom TypeList bar from window dimensions. Accounts for collapsed panels by using 0 width when panels are not expanded. Includes space for resizer handles when panels are expanded. In exclusive panel mode (narrow viewport — see EXCLUSIVE_PANEL_MODE_THRESHOLD), panels render as fixed overlays on top of the canvas rather than as flex siblings, so their widths must NOT be subtracted from the usable viewport. Listens to window resize and custom panel events: - panelWidthChanging, panelWidthChanged Also reads persisted widths from localStorage on mount for initial render.
+  </Card>
+  <Card title="useWindowGestureEnd" href="/components/usewindowgestureend">
+    useWindowGestureEnd component documentation
   </Card>
   <Card title="ensureDir" href="/components/ensuredir">
     ensureDir component documentation
-  </Card>
-  <Card title="runSave" href="/components/runsave">
-    Save Coordinator - Simplified save management system Coordinates between: - Local file saves (FileStorage) - Git repository commits (GitSyncEngine) Features: - Single debounced save timer (500ms) for all changes - GitSyncEngine handles its own batching and rate limiting - Consistent state synchronization
   </Card>
   <Card title="return" href="/components/return">
     Event Bus for Agent Communication Enables event-driven agent execution where agents can subscribe to events
@@ -1404,20 +1641,20 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="readEnvValue" href="/components/readenvvalue">
     readEnvValue component documentation
   </Card>
-  <Card title="gfLog" href="/components/gflog">
-    Attach Git repository to an existing universe IMPORTANT: This implements the 2-SLOT STORAGE SYSTEM - Universes can have BOTH local file AND Git storage simultaneously - sourceOfTruth determines which is PRIMARY (authoritative) - The other slot serves as BACKUP/SECONDARY storage This function preserves the existing sourceOfTruth to avoid data loss: - If universe has local file enabled → keeps 'local' as primary, Git becomes backup - If universe has no sourceOfTruth set → defaults to 'git' - User can explicitly change primary via setPrimaryStorage()
+  <Card title="safePrototypeName" href="/components/safeprototypename">
+    bridgeStateSerializer.js Environment-agnostic construction of the \"bridge state\" payload — the lossy summary of the Redstring store that the wizard-server exposes at `GET /api/bridge/state` and that the MCP server + wizard tools read. This is the MCP compatibility contract. The shape produced by `buildBridgeState` is what `redstring-mcp-server.js` (`getRealRedstringState` → `toPlainState`) deserializes. A Vitest snapshot test locks this shape; if you add a field the tools need, update all three serialization hops (BridgeClient/daemon → wizard-server → MCP) — see MEMORY.md. Extracted verbatim from BridgeClient.jsx so the browser (BridgeClient) and the Node daemon (wizard-server headless mode) build the identical payload from the same code. No browser globals are referenced here — safe in Node. NOTE: this is a summary payload for MCP *reads*, NOT a sync format. Daemon↔ browser hydration must use `exportToRedstring` JSON, not this.
   </Card>
-  <Card title="findRelatedEntities" href="/components/findrelatedentities">
-    Local Semantic Query Service Provides semantic querying capabilities within the local Redstring knowledge graph, finding related concepts, entities, and patterns without external CORS issues.
+  <Card title="assertElectron" href="/components/assertelectron">
+    GitHub Device Flow (Electron-only). Fully local OAuth: requests a device code from github.com, has the user approve it in their browser, polls until GitHub returns a token. No client_secret, no callback server, no reliance on redstring.io. Used for both the OAuth App (general repo access) and the GitHub App (live sync). The only difference between the two flows is the client_id — the App's device flow returns a user-to-server token (`ghu_*`) which acts with the App's permissions on installations the user has access to.
   </Card>
-  <Card title="getSourceTrust" href="/components/getsourcetrust">
-    getSourceTrust component documentation
+  <Card title="memberBoundaryPaddingFor" href="/components/memberboundarypaddingfor">
+    Pure helper for computing the visual layout of a group (thing-group or node-group). Used by both the static render in NodeCanvas.jsx and the DOM-bypass drag updater in useNodeDrag.js so they share one source of truth. No React, no Zustand, no DOM access. Text measurement is injected via `context.measureLabelWidth` so tests can stub it. Nesting handling: when a member instance also belongs to another node-group in the same graph, the outer bbox folds in that nested group's title-included `nodeGroupRect.y` rather than just the member's raw `n.y`. Without this, the outer rect undershoots by ~labelHeight + 48px.
+  </Card>
+  <Card title="resizeWikipediaThumbUrl" href="/components/resizewikipediathumburl">
+    Separate Zustand store for auto-enrichment image data (thumbnails). WHY THIS EXISTS: The main graphStore gets JSON.stringify'd for save hashing + file writes. Storing image data in nodePrototypes means every save cycle copies/hashes/writes megabytes of strings, causing V8 OOM crashes in Electron when 10+ nodes are enriched. This store: - Holds \{ protoId → \{ thumbnailSrc: blob URL, imageAspectRatio \} \} for auto-enriched nodes - Is NEVER serialized, hashed, or saved to disk - Components subscribe to it per-node, so only the affected node re-renders when an image loads - On reload, images re-fetch from Wikipedia URLs stored in semanticMetadata thumbnailSrc is a blob: URL (not a data URL or remote URL) because: - Blob URLs are same-origin, so SVG <image> elements render them without CORS issues - Blob data lives in the browser's native cache, NOT in the JS heap (no OOM) - They're never serialized (blob URLs are opaque strings, ~40 chars) User-uploaded images (via drag-drop or file picker) still go in the main store since those are intentional single-node operations that don't cause batch OOM.
   </Card>
   <Card title="toTitleCase" href="/components/totitlecase">
     toTitleCase component documentation
-  </Card>
-  <Card title="markPrototypesProtected" href="/components/markprototypesprotected">
-    Mark a set of prototype IDs as protected from cleanup.
   </Card>
   <Card title="generateHash" href="/components/generatehash">
     Save Worker Handles heavy serialization and hashing off the main thread
@@ -1425,11 +1662,23 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="createRateLimiter" href="/components/createratelimiter">
     Semantic Web Query Service Direct SPARQL queries and Wikipedia API integration for immediate semantic web data access
   </Card>
-  <Card title="gfLog" href="/components/gflog">
-    Universe Backend Service This is the TRUE backend for universe management that should run independently of any UI components. All universe operations should go through this service. The UI (GitNativeFederation.jsx) should ONLY display data and call these methods.
+  <Card title="evictOldest" href="/components/evictoldest">
+    Text measurement service powered by @chenglou/pretext. Replaces DOM-based hidden-element measurement (offsetWidth/offsetHeight) and canvas measureText() calls with Pretext's DOM-free layout engine, eliminating synchronous layout reflows.
+  </Card>
+  <Card title="configureToolResultApplier" href="/components/configuretoolresultapplier">
+    toolResultApplier.js Applies wizard/MCP tool results to the Redstring store. Extracted verbatim from LeftAIView.jsx so the browser and the Node daemon (wizard-server headless mode) apply mutations through the identical code path — including the critical resolve-by-name-take-LAST semantics (see MEMORY.md: predictive IDs from AgentLoop never match real store IDs, so handlers resolve entities by name and take the LAST match). Environment handling: - Browser globals (window.dispatchEvent / CustomEvent) are all `typeof window` guarded in the moved code, so they are automatic no-ops in Node — exactly the \"no-op emit headless\" behavior we want. - Wikipedia enrichment is browser-specific (fetch + thumbnail cache), so it is INJECTED: the browser calls configureToolResultApplier() with the real enrichNodeWithWikipedia / enrichMultipleNodes; a headless host leaves the no-op defaults (or supplies its own later). - useGraphStore is the same module singleton in both hosts (the daemon's createHeadlessStore imports the very same module), so it is imported directly rather than injected.
+  </Card>
+  <Card title="umLog" href="/components/umlog">
+    Universe Backend Service This is the TRUE backend for universe management that should run independently of any UI components. All universe operations should go through this service. The UI (UniverseManager.jsx) should ONLY display data and call these methods.
   </Card>
   <Card title="clearWarningTimer" href="/components/clearwarningtimer">
     Universe Backend Bridge Utility Provides a safe, reusable bridge for UI components to communicate with the universe backend via window events. Centralizes command dispatching to avoid temporal dead zone pitfalls and duplicate implementations.
+  </Card>
+  <Card title="umLog" href="/components/umlog">
+    Attach Git repository to an existing universe IMPORTANT: This implements the 2-SLOT STORAGE SYSTEM - Universes can have BOTH local file AND Git storage simultaneously - sourceOfTruth determines which is PRIMARY (authoritative) - The other slot serves as BACKUP/SECONDARY storage This function preserves the existing sourceOfTruth to avoid data loss: - If universe has local file enabled → keeps 'local' as primary, Git becomes backup - If universe has no sourceOfTruth set → defaults to 'git' - User can explicitly change primary via setPrimaryStorage()
+  </Card>
+  <Card title="openBrowserUniverseDB" href="/components/openbrowseruniversedb">
+    File Storage Module for Redstring Bridge to UniverseManager for backward compatibility Delegates to UniverseManager while maintaining existing API
   </Card>
   <Card title="produce" href="/components/produce">
     Custom produce wrapper to capture patches from existing actions. This allows us to \"spy\" on state changes without refactoring all 3500+ lines of action code.
@@ -1437,8 +1686,17 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="useCanvasWorker" href="/components/usecanvasworker">
     useCanvasWorker component documentation
   </Card>
+  <Card title="inflateRect" href="/components/inflaterect">
+    Edge label placement strategies and utilities Extracted from NodeCanvas.jsx to improve maintainability
+  </Card>
   <Card title="clientToCanvasCoordinates" href="/components/clienttocanvascoordinates">
     Geometry and coordinate transformation utilities for canvas operations
+  </Card>
+  <Card title="stabilizeLabelPosition" href="/components/stabilizelabelposition">
+    Label Position Stabilization Prevents label jitter during interactions by caching positions and applying smoothing to small movements. This module implements the missing stabilizeLabelPosition() function that is called throughout NodeCanvas.jsx but was never defined.
+  </Card>
+  <Card title="getNodeHitbox" href="/components/getnodehitbox">
+    Node Hitbox Calculation Utilities Provides accurate visual bounds calculation for nodes including selection stroke, line-node intersection, and visual connection endpoint resolution.
   </Card>
   <Card title="isLocalStorageDisabled" href="/components/islocalstoragedisabled">
     Debug Configuration for Redstring Provides debugging options to disable features for testing purposes
@@ -1446,8 +1704,20 @@ This documentation is automatically generated from the Redstring source code.
   <Card title="loadDebugServerHealth" href="/components/loaddebugserverhealth">
     Debug Logger Utility Provides a centralized way to log debug events to the MCP server with automatic error suppression and availability checking Works in both browser and Node.js environments
   </Card>
+  <Card title="formatPredicate" href="/components/formatpredicate">
+    Predicate Formatting Utilities Converts raw semantic web predicates/relationship types into readable labels. Used across OrbitOverlay and LeftSemanticDiscoveryView for consistent formatting.
+  </Card>
+  <Card title="getNodeDimensions" href="/components/getnodedimensions">
+    Generates a thumbnail data URL from an image source.
+  </Card>
+  <Card title="createPopulatedGraph" href="/components/createpopulatedgraph">
+    createPopulatedGraph - Create a new graph with nodes, edges, and groups in one operation
+  </Card>
+  <Card title="searchConnections" href="/components/searchconnections">
+    searchConnections - Find connections/edges by type, node names, or general query Searches through all edges in the active graph, matching against connection types, source/target node names, and descriptions. Returns results ranked by relevance.
+  </Card>
 </CardGroup>
 
 ---
 
-*This documentation is automatically generated from source code. Last updated: 2026-01-13T17:32:29.455Z*
+*This documentation is automatically generated from source code. Last updated: 2026-07-05T01:20:32.325Z*

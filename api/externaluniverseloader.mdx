@@ -1,0 +1,63 @@
+---
+title: "externalUniverseLoader"
+description: "Service: External Universe Loader Pure functions for loading .redstring files from arbitrary web URLs: - GitHub file URLs (github.com/.../blob/... or raw.githubusercontent.com/...) - GitHub folder URLs (github.com/.../tree/...) - GitHub repo URLs (github.com/owner/repo) - Arbitrary direct URLs whose path ends in .redstring No React, no store imports. Just URL classification, fetch, and GitHub API listing. GitHub calls are unauthenticated (60 req/hr limit per IP — acceptable for one-shot load)."
+---
+
+# externalUniverseLoader
+
+External Universe Loader Pure functions for loading .redstring files from arbitrary web URLs: - GitHub file URLs (github.com/.../blob/... or raw.githubusercontent.com/...) - GitHub folder URLs (github.com/.../tree/...) - GitHub repo URLs (github.com/owner/repo) - Arbitrary direct URLs whose path ends in .redstring No React, no store imports. Just URL classification, fetch, and GitHub API listing. GitHub calls are unauthenticated (60 req/hr limit per IP — acceptable for one-shot load).
+
+## Location
+`src/services/externalUniverseLoader.js`
+
+## Functions
+
+
+### classifyUrl
+
+```javascript
+export function classifyUrl(
+```
+
+No description available.
+
+
+### fetchRedstringJson
+
+```javascript
+function fetchRedstringJson(
+```
+
+No description available.
+
+
+### listRedstringFilesInGithub
+
+```javascript
+function listRedstringFilesInGithub(
+```
+
+No description available.
+
+
+### tryListAt
+
+```javascript
+const tryListAt = async (apiPath) =>
+```
+
+No description available.
+
+
+### suggestUniverseNameFromUrl
+
+```javascript
+export function suggestUniverseNameFromUrl(
+```
+
+No description available.
+
+
+---
+
+*Auto-generated from source code*

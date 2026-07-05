@@ -1,0 +1,90 @@
+---
+title: "semanticHash"
+description: "Service: Semantic and full hash functions for .redstring documents and store states. D5 (FORMAT_REFACTOR_PLAN §3): two hash tiers. Tier-1 — semanticHash / semanticHashFromStore SHA-256 over URDNA2015 canonical N-Quads of the exported document. The canonical export is always produced via exportToRedstring (emitV4:false), so a v3-serialized file and a v4-serialized file with identical knowledge produce the same tier-1 hash. Used by detectSlotConflict. Tier-2 — fullHash / fullHashFromStore SHA-256 over canonically-ordered JSON minus presentation-only sections. Covers knowledge + spatial layout but not UI state / viewport / derived caches."
+---
+
+# semanticHash
+
+Semantic and full hash functions for .redstring documents and store states. D5 (FORMAT_REFACTOR_PLAN §3): two hash tiers. Tier-1 — semanticHash / semanticHashFromStore SHA-256 over URDNA2015 canonical N-Quads of the exported document. The canonical export is always produced via exportToRedstring (emitV4:false), so a v3-serialized file and a v4-serialized file with identical knowledge produce the same tier-1 hash. Used by detectSlotConflict. Tier-2 — fullHash / fullHashFromStore SHA-256 over canonically-ordered JSON minus presentation-only sections. Covers knowledge + spatial layout but not UI state / viewport / derived caches.
+
+## Location
+`src/services/semanticHash.js`
+
+## Functions
+
+
+### sha256hex
+
+```javascript
+function sha256hex(
+```
+
+No description available.
+
+
+### sortKeysDeep
+
+```javascript
+function sortKeysDeep(
+```
+
+No description available.
+
+
+### stripKeys
+
+```javascript
+function stripKeys(
+```
+
+No description available.
+
+
+### semanticHash
+
+```javascript
+function semanticHash(
+```
+
+No description available.
+
+
+### semanticHashFromStore
+
+```javascript
+function semanticHashFromStore(
+```
+
+No description available.
+
+
+### fullHash
+
+```javascript
+function fullHash(
+```
+
+No description available.
+
+
+### fullHashFromStore
+
+```javascript
+function fullHashFromStore(
+```
+
+No description available.
+
+
+### slotsHaveEqualKnowledge
+
+```javascript
+function slotsHaveEqualKnowledge(
+```
+
+No description available.
+
+
+---
+
+*Auto-generated from source code*

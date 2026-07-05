@@ -1,11 +1,11 @@
 ---
 title: "getDeviceInfo"
-description: "React component: Universe Management Panel - Standalone universe management component This is the SINGLE SOURCE OF TRUTH for universe management UI. Can be used both embedded in GitNativeFederation AND as a standalone modal. Essential for startup and mobile scenarios where it may be the only data access method."
+description: "React component: Universe Management Panel - Standalone universe management component This is the SINGLE SOURCE OF TRUTH for universe management UI. Can be used both embedded in UniverseManager AND as a standalone modal. Essential for startup and mobile scenarios where it may be the only data access method."
 ---
 
 # getDeviceInfo
 
-Universe Management Panel - Standalone universe management component This is the SINGLE SOURCE OF TRUTH for universe management UI. Can be used both embedded in GitNativeFederation AND as a standalone modal. Essential for startup and mobile scenarios where it may be the only data access method.
+Universe Management Panel - Standalone universe management component This is the SINGLE SOURCE OF TRUTH for universe management UI. Can be used both embedded in UniverseManager AND as a standalone modal. Essential for startup and mobile scenarios where it may be the only data access method.
 
 ## Location
 `src/components/UniverseManagementPanel.jsx`
@@ -22,6 +22,7 @@ This component does not accept props.
 - `useCallback`
 - `useMemo`
 - `useRef`
+- `useTheme`
 - `userAgent`
 - `userRepositories`
 - `user`
@@ -31,6 +32,7 @@ This component does not accept props.
 ## Dependencies
 
 - `lucide-react`
+- `../hooks/useTheme.js`
 - `../services/universeBackendBridge.js`
 - `./repositories/RepositoryDropdown.jsx`
 - `../services/persistentAuth.js`

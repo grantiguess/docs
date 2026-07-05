@@ -1,11 +1,11 @@
 ---
 title: "ForceSimulationModal"
-description: "React component: Draggable modal for interactive force-directed layout tuning Applies forces directly to the active graph - no separate preview!"
+description: "React component: Draggable modal for interactive force-directed layout tuning. All simulation logic lives in useForceSimulation — this is UI only."
 ---
 
 # ForceSimulationModal
 
-Draggable modal for interactive force-directed layout tuning Applies forces directly to the active graph - no separate preview!
+Draggable modal for interactive force-directed layout tuning. All simulation logic lives in useForceSimulation — this is UI only.
 
 ## Location
 `src/components/ForceSimulationModal.jsx`
@@ -19,19 +19,22 @@ This component does not accept props.
 - `useState`
 - `useRef`
 - `useEffect`
-- `user`
-- `uses`
-- `used`
+- `useForceSimulation`
+- `useTheme`
 - `useDown`
 - `useMove`
 - `useUp`
 - `usemove`
 - `useup`
+- `used`
 
 ## Dependencies
 
 - `lucide-react`
+- `../hooks/useForceSimulation.js`
+- `../hooks/useTheme.js`
 - `../services/graphLayoutService.js`
+- `./MaroonSlider.jsx`
 
 ---
 
