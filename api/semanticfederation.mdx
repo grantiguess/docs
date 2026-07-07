@@ -10,9 +10,236 @@ Semantic Federation Engine Handles cross-domain discovery, subscriptions, and re
 ## Location
 `src/services/semanticFederation.js`
 
-## Functions
+## Methods
 
-No functions detected.
+
+### subscribeToSpace
+
+Subscribe to an external semantic space
+
+**Parameters:**
+
+- `\{string\} spaceUrl - URL of the semantic space`
+- `\{Object\} options - Subscription options`
+
+**Returns:** \{Promise<SubscriptionInfo>\} Subscription information
+
+---
+
+### unsubscribeFromSpace
+
+Unsubscribe from a semantic space
+
+**Parameters:**
+
+- `\{string\} spaceUrl - URL of the semantic space`
+
+---
+
+### discoverSpace
+
+Discover a semantic space structure
+
+**Parameters:**
+
+- `\{string\} spaceUrl - URL of the semantic space`
+
+**Returns:** \{Promise<DiscoveryInfo>\} Discovery information
+
+---
+
+### discoverFromDirectory
+
+Discover concepts from directory structure
+
+**Parameters:**
+
+- `\{string\} spaceUrl - URL of the semantic space`
+
+**Returns:** \{Promise<DiscoveryInfo>\} Discovery information
+
+---
+
+### discoverConcepts
+
+Discover concepts in a subscribed space
+
+**Parameters:**
+
+- `\{string\} spaceUrl - URL of the semantic space`
+- `\{SubscriptionInfo\} subscription - Subscription information`
+
+---
+
+### cacheExternalConcept
+
+Cache an external concept
+
+**Parameters:**
+
+- `\{string\} conceptUrl - URL of the concept TTL file`
+- `\{string\} sourceUrl - Source space URL`
+
+**Returns:** \{Promise<CachedConcept>\} Cached concept information
+
+---
+
+### getExternalConcept
+
+Get a cached external concept
+
+**Parameters:**
+
+- `\{string\} conceptUrl - URL of the concept`
+
+**Returns:** \{Promise<CachedConcept|null>\} Cached concept or null
+
+---
+
+### createCrossReference
+
+Create a cross-reference to an external concept
+
+**Parameters:**
+
+- `\{string\} localConceptId - Local concept ID`
+- `\{string\} externalConceptUrl - External concept URL`
+- `\{string\} relationshipType - Type of relationship`
+
+---
+
+### findRelatedConcepts
+
+Find related concepts across the federation
+
+**Parameters:**
+
+- `\{string\} conceptId - Local concept ID`
+
+**Returns:** \{Promise<Array>\} Array of related external concepts
+
+---
+
+### startPolling
+
+Start polling for updates
+
+---
+
+### pollSubscriptions
+
+Poll all active subscriptions for updates
+
+---
+
+### notifySubscriptionUpdate
+
+Notify about subscription updates
+
+**Parameters:**
+
+- `\{SubscriptionInfo\} subscription - Subscription information`
+- `\{Array\} newConcepts - New concepts found`
+
+---
+
+### getSubscriptions
+
+Get all subscriptions
+
+**Returns:** \{Array\} Array of subscription information
+
+---
+
+### getFederationStats
+
+Get federation statistics
+
+**Returns:** \{Object\} Federation statistics
+
+---
+
+### extractNameFromUrl
+
+Extract name from URL
+
+**Parameters:**
+
+- `\{string\} url - URL to extract name from`
+
+**Returns:** \{string\} Extracted name
+
+---
+
+### extractSourceUrl
+
+Extract source URL from concept URL
+
+**Parameters:**
+
+- `\{string\} conceptUrl - Concept URL`
+
+**Returns:** \{string\} Source URL
+
+---
+
+### isExternalUrl
+
+Check if URL is external
+
+**Parameters:**
+
+- `\{string\} url - URL to check`
+
+**Returns:** \{boolean\} True if external
+
+---
+
+### isCacheExpired
+
+Check if cache is expired
+
+**Parameters:**
+
+- `\{string\} cachedAt - Cache timestamp`
+
+**Returns:** \{boolean\} True if expired
+
+---
+
+### getCachedDiscovery
+
+Get cached discovery info
+
+**Parameters:**
+
+- `\{string\} key - Cache key`
+
+**Returns:** \{DiscoveryInfo|null\} Cached discovery or null
+
+---
+
+### cacheDiscovery
+
+Cache discovery info
+
+**Parameters:**
+
+- `\{string\} key - Cache key`
+- `\{DiscoveryInfo\} data - Discovery data`
+
+---
+
+### parseTTLConcept
+
+Parse TTL concept content
+
+**Parameters:**
+
+- `\{string\} ttlContent - TTL content`
+
+**Returns:** \{Object\} Parsed concept data
+
 
 ---
 

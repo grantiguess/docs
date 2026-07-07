@@ -10,9 +10,73 @@ OAuth Auto-Connect Service Provides robust OAuth auto-connection functionality t
 ## Location
 `src/services/oauthAutoConnect.js`
 
-## Functions
+## Methods
 
-No functions detected.
+
+### initialize
+
+Initialize the auto-connect service Should be called during app startup, before any UI components
+
+---
+
+### getAllowAutoConnect
+
+Check if user allows auto-connect
+
+---
+
+### markAutoConnectAttempted
+
+Mark that auto-connect has been attempted this session
+
+---
+
+### attemptAutoConnect
+
+Main auto-connect logic
+
+---
+
+### attemptAppAutoConnect
+
+Attempt auto-connect using stored GitHub App installation
+
+---
+
+### attemptOAuthAutoConnect
+
+Attempt auto-connect using stored OAuth tokens
+
+---
+
+### testGitHubAppToken
+
+Test if a GitHub App token is valid
+
+---
+
+### triggerOAuthFlow
+
+Trigger OAuth flow automatically
+
+---
+
+### forceAutoConnect
+
+Force attempt auto-connect (for manual triggers)
+
+---
+
+### on
+
+Event handling
+
+---
+
+### getStatus
+
+Get current status
+
 
 ---
 

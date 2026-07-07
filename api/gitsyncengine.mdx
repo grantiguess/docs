@@ -10,16 +10,112 @@ Git Sync Engine - Implements the Git-Native Protocol's rapid synchronization pat
 ## Location
 `src/services/gitSyncEngine.js`
 
-## Functions
+## Methods
 
 
-### pad
+### setSourceOfTruth
 
-```javascript
-const pad = (n) =>
-```
+Set the source of truth mode
 
-No description available.
+**Parameters:**
+
+- `\{string\} mode - 'local' or 'git'`
+
+---
+
+### getSourceOfTruth
+
+Get current source of truth mode
+
+---
+
+### mergeWithLocalContent
+
+Merge Git data with existing local content Behavior depends on source of truth setting
+
+---
+
+### start
+
+Start the background commit loop
+
+---
+
+### stop
+
+Stop the background commit loop
+
+---
+
+### restart
+
+Restart the sync engine (recovery mechanism)
+
+---
+
+### pause
+
+Pause operations (useful when UI is not visible)
+
+---
+
+### resume
+
+Resume operations
+
+---
+
+### isHealthy
+
+Check if sync engine is healthy
+
+---
+
+### generateStateHash
+
+Generate a hash of the store state for change detection Only includes content changes, not viewport changes
+
+---
+
+### _countNodes
+
+Count nodePrototypes in a store state, handling both Map and plain-object shapes. Used as the "did the repo ever have data" floor for the empty-state guard.
+
+---
+
+### checkCircuitBreaker
+
+Check circuit breaker status and manage API call rate
+
+---
+
+### processPendingCommits
+
+Process pending commits in batches Now with rate limiting and intelligent batching
+
+---
+
+### forceCommit
+
+ALWAYS force commits - this is an overwriter, no "mode" needed Aggressive rate limiting and redundancy prevention
+
+---
+
+### loadFromGit
+
+Load state from Git repository
+
+---
+
+### endDragging
+
+Manually end dragging state (useful for edge cases)
+
+---
+
+### getStatus
+
+Get sync status
 
 
 ---

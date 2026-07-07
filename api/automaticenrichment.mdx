@@ -10,34 +10,37 @@ Automatic Semantic Enrichment Service Automatically enriches nodes with semantic
 ## Location
 `src/services/automaticEnrichment.js`
 
-## Functions
+## Methods
 
 
 ### enrichNode
 
-```javascript
-export const enrichNode = (nodeData, options) =>
-```
+Automatically enrich a node based on its title
 
-No description available.
+**Parameters:**
 
+- `\{Object\} nodeData - Node to enrich`
+- `\{Object\} options - Enrichment options`
 
-### getEnrichmentCacheStats
+**Returns:** \{Promise<Object>\} Enrichment results
 
-```javascript
-export const getEnrichmentCacheStats = () =>
-```
+---
 
-No description available.
+### getCacheStats
 
+Get enrichment cache statistics
 
-### clearEnrichmentCache
+**Returns:** \{Object\} Cache statistics
 
-```javascript
-export const clearEnrichmentCache = (nodeTitle) =>
-```
+---
 
-No description available.
+### clearCache
+
+Clear enrichment cache
+
+**Parameters:**
+
+- `\{string\} nodeTitle - Optional specific node to clear`
 
 
 ---

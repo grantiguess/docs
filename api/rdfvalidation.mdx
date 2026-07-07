@@ -10,52 +10,107 @@ RDF Validation Service Checks RDF consistency across local and external data, va
 ## Location
 `src/services/rdfValidation.js`
 
-## Functions
+## Methods
 
 
-### hasCycle
+### addValidationRule
 
-```javascript
-const hasCycle = (nodeId) =>
-```
+Add a custom validation rule
 
-No description available.
+**Parameters:**
 
+- `\{string\} ruleId - Rule identifier`
+- `\{Object\} rule - Rule configuration`
+
+---
+
+### removeValidationRule
+
+Remove a validation rule
+
+**Parameters:**
+
+- `\{string\} ruleId - Rule identifier`
+
+---
+
+### setRuleEnabled
+
+Enable/disable a validation rule
+
+**Parameters:**
+
+- `\{string\} ruleId - Rule identifier`
+- `\{boolean\} enabled - Whether to enable the rule`
+
+---
 
 ### validateGraph
 
-```javascript
-export const validateGraph = (graphData, options) =>
-```
+Validate a complete graph
 
-No description available.
+**Parameters:**
 
+- `\{Object\} graphData - Graph data including nodes, edges, and metadata`
+- `\{Object\} options - Validation options`
+
+**Returns:** \{Promise<Object>\} Validation results
+
+---
 
 ### validateNode
 
-```javascript
-export const validateNode = (nodeData, graphData, options) =>
-```
+Validate a specific node
 
-No description available.
+**Parameters:**
 
+- `\{Object\} nodeData - Node data`
+- `\{Object\} graphData - Graph context`
+- `\{Object\} options - Validation options`
+
+**Returns:** \{Promise<Object>\} Validation results
+
+---
 
 ### getValidationResults
 
-```javascript
-export const getValidationResults = (graphId) =>
-```
+Get validation results for a graph
 
-No description available.
+**Parameters:**
 
+- `\{string\} graphId - Graph identifier`
+
+**Returns:** \{Object\} Validation results
+
+---
+
+### clearValidationResults
+
+Clear validation results
+
+**Parameters:**
+
+- `\{string\} graphId - Optional graph identifier to clear specific results`
+
+---
+
+### getValidationStats
+
+Get validation statistics
+
+**Returns:** \{Object\} Validation statistics
+
+---
 
 ### generateReport
 
-```javascript
-export const generateReport = (validationResults) =>
-```
+Generate validation report
 
-No description available.
+**Parameters:**
+
+- `\{Object\} validationResults - Validation results`
+
+**Returns:** \{string\} Formatted report
 
 
 ---

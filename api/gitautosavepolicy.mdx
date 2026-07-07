@@ -1,6 +1,6 @@
 ---
 title: "GitAutosavePolicy"
-description: "Service: Git Autosave Policy - Implementation of intelligent auto-commit policy Features: - Debounce edits: commit after 10s idle OR 90s max - Batch changes: 1 commit per burst, never per keystroke - Cap: ≤60 commits/hr/repo/user - Serialize writes; ≥1s gap between mutating API calls - Backoff on 403/Retry-After; exponential retry - File size: <10MiB ideal, <50MiB soft cap, never ≥100MB - Repo size monitoring with LFS recommendations - Periodic squash: condense autosave commits daily/weekly - Shallow/partial clones recommended - CI: filter autosave commits to avoid workflow storms"
+description: "Service: Git Autosave Policy - Implementation of intelligent auto-commit policy Features: - Debounce edits: commit after 10s idle OR 90s max - Batch changes: 1 commit per burst, never per keystroke - Cap: ≤60 commits/hr/repo/user - Serialize writes; ≥1s gap between mutating API calls - Backoff on 403/Retry-After; exponential retry - File size: \<10MiB ideal, \<50MiB soft cap, never ≥100MB - Repo size monitoring with LFS recommendations - Periodic squash: condense autosave commits daily/weekly - Shallow/partial clones recommended - CI: filter autosave commits to avoid workflow storms"
 ---
 
 # GitAutosavePolicy
@@ -10,9 +10,121 @@ Git Autosave Policy - Implementation of intelligent auto-commit policy Features:
 ## Location
 `src/services/GitAutosavePolicy.js`
 
-## Functions
+## Methods
 
-No functions detected.
+
+### initialize
+
+Initialize with dependencies
+
+---
+
+### onStatusChange
+
+Status notification system
+
+---
+
+### onEditActivity
+
+Handle edit activity - core debouncing logic
+
+---
+
+### getEffectiveTimeouts
+
+Get effective debounce timeouts based on the Git engine's source-of-truth mode. When local is primary, Git is a backup and uses a tighter, simpler cadence (commits within ~10s of edits, no 90s burst tolerance). When Git is primary, the original 10s-idle / 90s-max debounce applies.
+
+---
+
+### executeBatchCommit
+
+Execute batch commit with policy enforcement
+
+---
+
+### checkRateLimit
+
+Check rate limiting (≤60 commits/hour)
+
+---
+
+### checkApiGap
+
+Check API gap requirement (≥1s between calls)
+
+---
+
+### checkFileSize
+
+Check file size constraints
+
+---
+
+### handleCommitError
+
+Handle commit errors with exponential backoff
+
+---
+
+### extractRetryAfter
+
+Extract retry-after header from error
+
+---
+
+### scheduleRetryAfterRateLimit
+
+Schedule retry after rate limit window
+
+---
+
+### getCurrentState
+
+Get current state for commit
+
+---
+
+### performCommit
+
+Perform actual commit
+
+---
+
+### cleanCommitHistory
+
+Clean old commit history
+
+---
+
+### formatSize
+
+Format file size for display
+
+---
+
+### forceCommit
+
+Force immediate commit (manual save)
+
+---
+
+### getStatus
+
+Get current policy status
+
+---
+
+### setEnabled
+
+Enable/disable the policy
+
+---
+
+### destroy
+
+Cleanup
+
 
 ---
 

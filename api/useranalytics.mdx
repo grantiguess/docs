@@ -10,34 +10,59 @@ User Analytics Service Tracks unique users, sessions, and user activity
 ## Location
 `src/services/UserAnalytics.js`
 
-## Functions
+## Methods
 
 
-### ensureDir
+### trackActivity
 
-```javascript
-function ensureDir(
-```
+Track a user activity
 
-No description available.
+**Parameters:**
 
+- `\{Object\} params`
+- `\{string\} params.userId - GitHub user ID`
+- `\{string\} params.userLogin - GitHub username`
+- `\{string\} params.action - Action type (e.g., 'page_view', 'api_call', 'oauth_login')`
+- `\{Object\} params.metadata - Additional metadata`
+- `\{string\} params.ip - IP address`
+- `\{string\} params.userAgent - User agent string`
+- `\{string\} params.path - Request path`
 
-### dayKey
+---
 
-```javascript
-function dayKey(
-```
+### getOrCreateSession
 
-No description available.
+Get or create a session for a user
 
+---
 
-### hourKey
+### getActiveUsers
 
-```javascript
-function hourKey(
-```
+Get active users (users with activity in the last N minutes)
 
-No description available.
+---
+
+### getStats
+
+Get user statistics
+
+---
+
+### getActivity
+
+Get activity for a time range
+
+---
+
+### cleanup
+
+Clean up old sessions and save data
+
+---
+
+### getUser
+
+Get user details
 
 
 ---

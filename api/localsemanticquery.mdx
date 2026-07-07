@@ -10,43 +10,57 @@ Local Semantic Query Service Provides semantic querying capabilities within the 
 ## Location
 `src/services/localSemanticQuery.js`
 
-## Functions
+## Methods
 
 
 ### findRelatedEntities
 
-```javascript
-export const findRelatedEntities = (searchTerm, options) =>
-```
+Find entities related to a search term
 
-No description available.
+**Parameters:**
 
+- `\{string\} searchTerm - Term to search for`
+- `\{Object\} options - Search options`
+
+**Returns:** \{Array\} Array of related entities
+
+---
 
 ### findSemanticPatterns
 
-```javascript
-export const findSemanticPatterns = (conceptType) =>
-```
+Find semantic patterns and clusters
 
-No description available.
+**Parameters:**
 
+- `\{string\} conceptType - Type of concept to analyze`
+
+**Returns:** \{Object\} Pattern analysis results
+
+---
 
 ### queryEntityRelationships
 
-```javascript
-export const queryEntityRelationships = (entityId, options) =>
-```
+Query for specific entity relationships
 
-No description available.
+**Parameters:**
 
+- `\{string\} entityId - Entity to find relationships for`
+- `\{Object\} options - Query options`
+
+**Returns:** \{Object\} Relationship data
+
+---
 
 ### semanticSearch
 
-```javascript
-export const semanticSearch = (query, context) =>
-```
+Semantic search with context
 
-No description available.
+**Parameters:**
+
+- `\{string\} query - Search query`
+- `\{Object\} context - Search context`
+
+**Returns:** \{Array\} Search results with context
 
 
 ---

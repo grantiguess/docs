@@ -1,61 +1,173 @@
 ---
 title: "sparqlClient"
-description: "Service: SPARQL Client Service Handles queries to external SPARQL endpoints for semantic web data integration."
+description: "Service: SPARQL query client for Redstring's semantic web integration.  Provides a singleton `SPARQLClient` instance pre-configured for Wikidata, DBpedia, and Schema.org. Features include: - Per-endpoint rate limiting (queued, not dropped) - 1-hour result cache keyed by endpoint + query hash - SSRF guard on caller-supplied endpoint URLs - Automatic GET/POST selection (GET for short queries and Wikidata to avoid CORS preflight)  Convenience wrapper functions (`executeQuery`, `findEquivalentClasses`, `searchEntities`, `testEndpoint`) delegate to the singleton."
 ---
 
 # sparqlClient
 
-SPARQL Client Service Handles queries to external SPARQL endpoints for semantic web data integration.
+SPARQL query client for Redstring's semantic web integration.  Provides a singleton `SPARQLClient` instance pre-configured for Wikidata, DBpedia, and Schema.org. Features include: - Per-endpoint rate limiting (queued, not dropped) - 1-hour result cache keyed by endpoint + query hash - SSRF guard on caller-supplied endpoint URLs - Automatic GET/POST selection (GET for short queries and Wikidata to avoid CORS preflight)  Convenience wrapper functions (`executeQuery`, `findEquivalentClasses`, `searchEntities`, `testEndpoint`) delegate to the singleton.
 
 ## Location
 `src/services/sparqlClient.js`
 
-## Functions
+## Methods
 
 
-### assertSafeSparqlUrl
+### addEndpoint
 
-```javascript
-function assertSafeSparqlUrl(
-```
+Registers a custom SPARQL endpoint, replacing any existing entry with the same key. Validates the URL against the SSRF guard before storing. Clears any cached HTTP client for the key so the next query gets a fresh connection.
 
-No description available.
+**Parameters:**
 
+- `\{string\} key - Unique identifier for this endpoint.`
+- `\{Object\} config - Endpoint configuration.`
+- `\{string\} config.url - SPARQL endpoint URL (must be https or http, no private ranges).`
+- `\{number\} [config.rateLimit=1000] - Minimum ms between requests to this endpoint.`
+- `\{number\} [config.timeout=20000] - Request timeout in ms.`
+- `\{Object\} [config.headers=\{\}] - Extra HTTP headers to include.`
+
+---
+
+### removeEndpoint
+
+Removes a custom endpoint by key. Predefined endpoints (`wikidata`, `dbpedia`, `schema`) cannot be removed.
+
+**Parameters:**
+
+- `\{string\} key - Identifier of the endpoint to remove.`
+
+---
+
+### getEndpoint
+
+Returns the configuration object for the named endpoint.
+
+**Parameters:**
+
+- `\{string\} key - Endpoint identifier.`
+
+**Returns:** \{Object|undefined\} Endpoint config, or `undefined` if not found.
+
+---
+
+### listEndpoints
+
+Returns all registered endpoints as an array.
+
+**Returns:** \{Array<Object>\} Each object contains `key` plus all endpoint config fields.
+
+---
 
 ### executeQuery
 
-```javascript
-export const executeQuery = (endpointKey, query, options) =>
-```
+Executes a SPARQL SELECT query and returns the bindings array. Uses GET for queries under 4000 characters or targeting Wikidata (avoids CORS preflight); POST otherwise. Results are cached for 1 hour per endpoint+query. Applies per-endpoint rate limiting before each request.
 
-No description available.
+**Parameters:**
 
+- `\{string\} endpointKey - Registered endpoint identifier.`
+- `\{string\} query - SPARQL SELECT query string.`
+- `\{Object\} [options=\{\}] - Request options.`
+- `\{AbortSignal\} [options.signal] - External abort signal; overrides the endpoint timeout.`
+- `\{Object\} [options.headers] - Extra headers merged with endpoint defaults.`
+
+**Returns:** \{Promise<Array<Object>>\} Array of binding objects; each key maps to `\{ value, type, ... \}`.
+
+---
+
+### executeConstructQuery
+
+Executes a SPARQL CONSTRUCT query and returns an array of RDF triples.
+
+**Parameters:**
+
+- `\{string\} endpointKey - Registered endpoint identifier.`
+- `\{string\} query - SPARQL CONSTRUCT query string.`
+- `\{Object\} [options=\{\}] - Request options (same shape as `executeQuery`).`
+
+**Returns:** \{Promise<Array<\{subject: string, predicate: string, object: string, graph: string|null\}>>\} Parsed triples.
+
+---
 
 ### findEquivalentClasses
 
-```javascript
-export const findEquivalentClasses = (endpointKey, classUri) =>
-```
+Queries for classes equivalent to the given URI via `owl:equivalentClass` and `owl:sameAs`.
 
-No description available.
+**Parameters:**
 
+- `\{string\} endpointKey - Registered endpoint identifier.`
+- `\{string\} classUri - Full URI of the class to find equivalents for.`
+
+**Returns:** \{Promise<string[]>\} Array of equivalent class URI strings (up to 50).
+
+---
+
+### findSubClasses
+
+Queries for direct subclasses of the given class URI via `rdfs:subClassOf`.
+
+**Parameters:**
+
+- `\{string\} endpointKey - Registered endpoint identifier.`
+- `\{string\} classUri - Full URI of the parent class.`
+
+**Returns:** \{Promise<string[]>\} Array of subclass URI strings (up to 100).
+
+---
+
+### findSuperClasses
+
+Queries for direct superclasses of the given class URI via `rdfs:subClassOf`.
+
+**Parameters:**
+
+- `\{string\} endpointKey - Registered endpoint identifier.`
+- `\{string\} classUri - Full URI of the child class.`
+
+**Returns:** \{Promise<string[]>\} Array of superclass URI strings (up to 50).
+
+---
 
 ### searchEntities
 
-```javascript
-export const searchEntities = (endpointKey, searchTerm, entityType) =>
-```
+Searches for RDF entities whose `rdfs:label` contains the search term (case-insensitive).
 
-No description available.
+**Parameters:**
 
+- `\{string\} endpointKey - Registered endpoint identifier.`
+- `\{string\} searchTerm - Label substring to search for.`
+- `\{string|null\} [entityType=null] - Optional RDF type URI to restrict results.`
+
+**Returns:** \{Promise<Array<\{uri: string, label: string, type: string\}>>\} Matching entities (up to 20).
+
+---
 
 ### testEndpoint
 
-```javascript
-export const testEndpoint = (endpointKey) =>
-```
+Probes an endpoint with a minimal SELECT query to verify connectivity.
 
-No description available.
+**Parameters:**
+
+- `\{string\} endpointKey - Registered endpoint identifier.`
+
+**Returns:** \{Promise<\{endpoint: string, status: 'connected'|'error', responseTime?: number, error?: string, timestamp: string\}>\} Connectivity result.
+
+---
+
+### clearCache
+
+Clears cached query results.
+
+**Parameters:**
+
+- `\{string|null\} [endpointKey=null] - If provided, clears only cache entries for that endpoint; otherwise clears all.`
+
+---
+
+### getCacheStats
+
+Returns cache statistics broken down by valid and expired entries.
+
+**Returns:** \{\{ totalEntries: number, validEntries: number, expiredEntries: number \}\} Cache stats.
 
 
 ---

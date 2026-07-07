@@ -10,9 +10,219 @@ URI Generator Service Generates URIs dynamically based on user domains Replaces 
 ## Location
 `src/services/uriGenerator.js`
 
-## Functions
+## Methods
 
-No functions detected.
+
+### generateUserURIs
+
+Generate URIs for a user's domain
+
+**Parameters:**
+
+- `\{string\} domain - User's domain (e.g., "alice.com")`
+
+**Returns:** \{Object\} URI configuration
+
+---
+
+### generateVocabURI
+
+Generate a vocabulary URI for a concept
+
+**Parameters:**
+
+- `\{string\} domain - User's domain`
+- `\{string\} concept - Concept name (e.g., "ClimatePolicy")`
+
+**Returns:** \{string\} Full URI
+
+---
+
+### generateSpaceURI
+
+Generate a space URI
+
+**Parameters:**
+
+- `\{string\} domain - User's domain`
+- `\{string\} spaceName - Space name`
+
+**Returns:** \{string\} Full URI
+
+---
+
+### generateNodeURI
+
+Generate a node URI
+
+**Parameters:**
+
+- `\{string\} domain - User's domain`
+- `\{string\} nodeId - Node ID`
+
+**Returns:** \{string\} Full URI
+
+---
+
+### generateEdgeURI
+
+Generate an edge URI
+
+**Parameters:**
+
+- `\{string\} domain - User's domain`
+- `\{string\} edgeId - Edge ID`
+
+**Returns:** \{string\} Full URI
+
+---
+
+### generateGraphURI
+
+Generate a graph URI
+
+**Parameters:**
+
+- `\{string\} domain - User's domain`
+- `\{string\} graphId - Graph ID`
+
+**Returns:** \{string\} Full URI
+
+---
+
+### extractDomainFromURI
+
+Extract domain from a URI
+
+**Parameters:**
+
+- `\{string\} uri - Full URI`
+
+**Returns:** \{string|null\} Domain or null
+
+---
+
+### extractConceptFromURI
+
+Extract concept name from a vocabulary URI
+
+**Parameters:**
+
+- `\{string\} uri - Vocabulary URI`
+
+**Returns:** \{string|null\} Concept name or null
+
+---
+
+### isURIFromDomain
+
+Check if a URI belongs to a specific domain
+
+**Parameters:**
+
+- `\{string\} uri - URI to check`
+- `\{string\} domain - Domain to check against`
+
+**Returns:** \{boolean\} True if URI belongs to domain
+
+---
+
+### normalizeDomain
+
+Normalize domain name
+
+**Parameters:**
+
+- `\{string\} domain - Raw domain input`
+
+**Returns:** \{string\} Normalized domain
+
+---
+
+### normalizeConcept
+
+Normalize concept name for URI
+
+**Parameters:**
+
+- `\{string\} concept - Raw concept name`
+
+**Returns:** \{string\} Normalized concept name
+
+---
+
+### normalizeSpace
+
+Normalize space name for URI
+
+**Parameters:**
+
+- `\{string\} spaceName - Raw space name`
+
+**Returns:** \{string\} Normalized space name
+
+---
+
+### generateContext
+
+Generate JSON-LD context with user's URIs
+
+**Parameters:**
+
+- `\{string\} domain - User's domain`
+
+**Returns:** \{Object\} JSON-LD context
+
+---
+
+### generateCrossDomainReference
+
+Generate cross-domain reference URI
+
+**Parameters:**
+
+- `\{string\} sourceDomain - Source domain`
+- `\{string\} targetDomain - Target domain`
+- `\{string\} concept - Concept being referenced`
+
+**Returns:** \{string\} Cross-domain reference URI
+
+---
+
+### parseCrossDomainReference
+
+Parse cross-domain reference URI
+
+**Parameters:**
+
+- `\{string\} referenceURI - Cross-domain reference URI`
+
+**Returns:** \{Object|null\} Parsed reference or null
+
+---
+
+### generateFederationMetadataURI
+
+Generate federation metadata URI
+
+**Parameters:**
+
+- `\{string\} domain - User's domain`
+
+**Returns:** \{string\} Federation metadata URI
+
+---
+
+### generateUserProfileURI
+
+Generate user profile URI
+
+**Parameters:**
+
+- `\{string\} domain - User's domain`
+
+**Returns:** \{string\} User profile URI
+
 
 ---
 

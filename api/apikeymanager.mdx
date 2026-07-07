@@ -10,25 +10,184 @@ API Key Manager for Redstring AI Chat Securely stores and manages API keys in br
 ## Location
 `src/services/apiKeyManager.js`
 
-## Functions
+## Methods
 
 
-### parseVersion
+### storeAPIKey
 
-```javascript
-const parseVersion = (id) =>
-```
+Store API key and configuration securely in localStorage
 
-No description available.
+**Parameters:**
 
+- `\{string\} apiKey - The API key to store`
+- `\{string\} provider - The provider (e.g., 'anthropic', 'openai', 'openrouter')`
+- `\{Object\} config - Additional configuration`
+- `\{string\} config.endpoint - Custom API endpoint URL`
+- `\{string\} config.model - Preferred model name`
+- `\{Object\} config.settings - Additional model settings (temperature, max_tokens, etc.)`
 
-### isPreview
+---
 
-```javascript
-const isPreview = (id) =>
-```
+### getAPIKey
 
-No description available.
+Retrieve API key from localStorage
+
+**Returns:** \{string|null\} The API key or null if not found
+
+---
+
+### _computeModelTier
+
+Compute model tier based on provider, endpoint, and model name. 'small' = local/small-context models that use atomic execution mode. 'large' = cloud models with full wizard capabilities.
+
+---
+
+### getAPIKeyInfo
+
+Get API key info (provider, endpoint, model, timestamp, etc.)
+
+**Returns:** \{object|null\} Key information or null if not found
+
+---
+
+### hasAPIKey
+
+Check if API key exists
+
+**Returns:** \{boolean\} True if key exists
+
+---
+
+### removeAPIKey
+
+Remove API key from localStorage
+
+---
+
+### validateAPIKey
+
+Validate API key format
+
+**Parameters:**
+
+- `\{string\} apiKey - The API key to validate`
+
+**Returns:** \{boolean\} True if valid
+
+---
+
+### obfuscate
+
+Simple obfuscation (not encryption, just makes it not plain text)
+
+**Parameters:**
+
+- `\{string\} text - Text to obfuscate`
+
+**Returns:** \{string\} Obfuscated text
+
+---
+
+### deobfuscate
+
+Deobfuscate text
+
+**Parameters:**
+
+- `\{string\} obfuscated - Obfuscated text`
+
+**Returns:** \{string\} Original text
+
+---
+
+### getLocalProviderPresets
+
+Get local LLM provider presets
+
+**Returns:** \{Array\} List of local LLM provider configurations
+
+---
+
+### getDefaultEndpoint
+
+Get default API endpoint for a provider
+
+**Parameters:**
+
+- `\{string\} provider - The provider name`
+
+**Returns:** \{string\} Default endpoint URL
+
+---
+
+### getDefaultModel
+
+Get default model for a provider
+
+**Parameters:**
+
+- `\{string\} provider - The provider name`
+
+**Returns:** \{string\} Default model name
+
+---
+
+### getOpenRouterModels
+
+Get popular models for OpenRouter
+
+**Returns:** \{Array\} List of popular OpenRouter models
+
+---
+
+### getGeminiModels
+
+Get available Google Gemini models (free tier)
+
+**Returns:** \{Array\} List of Gemini model IDs and display names
+
+---
+
+### fetchGeminiModels
+
+Fetch the current list of Gemini models from Google's API, cached in localStorage. Returns null on any failure so callers can fall back to the static list.
+
+**Parameters:**
+
+- `\{string\} apiKey - A valid Google Gemini API key`
+- `\{\{ force?: boolean \}\} [opts]`
+
+**Returns:** \{Promise<Array<\{id: string, name: string, isPreview: boolean\}>|null>\}
+
+---
+
+### getMergedGeminiModels
+
+Merge the static Gemini model list with the dynamically fetched one. Static entries (with their curated display names like "(recommended)") win on conflict. Sorted newest version first, stable before preview.
+
+**Parameters:**
+
+- `\{string\} [apiKey] - If provided, attempts a dynamic fetch (cache-aware).`
+
+---
+
+### getAnthropicModels
+
+Get available Anthropic Claude models
+
+**Returns:** \{Array\} List of Anthropic model IDs and display names
+
+---
+
+### getModelsForProvider
+
+Get available models for a specific provider
+
+**Parameters:**
+
+- `\{string\} provider - Provider ID`
+
+**Returns:** \{Array\} List of model objects
 
 
 ---

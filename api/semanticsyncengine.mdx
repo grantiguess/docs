@@ -10,9 +10,206 @@ Rapid Synchronization Engine Real-time local state with background Git persisten
 ## Location
 `src/services/semanticSyncEngine.js`
 
-## Functions
+## Methods
 
-No functions detected.
+
+### subscribe
+
+Subscribe to state changes
+
+**Parameters:**
+
+- `\{Function\} callback - Called when state changes`
+
+**Returns:** \{Function\} - Unsubscribe function
+
+---
+
+### onStatusChange
+
+Subscribe to status updates
+
+**Parameters:**
+
+- `\{Function\} callback - Called with status updates`
+
+**Returns:** \{Function\} - Unsubscribe function
+
+---
+
+### notifySubscribers
+
+Notify subscribers of state changes
+
+---
+
+### notifyStatus
+
+Notify status callbacks
+
+**Parameters:**
+
+- `\{string\} status - Status message`
+- `\{string\} type - Status type ('info', 'success', 'error')`
+
+---
+
+### updateConcept
+
+Update a concept in local state (instant)
+
+**Parameters:**
+
+- `\{string\} id - Concept ID`
+- `\{Object\} data - Concept data`
+
+---
+
+### createConcept
+
+Create a new concept
+
+**Parameters:**
+
+- `\{string\} id - Concept ID`
+- `\{Object\} data - Concept data`
+
+---
+
+### deleteConcept
+
+Delete a concept
+
+**Parameters:**
+
+- `\{string\} id - Concept ID`
+
+---
+
+### getConcept
+
+Get a concept from local state
+
+**Parameters:**
+
+- `\{string\} id - Concept ID`
+
+**Returns:** \{Object|null\} Concept data or null
+
+---
+
+### getAllConcepts
+
+Get all concepts from local state
+
+**Returns:** \{Array\} Array of concept objects
+
+---
+
+### startCommitLoop
+
+Start the background commit loop
+
+---
+
+### batchCommit
+
+Batch commit pending changes
+
+---
+
+### conceptToTTL
+
+Convert concept data to TTL format
+
+**Parameters:**
+
+- `\{string\} id - Concept ID`
+- `\{Object\} data - Concept data`
+
+**Returns:** \{string\} TTL content
+
+---
+
+### loadFromProvider
+
+Load concepts from provider
+
+---
+
+### ttlToConcept
+
+Convert TTL content to concept data
+
+**Parameters:**
+
+- `\{string\} ttlContent - TTL content`
+
+**Returns:** \{Object\} Concept data
+
+---
+
+### forceSync
+
+Force immediate sync
+
+---
+
+### getSyncStatus
+
+Get sync status
+
+**Returns:** \{Object\} Sync status information
+
+---
+
+### exportFullGraph
+
+Export full semantic graph
+
+**Returns:** \{Promise<Object>\} Complete semantic archive
+
+---
+
+### importFullGraph
+
+Import full semantic graph
+
+**Parameters:**
+
+- `\{Object\} archive - Semantic archive`
+
+---
+
+### migrateProvider
+
+Migrate to a different provider
+
+**Parameters:**
+
+- `\{Object\} newProviderConfig - New provider configuration`
+
+---
+
+### setupRedundantStorage
+
+Set up redundant storage with multiple providers
+
+**Parameters:**
+
+- `\{Array\} backupProviders - Array of backup provider configs`
+
+---
+
+### writeWithRedundancy
+
+Write with redundancy to backup providers
+
+**Parameters:**
+
+- `\{string\} path - File path`
+- `\{string\} content - File content`
+
 
 ---
 

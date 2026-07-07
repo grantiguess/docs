@@ -10,9 +10,98 @@ Solid Pod Authentication Service Handles WebID authentication and session manage
 ## Location
 `src/services/solidAuth.js`
 
-## Functions
+## Methods
 
-No functions detected.
+
+### onSessionChange
+
+Subscribe to session state changes
+
+**Parameters:**
+
+- `\{Function\} callback - Called when session state changes`
+
+**Returns:** \{Function\} - Unsubscribe function
+
+---
+
+### getSessionInfo
+
+Get current session information
+
+**Returns:** \{Object\} Session info
+
+---
+
+### startLogin
+
+Start login process
+
+**Parameters:**
+
+- `\{string\} oidcIssuer - The Solid Identity Provider URL`
+- `\{string\} [clientName] - Optional client name for display`
+
+**Returns:** \{Promise<void>\}
+
+---
+
+### handleRedirect
+
+Handle the redirect from Solid Identity Provider This should be called on page load to complete login
+
+**Returns:** \{Promise<void>\}
+
+---
+
+### logout
+
+Logout from Solid Pod
+
+**Returns:** \{Promise<void>\}
+
+---
+
+### getAuthenticatedFetch
+
+Get authenticated fetch function for making requests to Solid Pods
+
+**Returns:** \{Function\} Authenticated fetch function
+
+---
+
+### isLoggedIn
+
+Check if user is currently logged in
+
+**Returns:** \{boolean\}
+
+---
+
+### getWebId
+
+Get the current user's WebID
+
+**Returns:** \{string|null\} WebID or null if not logged in
+
+---
+
+### extractPodUrl
+
+Extract Pod URL from WebID
+
+**Parameters:**
+
+- `\{string\} webId - The WebID to extract Pod URL from`
+
+**Returns:** \{string\} Pod URL
+
+---
+
+### checkSessionStatus
+
+Manually check and notify session changes This can be called periodically or after specific actions
+
 
 ---
 

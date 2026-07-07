@@ -10,9 +10,137 @@ Git-Native Semantic Web Provider Core abstraction for hot-swappable Git provider
 ## Location
 `src/services/gitNativeProvider.js`
 
-## Functions
+## Methods
 
-No functions detected.
+
+### normalizePathInput
+
+Normalize arbitrary path-like inputs into a predictable string. Accept plain strings, arrays of segments, or objects with common fields.
+
+---
+
+### resolvePathInput
+
+Produce display and API-safe variants of a path.
+
+---
+
+### authenticate
+
+Authenticate with the provider
+
+**Returns:** \{Promise<AuthToken>\} Authentication token
+
+---
+
+### createSemanticSpace
+
+Create a new semantic space
+
+**Parameters:**
+
+- `\{string\} name - Name of the semantic space`
+
+**Returns:** \{Promise<SpaceInfo>\} Space information
+
+---
+
+### writeSemanticFile
+
+Write semantic content to a file
+
+**Parameters:**
+
+- `\{string\} path - File path within semantic space`
+- `\{string\} ttlContent - TTL content to write`
+
+**Returns:** \{Promise<void>\}
+
+---
+
+### readSemanticFile
+
+Read semantic content from a file
+
+**Parameters:**
+
+- `\{string\} path - File path within semantic space`
+
+**Returns:** \{Promise<string>\} TTL content
+
+---
+
+### listDirectoryContents
+
+List contents of a directory
+
+**Parameters:**
+
+- `\{string\} dirPath - Directory path to list`
+
+**Returns:** \{Promise<Array>\} Array of directory contents
+
+---
+
+### commitChanges
+
+Commit changes to the repository
+
+**Parameters:**
+
+- `\{string\} message - Commit message`
+- `\{string[]\} files - Array of changed file paths`
+
+**Returns:** \{Promise<void>\}
+
+---
+
+### exportFullGraph
+
+Export the full semantic graph
+
+**Returns:** \{Promise<SemanticArchive>\} Complete semantic archive
+
+---
+
+### importFullGraph
+
+Import a full semantic graph
+
+**Parameters:**
+
+- `\{SemanticArchive\} archive - Semantic archive to import`
+
+**Returns:** \{Promise<void>\}
+
+---
+
+### isAvailable
+
+Check if provider is available
+
+**Returns:** \{Promise<boolean>\} True if provider is accessible
+
+---
+
+### getStatus
+
+Get provider status information
+
+**Returns:** \{Promise<ProviderStatus>\} Provider status
+
+---
+
+### writeFileRaw
+
+Raw file write (no semantic path or TTL extension assumptions)
+
+---
+
+### readFileRaw
+
+Raw file read (no semantic path or TTL extension assumptions)
+
 
 ---
 

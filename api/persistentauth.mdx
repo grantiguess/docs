@@ -10,115 +10,192 @@ Persistent Authentication Service Handles GitHub OAuth token management with aut
 ## Location
 `src/services/persistentAuth.js`
 
-## Functions
+## Methods
 
 
-### setLocalStorageItem
+### loadFromBrowserStorage
 
-```javascript
-function setLocalStorageItem(
-```
+Load tokens from browser localStorage (PRIMARY storage - keeps data local!)
 
-No description available.
+---
 
+### saveToBrowserStorage
 
-### getLocalStorageItem
+Save tokens to browser localStorage (PRIMARY storage - keeps data local!)
 
-```javascript
-function getLocalStorageItem(
-```
+---
 
-No description available.
+### initialize
 
+Initialize the authentication service This is called by universeManager during backend initialization
 
-### removeLocalStorageItem
+---
 
-```javascript
-function removeLocalStorageItem(
-```
+### attemptAutoConnect
 
-No description available.
+Attempt auto-connection using stored authentication data
 
+---
 
-### getLocalStorageHandle
+### getAllowAutoConnect
 
-```javascript
-function getLocalStorageHandle(
-```
+Check if user allows auto-connect
 
-No description available.
+---
 
+### markAutoConnectAttempted
 
-### safeParseJSON
+Mark that auto-connect has been attempted this session
 
-```javascript
-function safeParseJSON(
-```
+---
 
-No description available.
+### attemptAppAutoConnect
 
+Attempt auto-connect using stored GitHub App installation
 
-### expiresAtNumeric
+---
 
-```javascript
-const expiresAtNumeric = (() =>
-```
+### attemptOAuthAutoConnect
 
-No description available.
+Attempt auto-connect using stored OAuth tokens
 
+---
 
-### expiresNumeric
+### testGitHubAppToken
 
-```javascript
-const expiresNumeric = (() =>
-```
+Test if a GitHub App token is valid
 
-No description available.
+---
 
+### storeTokens
+
+Store OAuth tokens in browser localStorage (keeps user data LOCAL!)
+
+---
 
 ### getAccessToken
 
-```javascript
-export const getAccessToken = () =>
-```
+Get current access token, refreshing if needed
 
-No description available.
-
+---
 
 ### hasValidTokens
 
-```javascript
-export const hasValidTokens = () =>
-```
+Check if we have valid tokens
 
-No description available.
+---
 
+### shouldRefreshToken
 
-### getAuthStatus
+Check if token should be refreshed For GitHub, we don't typically need to refresh, but we validate instead
 
-```javascript
-export const getAuthStatus = () =>
-```
+---
 
-No description available.
+### refreshAccessToken
 
+"Refresh" access token by validating it and potentially triggering re-auth For GitHub, this is more of a validation + re-auth flow since true refresh isn't supported
+
+---
+
+### performTokenValidation
+
+Validate current token and trigger re-auth if needed
+
+---
+
+### testTokenValidity
+
+Test if current tokens are valid by making a test request
+
+---
+
+### startHealthMonitoring
+
+Start health monitoring
+
+---
+
+### stopHealthMonitoring
+
+Stop health monitoring
+
+---
 
 ### clearTokens
 
-```javascript
-export const clearTokens = () =>
-```
+Clear all stored tokens from browser localStorage
 
-No description available.
+---
 
+### getUserData
+
+Get stored user data
+
+---
+
+### getAuthStatus
+
+Get authentication status
+
+---
+
+### on
+
+Event handling
+
+---
+
+### storeAppInstallation
+
+Store GitHub App installation data in browser localStorage (keeps user data LOCAL!)
+
+---
+
+### getAppInstallation
+
+Get stored GitHub App installation data
+
+---
+
+### hasAppInstallation
+
+Check if we have a valid GitHub App installation
+
+---
+
+### saveAppUserToServerToken
+
+Electron device-flow: stash a GitHub App user-to-server token before we know which installation it maps to. Survives reloads so the Detect button can re-query /user/installations without re-prompting.
+
+---
+
+### clearAppInstallation
+
+Clear GitHub App installation data from browser localStorage
+
+---
+
+### getComprehensiveAuthStatus
+
+Get comprehensive authentication status including GitHub App
+
+---
 
 ### forceAutoConnect
 
-```javascript
-export const forceAutoConnect = () =>
-```
+Force re-attempt auto-connect (for debugging/testing)
 
-No description available.
+---
+
+### forceAppDiscovery
+
+Specifically re-run GitHub App discovery without touching the OAuth flow. For the case where the user installed the App on GitHub in another tab and came back — we want to detect their install without re-prompting for OAuth or paying for the full auto-connect cycle. Also clears the sticky-disconnect flag so a user-initiated reconnect always wins.
+
+---
+
+### destroy
+
+Cleanup when not needed
 
 
 ---

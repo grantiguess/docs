@@ -10,34 +10,37 @@ RDF Resolver Service Handles URI dereferencing, content negotiation, and parsing
 ## Location
 `src/services/rdfResolver.js`
 
-## Functions
+## Methods
 
 
 ### resolveURI
 
-```javascript
-export const resolveURI = (uri, options) =>
-```
+Resolve a URI to RDF data
 
-No description available.
+**Parameters:**
 
+- `\{string\} uri - The URI to resolve`
+- `\{Object\} options - Resolution options`
+
+**Returns:** \{Promise<Object>\} Resolved RDF data
+
+---
 
 ### clearCache
 
-```javascript
-export const clearCache = (uri) =>
-```
+Clear cache for a specific URI or all cache
 
-No description available.
+**Parameters:**
 
+- `\{string\} uri - Optional URI to clear specific cache entry`
+
+---
 
 ### getCacheStats
 
-```javascript
-export const getCacheStats = () =>
-```
+Get cache statistics
 
-No description available.
+**Returns:** \{Object\} Cache statistics
 
 
 ---

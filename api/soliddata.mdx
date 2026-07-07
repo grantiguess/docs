@@ -10,9 +10,96 @@ Solid Pod Data Service Handles reading and writing Redstring data to/from Solid 
 ## Location
 `src/services/solidData.js`
 
-## Functions
+## Methods
 
-No functions detected.
+
+### getAuthenticatedFetch
+
+Get the authenticated fetch function
+
+**Returns:** \{Function\} Authenticated fetch
+
+---
+
+### getPodResourceUrl
+
+Get the full URL for a resource in the user's Pod
+
+**Parameters:**
+
+- `\{string\} path - Path relative to Pod root`
+
+**Returns:** \{string\} Full URL
+
+---
+
+### ensureRedstringContainer
+
+Ensure the Redstring container exists in the Pod
+
+**Returns:** \{Promise<void>\}
+
+---
+
+### saveCognitiveSpace
+
+Save a Redstring cognitive space to the Pod
+
+**Parameters:**
+
+- `\{Object\} storeState - The current Zustand store state`
+- `\{string\} spaceName - Name for the cognitive space`
+- `\{string\} [userDomain] - User's domain for dynamic URI generation`
+
+**Returns:** \{Promise<string>\} URL of the saved space
+
+---
+
+### loadCognitiveSpace
+
+Load a Redstring cognitive space from the Pod
+
+**Parameters:**
+
+- `\{string\} spaceUrl - URL of the cognitive space`
+
+**Returns:** \{Promise<Object>\} Parsed Redstring data
+
+---
+
+### updateSpacesIndex
+
+Update the spaces index with information about a cognitive space
+
+**Parameters:**
+
+- `\{string\} spaceName - Name of the space`
+- `\{string\} spaceUrl - URL of the space`
+- `\{Object\} metadata - Space metadata`
+
+**Returns:** \{Promise<void>\}
+
+---
+
+### listCognitiveSpaces
+
+List all cognitive spaces in the Pod
+
+**Returns:** \{Promise<Array>\} Array of space information
+
+---
+
+### deleteCognitiveSpace
+
+Delete a cognitive space from the Pod
+
+**Parameters:**
+
+- `\{string\} spaceUrl - URL of the space to delete`
+- `\{string\} spaceName - Name of the space (for index removal)`
+
+**Returns:** \{Promise<void>\}
+
 
 ---
 

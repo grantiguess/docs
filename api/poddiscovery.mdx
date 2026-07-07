@@ -10,9 +10,124 @@ Pod Discovery Service Handles dynamic discovery of Redstring Pods across domains
 ## Location
 `src/services/podDiscovery.js`
 
-## Functions
+## Methods
 
-No functions detected.
+
+### discoverPods
+
+Discover Redstring Pods in the network
+
+**Parameters:**
+
+- `\{Array<string>\} knownDomains - Array of domains to start discovery from`
+
+**Returns:** \{Promise<Array>\} Array of discovered Pod configurations
+
+---
+
+### discoverPodsFromDomain
+
+Discover Pods from a specific domain
+
+**Parameters:**
+
+- `\{string\} domain - Domain to check for Pods`
+
+**Returns:** \{Promise<Array>\} Array of Pod configurations
+
+---
+
+### checkForPodAtDomain
+
+Check if a domain hosts a Redstring Pod
+
+**Parameters:**
+
+- `\{string\} domain - Domain to check`
+
+**Returns:** \{Promise<Object|null>\} Pod configuration or null
+
+---
+
+### discoverDomainsFromWellKnown
+
+Discover domains through well-known discovery files
+
+**Returns:** \{Promise<Array<string>>\} Array of discovered domains
+
+---
+
+### generatePodConfig
+
+Generate Pod configuration for a user's domain
+
+**Parameters:**
+
+- `\{string\} domain - User's domain`
+
+**Returns:** \{Object\} Pod configuration
+
+---
+
+### generateNSSConfig
+
+Generate Node Solid Server configuration
+
+**Parameters:**
+
+- `\{Object\} podConfig - Pod configuration`
+
+**Returns:** \{Object\} NSS configuration
+
+---
+
+### generateDiscoveryFile
+
+Generate discovery file content for a domain
+
+**Parameters:**
+
+- `\{Object\} podConfig - Pod configuration`
+
+**Returns:** \{Object\} Discovery file content
+
+---
+
+### getCachedResult
+
+Get cached result if not expired
+
+**Parameters:**
+
+- `\{string\} key - Cache key`
+
+**Returns:** \{any|null\} Cached result or null
+
+---
+
+### cacheResult
+
+Cache a result with timestamp
+
+**Parameters:**
+
+- `\{string\} key - Cache key`
+- `\{any\} data - Data to cache`
+
+---
+
+### clearCache
+
+Clear discovery cache
+
+---
+
+### getCacheStats
+
+Get cache statistics
+
+**Returns:** \{Object\} Cache statistics
+
 
 ---
 

@@ -10,9 +10,49 @@ Client-side User Tracking Tracks user actions in the browser and sends to analyt
 ## Location
 `src/services/userTracking.js`
 
-## Functions
+## Methods
 
-No functions detected.
+
+### track
+
+Track a user action
+
+**Parameters:**
+
+- `\{string\} action - Action name (e.g., 'node_created', 'graph_saved')`
+- `\{Object\} metadata - Additional metadata`
+- `\{boolean\} immediate - Send immediately (don't queue)`
+
+---
+
+### sendActivity
+
+Send activity to analytics API
+
+---
+
+### flush
+
+Flush queued activities
+
+---
+
+### updateUser
+
+Update user info (called after OAuth login)
+
+---
+
+### trackPageView
+
+Track page view
+
+---
+
+### trackEvent
+
+Track custom event
+
 
 ---
 

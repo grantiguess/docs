@@ -10,9 +10,103 @@ Working Memory for Agent Chains Shared context across agent execution with event
 ## Location
 `src/services/agent/WorkingMemory.js`
 
-## Functions
+## Methods
 
-No functions detected.
+
+### set
+
+Set a value in working memory
+
+**Parameters:**
+
+- `\{string\} key - Key to store under`
+- `\{*\} value - Value to store`
+- `\{string\} source - Source agent/node ID`
+
+---
+
+### get
+
+Get a value from working memory
+
+**Parameters:**
+
+- `\{string\} key - Key to retrieve`
+
+**Returns:** \{*\} Value or undefined
+
+---
+
+### getMetadata
+
+Get metadata for a key
+
+---
+
+### has
+
+Check if key exists
+
+---
+
+### delete
+
+Delete a key
+
+---
+
+### keys
+
+Get all keys
+
+---
+
+### entries
+
+Get all entries
+
+---
+
+### clear
+
+Clear all memory
+
+---
+
+### record
+
+Record an execution event
+
+---
+
+### getHistory
+
+Get execution history
+
+---
+
+### subscribe
+
+Subscribe to memory updates
+
+---
+
+### emit
+
+Emit a custom event
+
+---
+
+### export
+
+Export memory state (for debugging/persistence)
+
+---
+
+### import
+
+Import memory state
+
 
 ---
 

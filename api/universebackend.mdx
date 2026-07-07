@@ -10,205 +10,511 @@ Universe Backend Service This is the TRUE backend for universe management that s
 ## Location
 `src/services/universeBackend.js`
 
-## Functions
+## Methods
 
 
-### umLog
+### loadFromStorage
 
-```javascript
-const umLog = (...args) =>
-```
+Load universes from storage
 
-No description available.
+---
 
+### saveToStorage
 
-### umWarn
+Save universes to storage
 
-```javascript
-const umWarn = (...args) =>
-```
+---
 
-No description available.
+### safeNormalizeUniverse
 
+Safe universe normalization (prevents startup recursion)
 
-### umError
+---
 
-```javascript
-const umError = (...args) =>
-```
+### createSafeDefaultUniverse
 
-No description available.
+Create safe default universe
 
+---
 
-### extractSchemaPath
+### sanitizeFileName
 
-```javascript
-const extractSchemaPath = (filePath) =>
-```
+Sanitize file names
 
-No description available.
+---
 
+### generateUniqueSlug
 
-### createUniverseConfigFromDiscovered
+Generate unique slug
 
-```javascript
-const createUniverseConfigFromDiscovered = (discoveredUniverse, repoConfig) =>
-```
+---
 
-No description available.
+### resolveUniverseEntry
 
+Resolve universe entry (case-insensitive)
 
-### discoverUniversesWithStats
+---
 
-```javascript
-const discoverUniversesWithStats = async (provider) =>
-```
+### createEmptyState
 
-No description available.
+Create empty universe state
 
+---
 
-### normalizePathValue
+### initializeDeviceConfig
 
-```javascript
-const normalizePathValue = (value) =>
-```
+Initialize device configuration
 
-No description available.
+---
 
+### initializeBackgroundSync
 
-### joinPaths
+Initialize background sync
 
-```javascript
-const joinPaths = (...parts) =>
-```
+---
 
-No description available.
+### restoreFileHandles
 
+Restore file handles from persistence
 
-### tryParseRedstring
+---
 
-```javascript
-const tryParseRedstring = (text) =>
-```
+### initialize
 
-No description available.
+Initialize the backend service
 
+---
 
-### collectFromDir
+### setupStoreOperations
 
-```javascript
-const collectFromDir = async (dirPath) =>
-```
+Set up store operations to avoid circular dependencies
 
-No description available.
+---
 
+### setupAuthEvents
 
-### createLocalFileError
+Set up authentication event listeners
 
-```javascript
-function createLocalFileError(
-```
+---
 
-No description available.
+### autoSetupExistingUniverses
 
+Auto-setup Git sync engines for existing universes
 
-### processAuthEvent
+---
 
-```javascript
-const processAuthEvent = async (trigger = 'immediate') =>
-```
+### autoSetupEnginesForActiveUniverse
 
-No description available.
+Auto-setup engine for currently active universe
 
+---
 
-### scheduleAuthEvent
+### ensureGitSyncEngine
 
-```javascript
-const scheduleAuthEvent = (delayMs) =>
-```
+Ensure a Git sync engine exists for a universe
 
-No description available.
+---
 
+### createProviderForUniverse
 
-### resolveDiscoveryAuth
+Create a Git provider for a universe. options.forceOauth — skip the GitHub App branch for this call only. Used by ensureGitSyncEngine to retry with OAuth when the App-minted token returns 404/403 on the linked repo (the App install can't see the repo from this server's environment, e.g. dev App on a Cloud Run deployment where the user's repo is granted to the prod App).
 
-```javascript
-const resolveDiscoveryAuth = async (preferredMethod = null) =>
-```
+---
 
-No description available.
+### removeGitSyncEngine
 
+Stop and remove Git sync engine for a universe
 
-### refreshDiscoveryAuth
+---
 
-```javascript
-const refreshDiscoveryAuth = async (currentContext) =>
-```
+### setGitSyncEngine
 
-No description available.
+Set Git sync engine for universe with STRICT singleton protection
 
+---
 
-### runDiscovery
+### getGitSyncEngine
 
-```javascript
-const runDiscovery = async (context, allowRetry = true) =>
-```
+Get Git sync engine for universe
 
-No description available.
+---
 
+### getFileHandle
 
-### ensurePermission
+Get file handle for universe
 
-```javascript
-const ensurePermission = async () =>
-```
+---
 
-No description available.
+### ensureGitHubAppAccessToken
 
+Ensure GitHub App access token (with refresh)
 
-### isPermissionError
+---
 
-```javascript
-const isPermissionError = (error) =>
-```
+### ensureOAuthAccessToken
 
-No description available.
+Ensure OAuth access token (with refresh)
 
+---
 
-### shouldSync
+### discoverUniversesInRepository
 
-```javascript
-const shouldSync = (last) =>
-```
+Discover universes in a repository
 
-No description available.
+---
 
+### linkToDiscoveredUniverse
 
-### swapToOauth
+Link to a discovered universe
 
-```javascript
-const swapToOauth = async () =>
-```
+---
 
-No description available.
+### switchActiveUniverse
 
+Switch active universe
 
-### isNotFound
+---
 
-```javascript
-const isNotFound = (err) =>
-```
+### saveActiveUniverse
 
-No description available.
+Save active universe
 
+---
 
-### isPermissionError
+### saveActiveUniverseInternal
 
-```javascript
-const isPermissionError = (error) =>
-```
+Internal save implementation
 
-No description available.
+---
+
+### saveToGit
+
+Save to Git repository
+
+---
+
+### saveToLocalFile
+
+Save to local file
+
+---
+
+### saveToBrowserStorage
+
+Save to browser storage with size limits
+
+---
+
+### cleanupBrowserStorage
+
+Clean up old browser storage data
+
+---
+
+### deleteBrowserStorageEntry
+
+Delete a specific browser storage entry by key (cleanup on universe deletion)
+
+---
+
+### openBrowserDB
+
+Open browser storage database
+
+---
+
+### openBackupsDB
+
+Open (and lazily create) the IndexedDB database that holds pre-migration format backups for browser installs. Records are keyed by a composite `\{slug\}:\{version\}:\{isoTimestamp\}` string with a `slug` index for eviction.
+
+---
+
+### backupBeforeMigrationIfNeeded
+
+Format-backup invariant (P0.5 / decision D4). Called at load time, AFTER raw bytes are parsed but BEFORE import/migration reshapes anything. If the file's format version is older than the current version, the original bytes are preserved so a migration bug can never be an unrecoverable loss. Best-effort: any failure here warns and returns — it must never block loading the universe.
+
+**Parameters:**
+
+- `\{Object\} universe - universe descriptor (provides slug)`
+- `\{FileHandle|string\} fileHandle - Electron path string or browser FileHandle`
+- `\{string\} rawText - the exact original file contents`
+- `\{Object\} parsedData - JSON.parse(rawText), used only for version detection`
+
+---
+
+### backupToSiblingFile
+
+Electron path: write a sibling backup file next to the universe file. Naming: `\{nameWithoutExt\}.v\{detectedVersion\}.bak.redstring`. Skipped if it already exists so repeated loads of the same old file don't pile up backups.
+
+---
+
+### backupToIndexedDB
+
+Browser path: store a pre-migration backup in IndexedDB (no directory handle is available to write a sibling). Keeps at most 3 backups per slug, evicting the oldest by timestamp.
+
+---
+
+### setFileHandle
+
+Set file handle for a universe
+
+---
+
+### setupFileHandle
+
+Setup file handle for universe (user picks file)
+
+---
+
+### reloadActiveUniverse
+
+Reload active universe
+
+---
+
+### getAllUniverses
+
+Get all universes
+
+---
+
+### getActiveUniverse
+
+Get active universe
+
+---
+
+### getUniverse
+
+Get universe by slug
+
+---
+
+### loadUniverseData
+
+Load universe data based on source of truth priority Now with proactive conflict detection between slots
+
+---
+
+### detectSlotConflict
+
+Detect conflicts between local file and Git repository slots Returns conflict data if slots have diverged, null if they match or one is missing
+
+---
+
+### analyzeStoreData
+
+Analyze store data to extract metadata
+
+---
+
+### _persistPostSaveTelemetry
+
+Persist freshly-computed metrics + lastSaved/lastSync timestamps for a universe after a successful save. Writes both root-level convenience fields and the nested metadata object so the universe list reads stay accurate for both active and inactive universes across Electron and web.
+
+---
+
+### resolveConflict
+
+Resolve a conflict by choosing which slot to use
+
+---
+
+### cancelPendingConflict
+
+Cancel a pending conflict without choosing a side. Re-enables saves that were suppressed while the conflict dialog was open.
+
+---
+
+### loadFromGit
+
+Load from Git repository
+
+---
+
+### loadFromGitDirect
+
+Direct Git read without requiring a registered GitSyncEngine
+
+---
+
+### loadFromLocalFile
+
+Load from local file
+
+---
+
+### loadFromBrowserStorage
+
+Load from browser storage
+
+---
+
+### createUniverse
+
+Create new universe
+
+---
+
+### deleteLinkedFile
+
+Delete linked local file for a universe (before deleting the universe entry)
+
+---
+
+### deleteUniverse
+
+Delete universe
+
+---
+
+### updateUniverse
+
+Update universe
+
+---
+
+### getAuthStatus
+
+Get authentication status
+
+---
+
+### revalidateOnFocus
+
+Re-verify the active universe's file handle and auth state. Called on tab visibility change / window focus to catch state that has gone stale during sleep, idle, or token expiry. Safe to call repeatedly — does no work if init hasn't completed or no active universe. Returns a summary \{ fileHandleOk, authOk, issues: string[] \}.
+
+---
+
+### getSyncStatus
+
+Get sync engine status for a universe
+
+---
+
+### forceSave
+
+Force save for a universe
+
+---
+
+### reloadUniverse
+
+Reload universe from its source of truth
+
+---
+
+### downloadLocalFile
+
+Download universe as local .redstring file
+
+---
+
+### downloadGitUniverse
+
+Download universe data directly from linked Git repository
+
+---
+
+### uploadLocalFile
+
+Upload/Import universe from local .redstring file
+
+---
+
+### setupLocalFileHandle
+
+Prompt user to select a file handle and store it (pick or saveAs)
+
+---
+
+### requestLocalFilePermission
+
+Request permission for an existing local file handle without relinking
+
+---
+
+### saveToLinkedLocalFile
+
+Save current universe store state to the previously linked file handle
+
+---
+
+### linkLocalFileToUniverse
+
+Link local file to universe (for future saves/loads)
+
+---
+
+### removeLocalFileLink
+
+Remove linked local file from a universe
+
+---
+
+### uploadLocalFile
+
+Upload and import a local .redstring file to a universe
+
+---
+
+### setSourceOfTruth
+
+Set the source of truth for a universe (git or local)
+
+---
+
+### updateGitOperationStatus
+
+Update git operation status for a universe
+
+---
+
+### updateGlobalGitStatus
+
+Update global git status summary
+
+---
+
+### getGitStatusDashboard
+
+Get comprehensive git status for dashboard
+
+---
+
+### getUniverseGitStatus
+
+Get git status for a specific universe
+
+---
+
+### trackGitOperationStart
+
+Track start of git operation
+
+---
+
+### trackGitOperationComplete
+
+Track completion of git operation
+
+---
+
+### notifyGitStatus
+
+Event system for git status updates
+
+---
+
+### onStatusChange
+
+Event system for status updates
+
+---
+
+### cleanup
+
+Cleanup - stop all engines
 
 
 ---

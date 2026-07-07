@@ -10,43 +10,114 @@ GitHub App Authentication Service Provides reliable, long-lived authentication u
 ## Location
 `src/services/githubApp.js`
 
-## Functions
+## Methods
 
+
+### isConfigured
+
+Check if GitHub App is properly configured
+
+---
+
+### generateAppJWT
+
+Generate JWT for GitHub App authentication Valid for 10 minutes, used to authenticate as the app
+
+---
 
 ### getInstallationUrl
 
-```javascript
-export const getInstallationUrl = (repositoryIds) =>
-```
+Get GitHub App installation URL for user installation
 
-No description available.
+---
 
+### getAppSlug
+
+Get app slug, fetched from the oauth-server which selects dev/prod based on environment
+
+---
+
+### fetchAppSlug
+
+Fetch the correct app slug from the oauth-server (dev vs prod aware)
+
+---
 
 ### handleInstallationCallback
 
-```javascript
-export const handleInstallationCallback = (code, installationId, setupAction) =>
-```
+Exchange installation code for installation details This happens after user installs the app
 
-No description available.
+---
 
+### getInstallationAccessToken
+
+Get installation access token (valid for 1 hour, auto-renewable) This is the token used for API calls
+
+---
+
+### getInstallationData
+
+Get installation data including repositories
+
+---
+
+### getInstallationRepositories
+
+Get repositories accessible by the installation
+
+---
+
+### createInstallationOctokit
+
+Create Octokit instance authenticated as installation
+
+---
+
+### testInstallationConnection
+
+Test installation connectivity
+
+---
+
+### storeInstallationId
+
+Store installation ID locally
+
+---
+
+### getStoredInstallationId
+
+Get stored installation ID
+
+---
+
+### clearInstallationData
+
+Clear stored installation data
+
+---
+
+### serverRequest
+
+Make server request (helper for server-side operations)
+
+---
+
+### getServerBaseUrl
+
+Get server base URL for GitHub App operations
+
+---
 
 ### getConnectionStatus
 
-```javascript
-export const getConnectionStatus = () =>
-```
+Get connection status
 
-No description available.
-
+---
 
 ### createProviderInterface
 
-```javascript
-export const createProviderInterface = (installationId, repositoryName) =>
-```
-
-No description available.
+Create a provider-compatible interface This allows GitHub App auth to work with existing provider system
 
 
 ---

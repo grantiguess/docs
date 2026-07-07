@@ -1,18 +1,199 @@
 ---
 title: "knowledgeFederation"
-description: "Service: Knowledge Federation Service Connects to multiple knowledge bases simultaneously, imports related entities, and creates federated search across domains"
+description: "Service: Federated knowledge import and search across multiple semantic web sources.  Queries Wikidata (SPARQL), DBpedia (SPARQL), and ConceptNet (REST) in parallel or in sequence to build knowledge clusters around seed entities. Results are merged, deduplicated by confidence, and organized into clusters using DFS connectivity analysis.  All query methods validate input and return empty arrays on invalid input rather than throwing, so callers can safely `await` without wrapping in try/catch."
 ---
 
 # knowledgeFederation
 
-Knowledge Federation Service Connects to multiple knowledge bases simultaneously, imports related entities, and creates federated search across domains
+Federated knowledge import and search across multiple semantic web sources.  Queries Wikidata (SPARQL), DBpedia (SPARQL), and ConceptNet (REST) in parallel or in sequence to build knowledge clusters around seed entities. Results are merged, deduplicated by confidence, and organized into clusters using DFS connectivity analysis.  All query methods validate input and return empty arrays on invalid input rather than throwing, so callers can safely `await` without wrapping in try/catch.
 
 ## Location
 `src/services/knowledgeFederation.js`
 
-## Functions
+## Methods
 
-No functions detected.
+
+### importKnowledgeCluster
+
+Imports a multi-level knowledge cluster centered on a seed entity. Level 0 imports the seed; each subsequent level imports related entities discovered from the previous level, up to `maxDepth`. Returns immediately with an error-shaped result (no throw) if `seedEntity` is empty or invalid.
+
+**Parameters:**
+
+- `\{string\} seedEntity - Human-readable entity name to start from (e.g. `'Immanuel Kant'`).`
+- `\{Object\} [options=\{\}] - Import configuration.`
+- `\{number\} [options.maxDepth=2] - Number of relationship hops to follow.`
+- `\{number\} [options.maxEntitiesPerLevel=10] - Max entities imported per depth level.`
+- `\{boolean\} [options.includeRelationships=true] - Whether to discover relationships between entities.`
+- `\{string[]\} [options.includeSources=['wikidata','dbpedia']] - Knowledge sources to query.`
+- `\{function(Object): void\} [options.onProgress] - Progress callback called with `\{ stage, entity, level \}`.`
+
+**Returns:** \{Promise<KnowledgeClusterResult>\} Cluster result object.
+
+---
+
+### importSingleEntity
+
+Imports a single entity from one or more knowledge sources. Merges descriptions, types, and properties across sources. Results are cached per `entityName+sources` combination. Returns an empty-shaped object (no throw) if `entityName` is empty or invalid.
+
+**Parameters:**
+
+- `\{string\} entityName - Human-readable entity name.`
+- `\{string[]\} [sources=['wikidata','dbpedia']] - Source keys to query.`
+
+**Returns:** \{Promise<EntityData>\} Merged entity data.
+
+---
+
+### findRelatedEntities
+
+Finds entities related to the seed via each source's relationship function. Results are sorted by confidence (descending) and deduplicated by target name.
+
+**Parameters:**
+
+- `\{string\} seedEntity - Entity name to find relationships for.`
+- `\{Object\} [options=\{\}] - Search options.`
+- `\{string[]\} [options.sources=['wikidata','dbpedia']] - Sources to query.`
+- `\{number\} [options.limit=10] - Maximum relationships to return.`
+
+**Returns:** \{Promise<Relationship[]>\} Related entity relationships, deduplicated and ranked.
+
+---
+
+### federatedSearch
+
+Searches all registered knowledge sources in parallel and merges results. Results below `minConfidence` are filtered out. Returns an empty array (no throw) if the query is empty or invalid.
+
+**Parameters:**
+
+- `\{string\} query - Search query string.`
+- `\{Object\} [options=\{\}] - Search options.`
+- `\{string[]\} [options.sources] - Source keys to include (default: all).`
+- `\{number\} [options.limit=20] - Maximum results to return.`
+- `\{number\} [options.minConfidence=0.5] - Minimum confidence threshold.`
+- `\{boolean\} [options.includeSnippets=true] - Whether to include description snippets.`
+
+**Returns:** \{Promise<Array<\{title: string, snippet: string, uri: string, confidence: number, source: string\}>>\} Merged, ranked results.
+
+---
+
+### searchSingleSource
+
+Searches a single knowledge source and returns results. Routes to `searchWikidata`, `searchDBpedia`, or `searchConceptNet` based on `sourceName`. Returns an empty array for unknown sources or invalid queries.
+
+**Parameters:**
+
+- `\{string\} sourceName - Source key (`'wikidata'`, `'dbpedia'`, or `'conceptnet'`).`
+- `\{string\} query - Search query string.`
+- `\{Object\} [options=\{\}] - Options passed to the source-specific search method.`
+- `\{number\} [options.limit=10] - Maximum results from this source.`
+- `\{boolean\} [options.includeSnippets=true] - Whether to include snippets.`
+
+**Returns:** \{Promise<Array>\} Source-specific search results.
+
+---
+
+### queryWikidata
+
+Query Wikidata for entity
+
+---
+
+### getWikidataRelationships
+
+Get Wikidata relationships for entity
+
+---
+
+### queryDBpedia
+
+Query DBpedia for entity
+
+---
+
+### getDBpediaRelationships
+
+Get DBpedia relationships for entity
+
+---
+
+### queryConceptNet
+
+Query ConceptNet (REST API)
+
+---
+
+### getConceptNetRelationships
+
+Get ConceptNet relationships
+
+---
+
+### searchWikidata
+
+Search Wikidata
+
+---
+
+### searchDBpedia
+
+Search DBpedia
+
+---
+
+### searchConceptNet
+
+Search ConceptNet
+
+---
+
+### identifyClusters
+
+Groups entities into connected clusters using DFS traversal. Only clusters with 2 or more entities are recorded. Singleton entities are skipped.
+
+**Parameters:**
+
+- `\{Map<string, EntityData>\} entities - All entities to cluster.`
+- `\{Relationship[]\} relationships - Relationships used as graph edges.`
+
+**Returns:** \{Map<string, ClusterInfo>\} Clusters keyed by `'cluster_N'`.
+
+---
+
+### findConnectedEntities
+
+Find connected entities using DFS
+
+---
+
+### calculateClusterDensity
+
+Calculate cluster density
+
+---
+
+### calculateSearchConfidence
+
+Calculates a confidence score (0–1) for a search result based on label match quality. Exact match → 1.0; substring match → 0.8; word overlap ratio → capped at 0.9.
+
+**Parameters:**
+
+- `\{string\} query - The original search query.`
+- `\{string\} title - The result label to score against.`
+
+**Returns:** \{number\} Confidence score between 0 and 1.
+
+---
+
+### simplifyDBpediaProperty
+
+Simplify DBpedia property URIs
+
+---
+
+### extractConceptNetLabel
+
+Extract readable label from ConceptNet URI
+
 
 ---
 

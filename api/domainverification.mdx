@@ -10,9 +10,93 @@ Domain Verification Service Handles domain ownership verification without email 
 ## Location
 `src/services/domainVerification.js`
 
-## Functions
+## Methods
 
-No functions detected.
+
+### verifyDomainOwnership
+
+Verify domain ownership using multiple methods
+
+**Parameters:**
+
+- `\{string\} domain - The domain to verify (e.g., "alice.com")`
+- `\{string\} method - Verification method: 'dns', 'file', or 'meta'`
+
+**Returns:** \{Promise<boolean>\} True if domain is verified
+
+---
+
+### normalizeDomain
+
+Normalize domain name
+
+**Parameters:**
+
+- `\{string\} domain - Raw domain input`
+
+**Returns:** \{string\} Normalized domain
+
+---
+
+### verifyViaDNS
+
+Verify domain ownership via DNS record
+
+**Parameters:**
+
+- `\{string\} domain - Domain to verify`
+
+**Returns:** \{Promise<boolean>\} True if DNS record exists
+
+---
+
+### verifyViaFile
+
+Verify domain ownership via file upload
+
+**Parameters:**
+
+- `\{string\} domain - Domain to verify`
+
+**Returns:** \{Promise<boolean>\} True if verification file exists
+
+---
+
+### verifyViaMetaTag
+
+Verify domain ownership via meta tag
+
+**Parameters:**
+
+- `\{string\} domain - Domain to verify`
+
+**Returns:** \{Promise<boolean>\} True if meta tag exists
+
+---
+
+### generateVerificationInstructions
+
+Generate verification instructions for a domain
+
+**Parameters:**
+
+- `\{string\} domain - Domain to generate instructions for`
+- `\{string\} method - Verification method`
+
+**Returns:** \{Object\} Instructions object
+
+---
+
+### checkDomainAccessibility
+
+Check if a domain is accessible
+
+**Parameters:**
+
+- `\{string\} domain - Domain to check`
+
+**Returns:** \{Promise<boolean>\} True if domain is accessible
+
 
 ---
 

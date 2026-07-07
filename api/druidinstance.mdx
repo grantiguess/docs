@@ -10,9 +10,80 @@ DruidInstance - The Druid's Cognitive State Manager The Druid is a meta-cognitiv
 ## Location
 `src/services/DruidInstance.js`
 
-## Functions
+## Methods
 
-No functions detected.
+
+### getCognitiveGraphs
+
+Core method required by DruidMindPanel Returns the 6 cognitive graphs for visualization
+
+---
+
+### ensureWorkspace
+
+Initialize or find Druid's workspace Searches for existing "Druid Workspace" prototype or creates complete structure
+
+---
+
+### _loadExistingWorkspace
+
+Load existing workspace structure
+
+---
+
+### _createNewWorkspace
+
+Create complete new workspace from scratch
+
+---
+
+### _createWorkspaceStructure
+
+Create the workspace structure: Cognitive State graph + 6 sub-graphs + Working Memory
+
+---
+
+### _createWorkingMemoryGraph
+
+Create the Working Memory graph where user concepts are stored
+
+---
+
+### processMessage
+
+Process a message and structure thoughts into graphs This is called after each Druid response
+
+**Parameters:**
+
+- `\{string\} message - The user's message or Druid's response`
+- `\{Array\} conversationHistory - Full conversation history`
+
+**Returns:** \{Object\} - Structuring status and metadata
+
+---
+
+### isComplete
+
+Decide if thought structuring is complete Primary condition: All complex concepts have definition graphs
+
+---
+
+### trackConcept
+
+Add a concept to tracking
+
+---
+
+### getStats
+
+Get summary statistics for UI display
+
+---
+
+### reset
+
+Reset the Druid's state (for testing or new sessions)
+
 
 ---
 

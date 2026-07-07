@@ -10,17 +10,48 @@ Event Bus for Agent Communication Enables event-driven agent execution where age
 ## Location
 `src/services/agent/EventBus.js`
 
-## Functions
+## Methods
 
 
-### return
+### subscribe
 
-```javascript
-function
-    return (
-```
+Subscribe to an event
 
-No description available.
+**Parameters:**
+
+- `\{string\} eventName - Event to listen for`
+- `\{Function\} handler - Handler function (event, data) => void`
+
+**Returns:** \{Function\} Unsubscribe function
+
+---
+
+### emit
+
+Emit an event to all subscribers
+
+**Parameters:**
+
+- `\{string\} eventName - Event name`
+- `\{*\} data - Event data`
+
+---
+
+### clear
+
+Remove all listeners for an event
+
+---
+
+### clearAll
+
+Remove all listeners
+
+---
+
+### getHistory
+
+Get event history (for debugging)
 
 
 ---

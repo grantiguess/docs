@@ -10,52 +10,96 @@ Semantic Enrichment Service Handles background resolution of external links and 
 ## Location
 `src/services/semanticEnrichment.js`
 
-## Functions
+## Methods
 
 
-### checkStatus
+### addResolutionTask
 
-```javascript
-const checkStatus = () =>
-```
+Add a resolution task to the queue
 
-No description available.
+**Parameters:**
 
+- `\{Object\} task - Resolution task`
+
+**Returns:** \{string\} Task ID
+
+---
 
 ### resolveNodeLinks
 
-```javascript
-export const resolveNodeLinks = (nodeId, externalLinks, options) =>
-```
+Resolve external links for a node
 
-No description available.
+**Parameters:**
 
+- `\{string\} nodeId - Node identifier`
+- `\{Array\} externalLinks - Array of external link URIs`
+- `\{Object\} options - Resolution options`
+
+**Returns:** \{Promise<Object>\} Resolution results
+
+---
 
 ### suggestExternalLinks
 
-```javascript
-export const suggestExternalLinks = (nodeId, nodeData) =>
-```
+Suggest external links for a node based on content
 
-No description available.
+**Parameters:**
 
+- `\{string\} nodeId - Node identifier`
+- `\{Object\} nodeData - Node data including name, description, etc.`
+
+**Returns:** \{Promise<Array>\} Suggested external links
+
+---
 
 ### suggestEquivalentClasses
 
-```javascript
-export const suggestEquivalentClasses = (nodeId, existingTypes) =>
-```
+Suggest equivalent classes for a node
 
-No description available.
+**Parameters:**
 
+- `\{string\} nodeId - Node identifier`
+- `\{Array\} existingTypes - Existing type URIs`
+
+**Returns:** \{Promise<Array>\} Suggested equivalent classes
+
+---
+
+### getTaskStatus
+
+Get task status
+
+**Parameters:**
+
+- `\{string\} taskId - Task identifier`
+
+**Returns:** \{Object\} Task status
+
+---
+
+### cancelTask
+
+Cancel a resolution task
+
+**Parameters:**
+
+- `\{string\} taskId - Task identifier`
+
+**Returns:** \{boolean\} Success status
+
+---
 
 ### getQueueStats
 
-```javascript
-export const getQueueStats = () =>
-```
+Get queue statistics
 
-No description available.
+**Returns:** \{Object\} Queue statistics
+
+---
+
+### clearCompletedTasks
+
+Clear completed tasks from queue
 
 
 ---

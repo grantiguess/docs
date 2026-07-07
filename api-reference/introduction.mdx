@@ -377,7 +377,7 @@ This documentation is automatically generated from the Redstring source code.
     GitHub API Wrapper with timeout and retry logic Fixes authentication and hanging request issues in cloud deployments
   </Card>
   <Card title="SaveCoordinator" href="/api/savecoordinator">
-    Save Coordinator - Simplified save management system Coordinates between: - Local file saves (FileStorage) - Git repository commits (GitSyncEngine) Features: - Single debounced save timer (500ms) for all changes - GitSyncEngine handles its own batching and rate limiting - Consistent state synchronization
+    Centralized save management for Redstring. Coordinates local file writes and Git commits from a single debounced pipeline.  State changes flow through a Web Worker (save.worker.js) that hashes the content state off the main thread. When the hash differs from `lastSaveHash`, a debounced write is scheduled. A main-thread fallback activates when the worker is unavailable (mobile Safari, OOM, stall).  Key invariants: - Saves are blocked until a `type:'load'` change context fires (`hasLoadedFromFile`). - Catastrophic shrinkage (>90% drop from baseline) is refused; use `forceSave` to override. - All interaction gates (drag, pan, pinch) defer serialization until `signalInteractionEnd`.
   </Card>
   <Card title="UserAnalytics" href="/api/useranalytics">
     User Analytics Service Tracks unique users, sessions, and user activity
@@ -503,7 +503,7 @@ This documentation is automatically generated from the Redstring source code.
     Separate Zustand store for auto-enrichment image data (thumbnails). WHY THIS EXISTS: The main graphStore gets JSON.stringify'd for save hashing + file writes. Storing image data in nodePrototypes means every save cycle copies/hashes/writes megabytes of strings, causing V8 OOM crashes in Electron when 10+ nodes are enriched. This store: - Holds \{ protoId → \{ thumbnailSrc: blob URL, imageAspectRatio \} \} for auto-enriched nodes - Is NEVER serialized, hashed, or saved to disk - Components subscribe to it per-node, so only the affected node re-renders when an image loads - On reload, images re-fetch from Wikipedia URLs stored in semanticMetadata thumbnailSrc is a blob: URL (not a data URL or remote URL) because: - Blob URLs are same-origin, so SVG <image> elements render them without CORS issues - Blob data lives in the browser's native cache, NOT in the JS heap (no OOM) - They're never serialized (blob URLs are opaque strings, ~40 chars) User-uploaded images (via drag-drop or file picker) still go in the main store since those are intentional single-node operations that don't cause batch OOM.
   </Card>
   <Card title="knowledgeFederation" href="/api/knowledgefederation">
-    Knowledge Federation Service Connects to multiple knowledge bases simultaneously, imports related entities, and creates federated search across domains
+    Federated knowledge import and search across multiple semantic web sources.  Queries Wikidata (SPARQL), DBpedia (SPARQL), and ConceptNet (REST) in parallel or in sequence to build knowledge clusters around seed entities. Results are merged, deduplicated by confidence, and organized into clusters using DFS connectivity analysis.  All query methods validate input and return empty arrays on invalid input rather than throwing, so callers can safely `await` without wrapping in try/catch.
   </Card>
   <Card title="localSemanticQuery" href="/api/localsemanticquery">
     Local Semantic Query Service Provides semantic querying capabilities within the local Redstring knowledge graph, finding related concepts, entities, and patterns without external CORS issues.
@@ -590,7 +590,7 @@ This documentation is automatically generated from the Redstring source code.
     Solid Pod Data Service Handles reading and writing Redstring data to/from Solid Pods
   </Card>
   <Card title="sparqlClient" href="/api/sparqlclient">
-    SPARQL Client Service Handles queries to external SPARQL endpoints for semantic web data integration.
+    SPARQL query client for Redstring's semantic web integration.  Provides a singleton `SPARQLClient` instance pre-configured for Wikidata, DBpedia, and Schema.org. Features include: - Per-endpoint rate limiting (queued, not dropped) - 1-hour result cache keyed by endpoint + query hash - SSRF guard on caller-supplied endpoint URLs - Automatic GET/POST selection (GET for short queries and Wikidata to avoid CORS preflight)  Convenience wrapper functions (`executeQuery`, `findEquivalentClasses`, `searchEntities`, `testEndpoint`) delegate to the singleton.
   </Card>
   <Card title="startupCoordinator" href="/api/startupcoordinator">
     Startup Coordinator - Prevents multiple initialization conflicts This singleton coordinates app initialization to prevent: - Multiple GitSyncEngine creation - Race conditions between bootstrap components - API spam during startup
@@ -659,7 +659,7 @@ This documentation is automatically generated from the Redstring source code.
     GitHub API Wrapper with timeout and retry logic Fixes authentication and hanging request issues in cloud deployments
   </Card>
   <Card title="SaveCoordinator" href="/api/savecoordinator">
-    Save Coordinator - Simplified save management system Coordinates between: - Local file saves (FileStorage) - Git repository commits (GitSyncEngine) Features: - Single debounced save timer (500ms) for all changes - GitSyncEngine handles its own batching and rate limiting - Consistent state synchronization
+    Centralized save management for Redstring. Coordinates local file writes and Git commits from a single debounced pipeline.  State changes flow through a Web Worker (save.worker.js) that hashes the content state off the main thread. When the hash differs from `lastSaveHash`, a debounced write is scheduled. A main-thread fallback activates when the worker is unavailable (mobile Safari, OOM, stall).  Key invariants: - Saves are blocked until a `type:'load'` change context fires (`hasLoadedFromFile`). - Catastrophic shrinkage (>90% drop from baseline) is refused; use `forceSave` to override. - All interaction gates (drag, pan, pinch) defer serialization until `signalInteractionEnd`.
   </Card>
   <Card title="UserAnalytics" href="/api/useranalytics">
     User Analytics Service Tracks unique users, sessions, and user activity
@@ -785,7 +785,7 @@ This documentation is automatically generated from the Redstring source code.
     Separate Zustand store for auto-enrichment image data (thumbnails). WHY THIS EXISTS: The main graphStore gets JSON.stringify'd for save hashing + file writes. Storing image data in nodePrototypes means every save cycle copies/hashes/writes megabytes of strings, causing V8 OOM crashes in Electron when 10+ nodes are enriched. This store: - Holds \{ protoId → \{ thumbnailSrc: blob URL, imageAspectRatio \} \} for auto-enriched nodes - Is NEVER serialized, hashed, or saved to disk - Components subscribe to it per-node, so only the affected node re-renders when an image loads - On reload, images re-fetch from Wikipedia URLs stored in semanticMetadata thumbnailSrc is a blob: URL (not a data URL or remote URL) because: - Blob URLs are same-origin, so SVG <image> elements render them without CORS issues - Blob data lives in the browser's native cache, NOT in the JS heap (no OOM) - They're never serialized (blob URLs are opaque strings, ~40 chars) User-uploaded images (via drag-drop or file picker) still go in the main store since those are intentional single-node operations that don't cause batch OOM.
   </Card>
   <Card title="knowledgeFederation" href="/api/knowledgefederation">
-    Knowledge Federation Service Connects to multiple knowledge bases simultaneously, imports related entities, and creates federated search across domains
+    Federated knowledge import and search across multiple semantic web sources.  Queries Wikidata (SPARQL), DBpedia (SPARQL), and ConceptNet (REST) in parallel or in sequence to build knowledge clusters around seed entities. Results are merged, deduplicated by confidence, and organized into clusters using DFS connectivity analysis.  All query methods validate input and return empty arrays on invalid input rather than throwing, so callers can safely `await` without wrapping in try/catch.
   </Card>
   <Card title="localSemanticQuery" href="/api/localsemanticquery">
     Local Semantic Query Service Provides semantic querying capabilities within the local Redstring knowledge graph, finding related concepts, entities, and patterns without external CORS issues.
@@ -872,7 +872,7 @@ This documentation is automatically generated from the Redstring source code.
     Solid Pod Data Service Handles reading and writing Redstring data to/from Solid Pods
   </Card>
   <Card title="sparqlClient" href="/api/sparqlclient">
-    SPARQL Client Service Handles queries to external SPARQL endpoints for semantic web data integration.
+    SPARQL query client for Redstring's semantic web integration.  Provides a singleton `SPARQLClient` instance pre-configured for Wikidata, DBpedia, and Schema.org. Features include: - Per-endpoint rate limiting (queued, not dropped) - 1-hour result cache keyed by endpoint + query hash - SSRF guard on caller-supplied endpoint URLs - Automatic GET/POST selection (GET for short queries and Wikidata to avoid CORS preflight)  Convenience wrapper functions (`executeQuery`, `findEquivalentClasses`, `searchEntities`, `testEndpoint`) delegate to the singleton.
   </Card>
   <Card title="startupCoordinator" href="/api/startupcoordinator">
     Startup Coordinator - Prevents multiple initialization conflicts This singleton coordinates app initialization to prevent: - Multiple GitSyncEngine creation - Race conditions between bootstrap components - API spam during startup
@@ -1720,4 +1720,4 @@ This documentation is automatically generated from the Redstring source code.
 
 ---
 
-*This documentation is automatically generated from source code. Last updated: 2026-07-05T01:20:32.325Z*
+*This documentation is automatically generated from source code. Last updated: 2026-07-07T00:23:21.782Z*
