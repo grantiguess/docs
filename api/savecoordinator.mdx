@@ -127,6 +127,20 @@ Dispatches a non-blocking fire-and-forget write to all active storage backends. 
 
 ---
 
+### flush
+
+Immediately writes any unsaved changes, bypassing debounce and interaction gates. Used on quit/close/tab-hide, where waiting out the 3s debounce means losing the user's last edits. Unlike `forceSave`, this respects the catastrophic-shrinkage guard — a quit-flush must never be the thing that persists a surprise-empty state. actually exiting: Git changes are force-committed now (no later commit loop will run). When `false` (tab hidden, still alive) Git changes are queued through the normal engine loop instead.
+
+**Parameters:**
+
+- `\{string\} [reason='flush'] - Diagnostic label for logging.`
+- `\{Object\} [options=\{\}] - Flush options.`
+- `\{boolean\} [options.terminal=false] - `true` when the app is`
+
+**Returns:** \{Promise<boolean>\} `true` if a write was performed and confirmed.
+
+---
+
 ### forceSave
 
 Performs an immediate, awaitable save bypassing the shrinkage guard. Used by the "Save Now" UI button. Cancels pending debounce timers, awaits `fileStorage.saveToFile`, queues a Git update, then resets `dataBaseline` to the current state so subsequent autosaves are not blocked by the guard.

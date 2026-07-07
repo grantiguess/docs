@@ -1,11 +1,11 @@
 ---
 title: "clampOverlayPanelWidth"
-description: "React component: Transforms client/screen coordinates to canvas coordinates. Wrapper around GeometryUtils.clientToCanvasCoordinates with current state."
+description: "React component: Root canvas component for Redstring's graph interface. Renders the full SVG-based interactive graph: nodes, edges, PieMenu, abstraction carousel, control panels, and the header. All state is sourced from the Zustand store — this component accepts no props. Responsibilities: - Pan/zoom via wheel, trackpad pinch, touch, and middle-mouse drag - Node drag-and-drop with canvas auto-scroll at viewport edges - Edge creation by dragging from a node's connection handle - PieMenu lifecycle: open, transition, animation completion - Keyboard shortcuts (Cmd+F, Escape, Delete, Backspace, undo/redo) - Semantic orbit animations (nodes orbit the active node) - Context-aware definition navigation"
 ---
 
 # clampOverlayPanelWidth
 
-Transforms client/screen coordinates to canvas coordinates. Wrapper around GeometryUtils.clientToCanvasCoordinates with current state.
+Root canvas component for Redstring's graph interface. Renders the full SVG-based interactive graph: nodes, edges, PieMenu, abstraction carousel, control panels, and the header. All state is sourced from the Zustand store — this component accepts no props. Responsibilities: - Pan/zoom via wheel, trackpad pinch, touch, and middle-mouse drag - Node drag-and-drop with canvas auto-scroll at viewport edges - Edge creation by dragging from a node's connection handle - PieMenu lifecycle: open, transition, animation completion - Keyboard shortcuts (Cmd+F, Escape, Delete, Backspace, undo/redo) - Semantic orbit animations (nodes orbit the active node) - Context-aware definition navigation
 
 ## Location
 `src/NodeCanvas.jsx`
