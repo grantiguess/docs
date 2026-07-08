@@ -1,14 +1,14 @@
 ---
 title: "generateHash"
-description: "React component: Save Worker Handles heavy serialization and hashing off the main thread"
+description: "React component: The single source of truth for save change-detection hashing.  Used by both save.worker.js (off-main-thread path) and SaveCoordinator (main-thread fallback) — the two implementations previously drifted, and both were blind to Maps/Sets nested inside hashed objects: `graph.groups` (a Map) and `edge.directionality.arrowsToward` (a Set) stringify as `{}` under plain JSON.stringify, so group edits and edge-direction toggles never changed the hash and were NEVER saved.  Exclusions (deliberate): - `panOffset`/`zoomLevel` per graph — viewport moves must not trigger saves. - `imageSrc`/`thumbnailSrc` — multi-MB data URLs OOM V8 when stringified; replaced with a length fingerprint so image *changes* are still detected."
 ---
 
 # generateHash
 
-Save Worker Handles heavy serialization and hashing off the main thread
+The single source of truth for save change-detection hashing.  Used by both save.worker.js (off-main-thread path) and SaveCoordinator (main-thread fallback) — the two implementations previously drifted, and both were blind to Maps/Sets nested inside hashed objects: `graph.groups` (a Map) and `edge.directionality.arrowsToward` (a Set) stringify as `\{\}` under plain JSON.stringify, so group edits and edge-direction toggles never changed the hash and were NEVER saved.  Exclusions (deliberate): - `panOffset`/`zoomLevel` per graph — viewport moves must not trigger saves. - `imageSrc`/`thumbnailSrc` — multi-MB data URLs OOM V8 when stringified; replaced with a length fingerprint so image *changes* are still detected.
 
 ## Location
-`src/services/save.worker.js`
+`src/services/saveHash.js`
 
 ## Props
 
@@ -16,12 +16,11 @@ This component does not accept props.
 
 ## Hooks Used
 
-- `userDomain`
-- `used`
+- `user`
 
 ## Dependencies
 
-- `../formats/redstringFormat.js`
+No imports detected.
 
 ---
 

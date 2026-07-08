@@ -141,6 +141,24 @@ Raw file write (no semantic path or TTL extension assumptions)
 
 Raw file read (no semantic path or TTL extension assumptions)
 
+---
+
+### _maybeDispatchAuthExpired
+
+Dispatches the re-authentication event on a 401 probe result. The PUT path already does this, but with GitHub App tokens (~1h expiry) the FIRST failure after expiry is always the pre-write probe — without this, the auth-expired dialog is unreachable from the common failure path and the engine just cycles through error backoff with a dead token.
+
+---
+
+### updateToken
+
+Replaces the provider's token in place. Used by token-refresh flows so a long-lived engine doesn't keep failing with a token that expired an hour into the session.
+
+---
+
+### readFileRawWithMeta
+
+Read a file and return `\{ content, sha, size \}`. Handles the GitHub contents-API 1MB cliff: for files between 1MB and 100MB the JSON response has `"content": "", "encoding": "none"` — which MUST NOT be interpreted as an empty file (that misread was capable of making a grown universe look empty and getting it overwritten). Falls back to a raw-media-type fetch for the actual bytes.
+
 
 ---
 

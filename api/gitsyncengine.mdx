@@ -97,13 +97,21 @@ Process pending commits in batches Now with rate limiting and intelligent batchi
 
 ### forceCommit
 
-ALWAYS force commits - this is an overwriter, no "mode" needed Aggressive rate limiting and redundancy prevention
+Immediate commit path (Save Now, quit flush, conflict resolution, migration write-back). Guards applied: universe identity, empty-state floor (opt out with `options.allowEmpty` for intentional clears), redundancy, rate limiting. Writes go through the optimistic-concurrency path — a diverged remote surfaces the conflict flow instead of being overwritten. nodes over a previously non-empty remote (intentional clear). (rate limited / no changes). Throws on failure or unresolved conflict.
+
+**Parameters:**
+
+- `\{Object\} storeState - Store snapshot to commit.`
+- `\{Object\} [options=\{\}]`
+- `\{boolean\} [options.allowEmpty=false] - Permit committing zero`
+
+**Returns:** \{Promise<boolean>\} `true` if committed; `false` if skipped
 
 ---
 
 ### loadFromGit
 
-Load state from Git repository
+Load state from Git repository. Returns `null` ONLY for a confirmed-missing or confirmed-empty file ("start fresh" is safe). Every other failure — network, auth, truncated read, corrupted JSON — THROWS: conflating them with "no file" let stale browser-cache data load instead and later overwrite a newer remote.
 
 ---
 

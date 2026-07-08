@@ -43,6 +43,12 @@ Sanitize file names
 
 ---
 
+### generateUniqueFileName
+
+Generate a universe filename that no other universe is already using. Slugs are deduped but filenames were not — two universes named "Universe" would both target `Universe.redstring`, and the workspace-folder save fallback (which looks files up by name) would let one universe overwrite the other's file.
+
+---
+
 ### generateUniqueSlug
 
 Generate unique slug
@@ -109,9 +115,9 @@ Auto-setup engine for currently active universe
 
 ---
 
-### ensureGitSyncEngine
+### _refreshEngineTokenIfNeeded
 
-Ensure a Git sync engine exists for a universe
+Refreshes a live engine provider's GitHub App token when it is expired or about to expire, updating the provider in place. No-op for OAuth providers (long-lived tokens) and in Electron (stored user-to-server token is managed elsewhere).
 
 ---
 
@@ -413,12 +419,6 @@ Download universe as local .redstring file
 ### downloadGitUniverse
 
 Download universe data directly from linked Git repository
-
----
-
-### uploadLocalFile
-
-Upload/Import universe from local .redstring file
 
 ---
 
